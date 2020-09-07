@@ -24,7 +24,7 @@ body {
   display: inline-block;
   color: #fff;
   border: 2px solid #ccc;
-  width: 49%;
+  width: 32%;
   height: 3rem;
   text-align: center;
   padding-top: 10px;
@@ -230,7 +230,7 @@ body {
 
 @media (max-width: 750px) {
   .nav {
-    width: 50vw;
+    width: 70vw;
   }
   .nav > .navItem {
     display: block;
