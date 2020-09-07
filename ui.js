@@ -49,7 +49,7 @@ const swapToYellow = () => {
   console.log("yellow theme here");
   bodyBackground.style.backgroundColor = "#fcce03";
   btn1Color = "#ad871d";
-  btn2Color = "#ebc252";
+  btn2Color = "#ebb852";
   inputBtn.style.backgroundColor = btn2Color;
   recordsBtn.style.backgroundColor = btn2Color;
   listBtn.style.border = "none";
