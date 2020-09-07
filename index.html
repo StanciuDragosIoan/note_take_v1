@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>Diary App</title>
+  </head>
+  <body>
+    <div class="nav">
+      <div id="inputBtn" class="navItem" tabindex="1">Input</div>
+      <div id="recordsBtn" class="navItem" tabindex="1">Entries</div>
+    </div>
+
+    <div class="colors">
+      <div id="c1" class="color"></div>
+      <div id="c2" class="color"></div>
+      <div id="c3" class="color"></div>
+    </div>
+    <div id="input">
+      <div class="paper">
+        <textarea name="note" id="note" cols="120" rows="10"></textarea>
+        <button class="add-note">
+          Save Note <i class="fa fa-pencil" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+    <br />
+    <input oninput="filter()" class="filter" type="text" value="filter notes" />
+    <div id="records"></div>
+
+    <script src="ui.js"></script>
+    <script src="notes.js"></script>
+  </body>
+</html>
