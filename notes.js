@@ -76,8 +76,6 @@ const editNote = (e) => {
   const editIcon = e.target.parentElement.childNodes[9];
   editIcon.style.display = "inline-block";
   editIcon.innerHTML = `<i class="fa fa-check" aria-hidden="true"></i>`;
-  document.querySelector("#records").innerHTML = "";
-  displayNotes();
   e.preventDefault();
 };
 
@@ -117,6 +115,7 @@ saveIcon.map((i) => {
   i.addEventListener("click", saveNote);
 });
 
+// console.log(editBtn);
 editBtn.map((i) => {
   i.addEventListener("click", editNote);
 });
