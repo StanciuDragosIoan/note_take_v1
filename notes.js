@@ -24,8 +24,8 @@ const grabNote = (e) => {
   notes.push(note);
   localStorage.setItem("notes", JSON.stringify(notes));
   document.querySelector("#note").value = "";
-  document.querySelector("#records").innerHTML = "";
-  displayNotes();
+  //   document.querySelector("#records").innerHTML = "";
+  //   displayNotes();
 };
 
 let saveBtn = document.querySelector(".add-note");
@@ -181,11 +181,10 @@ const importNotes = (e) => {
         let newNotes = JSON.parse(event.target.result).notes;
         localStorage.setItem("notes", JSON.stringify(newNotes));
         document.querySelector(".alert").style.display = "block";
-        document.querySelector("#records").innerHTML = "";
-        displayNotes();
         setTimeout(() => {
           document.querySelector(".alert").style.display = "none";
         }, 3000);
+        window.location.reload();
       };
       let readValue = reader.readAsText(file);
     },
