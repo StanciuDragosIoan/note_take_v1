@@ -6,6 +6,9 @@ const listBtn = document.querySelector("#recordsBtn");
 const recordsBtn = document.querySelector("#recordsBtn");
 let importExportBtn = document.querySelector("#importExportBtn");
 const importExportDiv = document.querySelector(".importExport");
+const importBtn = document.querySelector("#importBtn");
+const exportBtn = document.querySelector("#exportBtn");
+let text = document.querySelector(".text");
 //colors for UI customisation
 const c1 = document.getElementById("c1");
 const c2 = document.getElementById("c2");
@@ -22,6 +25,8 @@ const toggleInput = () => {
   list.style.display = "none";
   inputBtn.style.backgroundColor = btn1Color;
   listBtn.style.backgroundColor = btn2Color;
+  importBtn.style.backgroundColor = btn2Color;
+  exportBtn.style.backgroundColor = btn2Color;
   importExportBtn.style.backgroundColor = btn2Color;
   importExportDiv.style.display = "none";
   document.querySelector(".paper").style.display = "block";
@@ -33,6 +38,8 @@ const toggleRecords = () => {
   input.style.display = "none";
   listBtn.style.backgroundColor = btn1Color;
   inputBtn.style.backgroundColor = btn2Color;
+  importBtn.style.backgroundColor = btn2Color;
+  exportBtn.style.backgroundColor = btn2Color;
   importExportBtn.style.backgroundColor = btn2Color;
   document.querySelector(".filter").style.display = "block";
   importExportDiv.style.display = "none";
@@ -42,13 +49,15 @@ const toggleImportExport = () => {
   importExportBtn.style.backgroundColor = btn1Color;
   inputBtn.style.backgroundColor = btn2Color;
   listBtn.style.backgroundColor = btn2Color;
+  importBtn.style.backgroundColor = btn2Color;
+  exportBtn.style.backgroundColor = btn2Color;
   importExportDiv.style.display = "block";
   document.querySelector(".filter").style.display = "none";
   list.style.display = "none";
+  input.style.display = "none";
 };
 
 // swap themes for colors
-
 const swapToBlue = () => {
   console.log("blue theme here");
   bodyBackground.style.backgroundColor = "#6C8CE2";
@@ -57,11 +66,16 @@ const swapToBlue = () => {
   inputBtn.style.backgroundColor = btn2Color;
   recordsBtn.style.backgroundColor = btn2Color;
   importExportBtn.style.backgroundColor = btn2Color;
+  importBtn.style.backgroundColor = btn2Color;
+  exportBtn.style.backgroundColor = btn2Color;
   listBtn.style.border = "none";
   inputBtn.style.border = "none";
   listBtn.style.border = `2px solid ${btn1Color}`;
   inputBtn.style.border = `2px solid ${btn1Color}`;
+  importBtn.style.border = `2px solid ${btn1Color}`;
+  exportBtn.style.border = `2px solid ${btn1Color}`;
   importExportBtn.style.border = `2px solid ${btn1Color}`;
+  text.style.border = `2px solid ${btn1Color}`;
 };
 
 const swapToYellow = () => {
@@ -72,11 +86,16 @@ const swapToYellow = () => {
   inputBtn.style.backgroundColor = btn2Color;
   recordsBtn.style.backgroundColor = btn2Color;
   importExportBtn.style.backgroundColor = btn2Color;
+  importBtn.style.backgroundColor = btn2Color;
+  exportBtn.style.backgroundColor = btn2Color;
   listBtn.style.border = "none";
   inputBtn.style.border = "none";
   listBtn.style.border = `2px solid ${btn1Color}`;
   inputBtn.style.border = `2px solid ${btn1Color}`;
+  importBtn.style.border = `2px solid ${btn1Color}`;
+  exportBtn.style.border = `2px solid ${btn1Color}`;
   importExportBtn.style.border = `2px solid ${btn1Color}`;
+  text.style.border = `2px solid ${btn1Color}`;
 };
 
 const swapToPink = () => {
@@ -87,11 +106,16 @@ const swapToPink = () => {
   inputBtn.style.backgroundColor = btn2Color;
   recordsBtn.style.backgroundColor = btn2Color;
   importExportBtn.style.backgroundColor = btn2Color;
+  importBtn.style.backgroundColor = btn2Color;
+  exportBtn.style.backgroundColor = btn2Color;
   listBtn.style.border = "none";
   inputBtn.style.border = "none";
   listBtn.style.border = `2px solid ${btn1Color}`;
   inputBtn.style.border = `2px solid ${btn1Color}`;
+  importBtn.style.border = `2px solid ${btn1Color}`;
+  exportBtn.style.border = `2px solid ${btn1Color}`;
   importExportBtn.style.border = `2px solid ${btn1Color}`;
+  text.style.border = `2px solid ${btn1Color}`;
 };
 
 //event listeners

@@ -3,7 +3,7 @@ let notes;
 if (localStorage.getItem("notes") === null) {
   notes = [];
 } else {
-  notes = JSON.parse(localStorage.getItem("notes"));
+  notes = JSON.parse(localStorage.getItem("notes")).reverse();
 }
 
 /*
@@ -24,6 +24,7 @@ const grabNote = (e) => {
   notes.push(note);
   localStorage.setItem("notes", JSON.stringify(notes));
   document.querySelector("#note").value = "";
+  document.querySelector("#records").innerHTML = "";
   displayNotes();
 };
 
@@ -75,6 +76,8 @@ const editNote = (e) => {
   const editIcon = e.target.parentElement.childNodes[9];
   editIcon.style.display = "inline-block";
   editIcon.innerHTML = `<i class="fa fa-check" aria-hidden="true"></i>`;
+  document.querySelector("#records").innerHTML = "";
+  displayNotes();
   e.preventDefault();
 };
 
@@ -160,3 +163,58 @@ const filter = () => {
     }
   });
 };
+
+//import export functionality
+const importBTN = document.querySelector("#importBtn");
+const exportBTN = document.querySelector("#exportBtn");
+
+const importNotes = (e) => {
+  importBTN.style.backgroundColor = btn1Color;
+  exportBTN.style.backgroundColor = btn2Color;
+
+  document.getElementById("file").addEventListener(
+    "change",
+    (evt) => {
+      var files = evt.target.files;
+      var file = files[0];
+      var reader = new FileReader();
+      reader.onload = function (event) {
+        let newNotes = JSON.parse(event.target.result).notes;
+        localStorage.setItem("notes", JSON.stringify(newNotes));
+        document.querySelector(".alert").style.display = "block";
+        document.querySelector("#records").innerHTML = "";
+        displayNotes();
+        setTimeout(() => {
+          document.querySelector(".alert").style.display = "none";
+        }, 3000);
+      };
+      let readValue = reader.readAsText(file);
+    },
+    false
+  );
+};
+
+const exportNotes = () => {
+  exportBTN.style.backgroundColor = btn1Color;
+  importBTN.style.backgroundColor = btn2Color;
+
+  let notesObj = {
+    notes,
+  };
+  let exportDate = new Date()
+    .toString()
+    .replace(/\S+\s(\S+)\s(\d+)\s(\d+)\s.*/, "$2-$1-$3");
+  var a = document.createElement("a");
+  document.body.appendChild(a);
+  a.style = "display: none";
+  var json = JSON.stringify(notesObj),
+    blob = new Blob([json], { type: "octet/stream" }),
+    url = window.URL.createObjectURL(blob);
+  a.href = url;
+  a.download = `myNotes-${exportDate}.json`;
+  a.click();
+  window.URL.revokeObjectURL(url);
+};
+
+importBtn.addEventListener("click", importNotes);
+exportBtn.addEventListener("click", exportNotes);

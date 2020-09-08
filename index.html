@@ -33,7 +33,26 @@
     <br />
     <input oninput="filter()" class="filter" type="text" value="filter notes" />
     <div id="records"></div>
-    <div class="importExport">IMPORT EXPORT FUNCTIONALITIES WILL B HERE</div>
+    <div class="importExport">
+      <div class="nav">
+        <p class="importExportText">
+          Use the buttons below to export your notes as a JSON file or to import 
+          a JSON notes for your notes feed.
+        </p>
+        <div id="importBtn" class="navItem import" tabindex="1">Import
+          <input class="import-file" type="file" id="file" name="file" enctype="multipart/form-data" /><i class="fa fa-cloud-upload" aria-hidden="true"></i>
+        </div>
+         
+ 
+        
+        <div id="exportBtn" class="navItem import" tabindex="1">Export <i class="fa fa-cloud-download" aria-hidden="true"></i></div> 
+          
+        </div>
+      </div>
+    </div>
+    <p class="importExportText alert">
+      Notes imported successfully <i class="fa fa-smile-o" aria-hidden="true"></i>
+    </p>
     <script src="ui.js"></script>
     <script src="notes.js"></script>
   </body>

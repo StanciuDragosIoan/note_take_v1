@@ -219,6 +219,43 @@ body {
   display: none;
 }
 
+.import {
+  width: 48% !important;
+}
+
+.import-file {
+  /* background: red; */
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#importBtn {
+  position: relative;
+}
+
+.importExportText {
+  display: block;
+  margin: auto;
+  text-align: center;
+  font-size: 2rem;
+  background: #fff;
+  padding: 1rem;
+  border-radius: 15px;
+  margin-bottom: 2rem;
+  color: #524f4f;
+  border: 2px solid #ccc;
+}
+
+.alert {
+  margin-top: 10rem;
+  width: 40rem;
+  display: none;
+}
+
 /* media queries */
 @media (max-width: 1500px) {
   .nav {
