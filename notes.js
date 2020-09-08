@@ -184,7 +184,7 @@ const importNotes = (e) => {
         setTimeout(() => {
           document.querySelector(".alert").style.display = "none";
         }, 3000);
-        window.location.reload();
+        // window.location.reload();
       };
       let readValue = reader.readAsText(file);
     },
