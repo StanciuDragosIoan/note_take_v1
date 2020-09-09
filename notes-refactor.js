@@ -24,7 +24,15 @@ const grabNote = (e) => {
   notes.push(note);
   localStorage.setItem("notes", JSON.stringify(notes));
   document.querySelector("#note").value = "";
+  window.location.reload();
 };
+
+// const grabKey = (e) => {
+//   if (e.keyCode === 13) {
+//     console.log("break to insert");
+//     console.log(e.target.value);
+
+// };
 
 let saveBtn = document.querySelector(".add-note");
 saveBtn.addEventListener("click", grabNote);
@@ -115,6 +123,7 @@ const saveNote = (e) => {
   cardToEdit.style.padding = "0";
   const editIcon = e.target.parentElement.parentElement.childNodes[9];
   editIcon.style.display = "none";
+  cardToEdit.innerHTML = newText;
 };
 
 const saveIcon = Array.from(document.querySelectorAll("#saveEdit"));
