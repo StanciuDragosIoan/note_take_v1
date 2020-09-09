@@ -44,6 +44,7 @@ body {
 /* hide records initially */
 #records {
   display: none;
+  word-wrap: break-word;
 }
 
 /* paper input */
