@@ -63,7 +63,7 @@ const grabNote = (e) => {
 // KEEP FROM HERE
 const checkForEnter = (e) => {
   if (e.keyCode === 13) {
-    e.target.value += `<br>`;
+    //  e.target.value += `<br>`;
     // e.target.value.split("<br>").join("\r\n");
   }
 };
