@@ -60,6 +60,14 @@ const grabNote = (e) => {
   list.appendChild(noteDiv);
 };
 
+// KEEP FROM HERE
+const checkForEnter = (e) => {
+  if (e.keyCode === 13) {
+    e.target.value += `<br>`;
+    // e.target.value.split("<br>").join("\r\n");
+  }
+};
+
 let saveBtn = document.querySelector(".add-note");
 saveBtn.addEventListener("click", grabNote);
 
@@ -242,7 +250,7 @@ deleteBtns.map((b) => {
  */
 
 const filter = () => {
-  //filter by title, subreddit, author
+  //filter by title,  date
   document.querySelectorAll(".card").forEach((item) => {
     let value = document.querySelector(".filter").value.toLowerCase();
 

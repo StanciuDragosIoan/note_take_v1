@@ -1,3 +1,7 @@
+let theme = "blue";
+
+theme = localStorage.getItem("theme");
+document.querySelector(".filter.uiText").style.display = "none";
 //buttons & inputs
 const inputBtn = document.querySelector("#inputBtn");
 const input = document.querySelector("#input");
@@ -48,6 +52,7 @@ const swapToBlue = () => {
   exportBtn.style.border = `2px solid ${btn1Color}`;
   importExportBtn.style.border = `2px solid ${btn1Color}`;
   uiText.style.border = `2px solid ${btn1Color}`;
+  localStorage.setItem("theme", "blue");
 };
 
 const swapToYellow = () => {
@@ -68,6 +73,7 @@ const swapToYellow = () => {
   exportBtn.style.border = `2px solid ${btn1Color}`;
   importExportBtn.style.border = `2px solid ${btn1Color}`;
   uiText.style.border = `2px solid ${btn1Color}`;
+  localStorage.setItem("theme", "yellow");
 };
 
 const swapToPink = () => {
@@ -88,7 +94,17 @@ const swapToPink = () => {
   exportBtn.style.border = `2px solid ${btn1Color}`;
   importExportBtn.style.border = `2px solid ${btn1Color}`;
   uiText.style.border = `2px solid ${btn1Color}`;
+  localStorage.setItem("theme", "pink");
 };
+console.log(theme);
+//keep track of UI theme and update
+if (theme === "blue") {
+  swapToBlue();
+} else if (theme === "yellow") {
+  swapToYellow();
+} else if (theme === "pink") {
+  swapToPink();
+}
 
 //event listeners
 

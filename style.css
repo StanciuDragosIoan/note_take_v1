@@ -261,12 +261,6 @@ body {
   display: none;
 }
 
-.custom-edit {
-  background: red !important;
-  position: sticky !important;
-  left: 90% !important;
-}
-
 /* media queries */
 @media (max-width: 1500px) {
   .nav {
