@@ -9,6 +9,7 @@ const importExportDiv = document.querySelector(".importExport");
 const importBtn = document.querySelector("#importBtn");
 const exportBtn = document.querySelector("#exportBtn");
 const text = document.querySelector(".text");
+const uiText = document.querySelector(".uiText");
 const paper = document.querySelector(".paper");
 const filterInput = document.querySelector(".filter");
 //colors for UI customisation
@@ -46,7 +47,7 @@ const swapToBlue = () => {
   importBtn.style.border = `2px solid ${btn1Color}`;
   exportBtn.style.border = `2px solid ${btn1Color}`;
   importExportBtn.style.border = `2px solid ${btn1Color}`;
-  text.style.border = `2px solid ${btn1Color}`;
+  uiText.style.border = `2px solid ${btn1Color}`;
 };
 
 const swapToYellow = () => {
@@ -66,7 +67,7 @@ const swapToYellow = () => {
   importBtn.style.border = `2px solid ${btn1Color}`;
   exportBtn.style.border = `2px solid ${btn1Color}`;
   importExportBtn.style.border = `2px solid ${btn1Color}`;
-  text.style.border = `2px solid ${btn1Color}`;
+  uiText.style.border = `2px solid ${btn1Color}`;
 };
 
 const swapToPink = () => {
@@ -86,7 +87,7 @@ const swapToPink = () => {
   importBtn.style.border = `2px solid ${btn1Color}`;
   exportBtn.style.border = `2px solid ${btn1Color}`;
   importExportBtn.style.border = `2px solid ${btn1Color}`;
-  text.style.border = `2px solid ${btn1Color}`;
+  uiText.style.border = `2px solid ${btn1Color}`;
 };
 
 //event listeners

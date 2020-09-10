@@ -189,6 +189,10 @@ body {
   display: inline !important;
 }
 
+#saveEdit:hover {
+  cursor: pointer;
+}
+
 .fa-times-circle {
   margin-left: 90%;
   margin-bottom: 5srem;
@@ -238,7 +242,7 @@ body {
   position: relative;
 }
 
-.importExportText {
+.uiText {
   display: block;
   margin: auto;
   text-align: center;
@@ -255,6 +259,12 @@ body {
   margin-top: 10rem;
   width: 40rem;
   display: none;
+}
+
+.custom-edit {
+  background: red !important;
+  position: sticky !important;
+  left: 90% !important;
 }
 
 /* media queries */

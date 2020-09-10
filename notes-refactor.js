@@ -25,6 +25,7 @@ const grabNote = (e) => {
   localStorage.setItem("notes", JSON.stringify(notes));
   document.querySelector("#note").value = "";
 
+  //build the new note in the DOM so it is seemlessly added and the UI flow is not broken
   const noteDiv = document.createElement("div");
   noteDiv.className = "card";
   const pText = document.createElement("p");
@@ -37,6 +38,22 @@ const grabNote = (e) => {
   const dateText = document.createTextNode(`Written at: ${noteDate}`);
   pDate.appendChild(dateText);
   noteDiv.appendChild(pDate);
+  const pId = document.createElement("p");
+  pId.className = "text invisible";
+  const idText = document.createTextNode(`id: ${id}`);
+  pId.appendChild(idText);
+  noteDiv.appendChild(pId);
+  const icon1 = document.createElement("i");
+  icon1.className = "fa fa-pencil pencil-note";
+  noteDiv.appendChild(icon1);
+  const span = document.createElement("span");
+  span.id = "saveEdit";
+  noteDiv.appendChild(span);
+  icon1.addEventListener("click", editFresh);
+  const icon2 = document.createElement("i");
+  icon2.className = "fa fa-times-circle";
+  noteDiv.appendChild(icon2);
+  icon2.addEventListener("click", deleteFresh);
   const hr = document.createElement("hr");
   noteDiv.appendChild(hr);
   const list = document.querySelector(".first-card");
@@ -94,9 +111,70 @@ const editNote = (e) => {
   e.preventDefault();
 };
 
+//edit note while just adding it (without refresh)
+const editFresh = (e) => {
+  let idToEdit = e.target.parentElement.childNodes[2].innerText
+    .split(":")[1]
+    .trim();
+  let cardToEdit = e.target.parentElement.childNodes[0];
+  cardToEdit.contentEditable = "true";
+  cardToEdit.style.backgroundColor = "#fff";
+  cardToEdit.style.padding = "1.5rem";
+  const editIcon = e.target.parentElement.childNodes[5];
+  editIcon.style.display = "inline";
+  editIcon.addEventListener("click", saveFresh);
+  editIcon.innerHTML = `<i style="position:absolute;  left:7%;" class="fa fa-check" aria-hidden="true"></i>`;
+  e.preventDefault();
+};
+
+//save while just adding it (no refresh)
+const saveFresh = (e) => {
+  let newText = e.target.parentElement.parentElement.childNodes[0].innerHTML.trim();
+  // console.log(newText);
+  let newDate = new Date()
+    .toString()
+    .replace(/\S+\s(\S+)\s(\d+)\s(\d+)\s.*/, "$2-$1-$3");
+  let idToEdit = e.target.parentElement.parentElement.childNodes[2].innerHTML
+    .split(":")[1]
+    .trim();
+  let newResource = {
+    text: newText,
+    date: newDate,
+    id: idToEdit,
+  };
+  notes.map((n, index) => {
+    if (n.id === idToEdit) {
+      notes[index] = newResource;
+    }
+  });
+  localStorage.setItem("notes", JSON.stringify(notes));
+  let cardToEdit = e.target.parentElement.parentElement.childNodes[0];
+  cardToEdit.contentEditable = "false";
+  cardToEdit.style.backgroundColor = "#f0edd9";
+  cardToEdit.style.padding = "0";
+  const editIcon = e.target.parentElement.parentElement.childNodes[4];
+  editIcon.style.display = "none";
+};
+
 editBtns.map((i) => {
   i.addEventListener("click", editNote);
 });
+
+//deletes while no refresh
+const deleteFresh = (e) => {
+  let idToDelete = e.target.parentElement.childNodes[2].innerText
+    .split(":")[1]
+    .trim();
+
+  notes.map((n, index) => {
+    if (n.id === idToDelete) {
+      notes.splice(index, 1);
+    }
+  });
+  localStorage.setItem("notes", JSON.stringify(notes));
+  let cardToHide = e.target.parentElement;
+  cardToHide.style.display = "none";
+};
 
 /*
  * saves note after edit
@@ -130,10 +208,11 @@ const saveNote = (e) => {
   cardToEdit.style.padding = "0";
   const editIcon = e.target.parentElement.parentElement.childNodes[9];
   editIcon.style.display = "none";
-  cardToEdit.innerHTML = newText;
+  // cardToEdit.innerHTML = newText;
 };
 
 const saveIcon = Array.from(document.querySelectorAll("#saveEdit"));
+
 saveIcon.map((i) => {
   i.addEventListener("click", saveNote);
 });
