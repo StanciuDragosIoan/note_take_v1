@@ -24,15 +24,24 @@ const grabNote = (e) => {
   notes.push(note);
   localStorage.setItem("notes", JSON.stringify(notes));
   document.querySelector("#note").value = "";
-  window.location.reload();
+
+  const noteDiv = document.createElement("div");
+  noteDiv.className = "card";
+  const pText = document.createElement("p");
+  pText.className = "text";
+  const text = document.createTextNode(`${noteText}`);
+  pText.appendChild(text);
+  noteDiv.appendChild(pText);
+  const pDate = document.createElement("p");
+  pDate.className = "text";
+  const dateText = document.createTextNode(`Written at: ${noteDate}`);
+  pDate.appendChild(dateText);
+  noteDiv.appendChild(pDate);
+  const hr = document.createElement("hr");
+  noteDiv.appendChild(hr);
+  const list = document.querySelector(".first-card");
+  list.appendChild(noteDiv);
 };
-
-// const grabKey = (e) => {
-//   if (e.keyCode === 13) {
-//     console.log("break to insert");
-//     console.log(e.target.value);
-
-// };
 
 let saveBtn = document.querySelector(".add-note");
 saveBtn.addEventListener("click", grabNote);
@@ -42,14 +51,13 @@ saveBtn.addEventListener("click", grabNote);
  */
 const displayNotes = () => {
   let records = document.querySelector("#records");
-  let output = "";
+  let output = "<div class='first-card'></div>";
   notes.reverse().map((n) => {
     output += `
         <div class="card">
             <p class="text">
                 ${n.text}
             </p>
-
             <p class="text">
                 Written at: ${n.date}
             </p>
@@ -59,7 +67,6 @@ const displayNotes = () => {
             <i class="fa fa-pencil pencil-note" aria-hidden="true"></i>
             <span id="saveEdit"></span><i class="fa fa-times-circle" aria-hidden="true"></i>
             <hr>
-            
         </div>
       `;
   });
