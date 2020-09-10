@@ -294,3 +294,10 @@ body {
     width: 70vw;
   }
 }
+
+@media (max-width: 500px) {
+  #importBtn,
+  #exportBtn {
+    width: 100% !important;
+  }
+}
