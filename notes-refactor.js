@@ -58,6 +58,15 @@ const grabNote = (e) => {
   noteDiv.appendChild(hr);
   const list = document.querySelector(".first-card");
   list.appendChild(noteDiv);
+
+  //alert func
+
+  const alert = document.querySelector(".alert");
+  alert.style.display = "block";
+  alert.innerHTML = "Note Saved";
+  setTimeout(() => {
+    document.querySelector(".alert").style.display = "none";
+  }, 3000);
 };
 
 // KEEP FROM HERE
