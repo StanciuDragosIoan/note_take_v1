@@ -1,6 +1,7 @@
 let theme = "blue";
 
 theme = localStorage.getItem("theme");
+activeBtn = localStorage.getItem("activeBtn");
 document.querySelector(".filter.uiText").style.display = "none";
 //buttons & inputs
 const inputBtn = document.querySelector("#inputBtn");
@@ -106,6 +107,38 @@ if (theme === "blue") {
   swapToPink();
 }
 
+//keep track of active page
+if (activeBtn === "input") {
+  console.log("input");
+  toggleElement(
+    [input, paper],
+    [list, importExportDiv, filterInput],
+    [inputBtn],
+    [listBtn, importBtn, exportBtn, importExportBtn],
+    btn1Color,
+    btn2Color
+  );
+} else if (activeBtn === "entries") {
+  console.log("entries");
+  toggleElement(
+    [list, filterInput],
+    [input, importExportDiv],
+    [listBtn],
+    [inputBtn, importBtn, exportBtn, importExportBtn],
+    btn1Color,
+    btn2Color
+  );
+} else if (activeBtn === "importExport") {
+  console.log("import exp");
+  toggleElement(
+    [importExportDiv],
+    [input, filterInput, list],
+    [importExportBtn],
+    [inputBtn, listBtn, exportBtn, importBtn],
+    btn1Color,
+    btn2Color
+  );
+}
 //event listeners
 
 //toggle INPUT section
@@ -118,6 +151,8 @@ inputBtn.addEventListener("click", () => {
     btn1Color,
     btn2Color
   );
+
+  localStorage.setItem("activeBtn", "input");
 });
 
 //toggle diary entries
@@ -130,6 +165,7 @@ listBtn.addEventListener("click", () => {
     btn1Color,
     btn2Color
   );
+  localStorage.setItem("activeBtn", "entries");
 });
 
 //toggle importExport section
@@ -142,6 +178,7 @@ importExportBtn.addEventListener("click", () => {
     btn1Color,
     btn2Color
   );
+  localStorage.setItem("activeBtn", "importExport");
 });
 
 c1.addEventListener("click", swapToBlue);
