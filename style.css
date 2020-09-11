@@ -261,16 +261,33 @@ body {
   display: none;
 }
 
+.save-fresh {
+  position: absolute;
+  left: 3%;
+}
+
+.card-fresh {
+  position: relative;
+}
+
 /* media queries */
 @media (max-width: 1500px) {
   .nav {
     width: 60vw;
+  }
+  .save-fresh {
+    position: absolute;
+    left: 5%;
   }
 }
 
 @media (max-width: 1000px) {
   .nav {
     width: 80vw;
+  }
+
+  .save-fresh {
+    left: 7%;
   }
 }
 
@@ -293,11 +310,29 @@ body {
     font-size: 1.5rem;
     width: 70vw;
   }
+
+  .save-fresh {
+    left: 9%;
+  }
+}
+
+@media (max-width: 590px) {
+  .save-fresh {
+    left: 12%;
+    top: 67%;
+  }
 }
 
 @media (max-width: 500px) {
   #importBtn,
   #exportBtn {
     width: 100% !important;
+  }
+}
+
+@media (max-width: 450px) {
+  .save-fresh {
+    left: 15%;
+    top: 67%;
   }
 }

@@ -27,7 +27,7 @@ const grabNote = (e) => {
 
   //build the new note in the DOM so it is seemlessly added and the UI flow is not broken
   const noteDiv = document.createElement("div");
-  noteDiv.className = "card";
+  noteDiv.className = "card card-fresh";
   const pText = document.createElement("p");
   pText.className = "text";
   const text = document.createTextNode(`${noteText}`);
@@ -131,8 +131,9 @@ const editFresh = (e) => {
   const editIcon = e.target.parentElement.childNodes[5];
   editIcon.style.display = "inline";
   editIcon.addEventListener("click", saveFresh);
-  editIcon.innerHTML = `<i style="position:absolute;  left:7%;" class="fa fa-check" aria-hidden="true"></i>`;
+  editIcon.innerHTML = `<i  class="fa fa-check save-fresh" aria-hidden="true"></i>`;
   e.preventDefault();
+  //style="position:absolute;  left:7%;
 };
 
 //save while just adding it (no refresh)
