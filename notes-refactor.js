@@ -185,6 +185,8 @@ const saveFresh = (e) => {
   cardToEdit.style.padding = "0";
   const editIcon = e.target.parentElement.childNodes[0];
   editIcon.style.display = "none";
+  const deleteIcon = document.querySelector(".delete-fresh");
+  deleteIcon.style.display = "block";
 };
 
 editBtns.map((i) => {
