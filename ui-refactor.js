@@ -35,82 +35,70 @@ const toggleElement = (toShow, toHide, toColor1, toColor2, c1, c2) => {
 };
 
 //swap themes for colors
-const swapToBlue = () => {
-  console.log("blue theme here");
-  bodyBackground.style.backgroundColor = "#6C8CE2";
-  btn1Color = "#050D31";
-  btn2Color = "#2600FF";
+// const swapToBlue = () => {
+//   console.log("blue theme here");
+//   bodyBackground.style.backgroundColor = "#6C8CE2";
+//   btn1Color = "#050D31";
+//   btn2Color = "#2600FF";
+//   inputBtn.style.backgroundColor = btn2Color;
+//   recordsBtn.style.backgroundColor = btn2Color;
+//   importExportBtn.style.backgroundColor = btn2Color;
+//   importBtn.style.backgroundColor = btn2Color;
+//   exportBtn.style.backgroundColor = btn2Color;
+//   listBtn.style.border = "none";
+//   inputBtn.style.border = "none";
+//   listBtn.style.border = `2px solid ${btn1Color}`;
+//   inputBtn.style.border = `2px solid ${btn1Color}`;
+//   importBtn.style.border = `2px solid ${btn1Color}`;
+//   exportBtn.style.border = `2px solid ${btn1Color}`;
+//   importExportBtn.style.border = `2px solid ${btn1Color}`;
+//   uiText.style.border = `2px solid ${btn1Color}`;
+//   localStorage.setItem("theme", "blue");
+// };
+
+// const swapToYellow = () => {
+//   console.log("yellow theme here");
+//   bodyBackground.style.backgroundColor = "#fcce03";
+//   btn1Color = "#ad871d";
+//   btn2Color = "#ebb852";
+//   inputBtn.style.backgroundColor = btn2Color;
+//   recordsBtn.style.backgroundColor = btn2Color;
+//   importExportBtn.style.backgroundColor = btn2Color;
+//   importBtn.style.backgroundColor = btn2Color;
+//   exportBtn.style.backgroundColor = btn2Color;
+//   listBtn.style.border = "none";
+//   inputBtn.style.border = "none";
+//   listBtn.style.border = `2px solid ${btn1Color}`;
+//   inputBtn.style.border = `2px solid ${btn1Color}`;
+//   importBtn.style.border = `2px solid ${btn1Color}`;
+//   exportBtn.style.border = `2px solid ${btn1Color}`;
+//   importExportBtn.style.border = `2px solid ${btn1Color}`;
+//   uiText.style.border = `2px solid ${btn1Color}`;
+//   localStorage.setItem("theme", "yellow");
+// };
+
+const changeTheme = (c1, c2, c3, c4) => {
+  bodyBackground.style.backgroundColor = c1;
+  btn1Color = c2;
+  btn2Color = c3;
   inputBtn.style.backgroundColor = btn2Color;
   recordsBtn.style.backgroundColor = btn2Color;
   importExportBtn.style.backgroundColor = btn2Color;
   importBtn.style.backgroundColor = btn2Color;
   exportBtn.style.backgroundColor = btn2Color;
-  listBtn.style.border = "none";
-  inputBtn.style.border = "none";
   listBtn.style.border = `2px solid ${btn1Color}`;
   inputBtn.style.border = `2px solid ${btn1Color}`;
   importBtn.style.border = `2px solid ${btn1Color}`;
   exportBtn.style.border = `2px solid ${btn1Color}`;
   importExportBtn.style.border = `2px solid ${btn1Color}`;
   uiText.style.border = `2px solid ${btn1Color}`;
-  localStorage.setItem("theme", "blue");
+  localStorage.setItem("theme", c4);
 };
 
-const swapToYellow = () => {
-  console.log("yellow theme here");
-  bodyBackground.style.backgroundColor = "#fcce03";
-  btn1Color = "#ad871d";
-  btn2Color = "#ebb852";
-  inputBtn.style.backgroundColor = btn2Color;
-  recordsBtn.style.backgroundColor = btn2Color;
-  importExportBtn.style.backgroundColor = btn2Color;
-  importBtn.style.backgroundColor = btn2Color;
-  exportBtn.style.backgroundColor = btn2Color;
-  listBtn.style.border = "none";
-  inputBtn.style.border = "none";
-  listBtn.style.border = `2px solid ${btn1Color}`;
-  inputBtn.style.border = `2px solid ${btn1Color}`;
-  importBtn.style.border = `2px solid ${btn1Color}`;
-  exportBtn.style.border = `2px solid ${btn1Color}`;
-  importExportBtn.style.border = `2px solid ${btn1Color}`;
-  uiText.style.border = `2px solid ${btn1Color}`;
-  localStorage.setItem("theme", "yellow");
-};
+// changeTheme("#fcce03", "#ad871d", "#ebb852", "yellow");
 
 const swapToPink = () => {
   //keep track of active page
-  if (activeBtn === "input") {
-    console.log("input");
-    toggleElement(
-      [input, paper],
-      [list, importExportDiv, filterInput],
-      [inputBtn],
-      [listBtn, importBtn, exportBtn, importExportBtn],
-      btn1Color,
-      btn2Color
-    );
-  } else if (activeBtn === "entries") {
-    console.log("entries");
-    toggleElement(
-      [list, filterInput],
-      [input, importExportDiv],
-      [listBtn],
-      [inputBtn, importBtn, exportBtn, importExportBtn],
-      btn1Color,
-      btn2Color
-    );
-  } else if (activeBtn === "importExport") {
-    console.log("import exp");
-    toggleElement(
-      [importExportDiv],
-      [input, filterInput, list],
-      [importExportBtn],
-      [inputBtn, listBtn, exportBtn, importBtn],
-      btn1Color,
-      btn2Color
-    );
-  }
-
   console.log("pink theme here");
   bodyBackground.style.backgroundColor = "pink";
   btn1Color = "#97089e";
@@ -130,14 +118,18 @@ const swapToPink = () => {
   uiText.style.border = `2px solid ${btn1Color}`;
   localStorage.setItem("theme", "pink");
 };
+
 console.log(theme);
 //keep track of UI theme and update
 if (theme === "blue") {
-  swapToBlue();
+  // swapToBlue();
+  changeTheme("#6C8CE2", "#050D31", "#2600FF", "blue");
 } else if (theme === "yellow") {
-  swapToYellow();
+  // swapToYellow();
+  changeTheme("#fcce03", "#ad871d", "#ebb852", "yellow");
 } else if (theme === "pink") {
-  swapToPink();
+  // swapToPink();
+  changeTheme("pink", "#97089e", "#f003fc", "pink");
 }
 
 //keep track of active page
@@ -214,6 +206,12 @@ importExportBtn.addEventListener("click", () => {
   localStorage.setItem("activeBtn", "importExport");
 });
 
-c1.addEventListener("click", swapToBlue);
-c2.addEventListener("click", swapToYellow);
-c3.addEventListener("click", swapToPink);
+c1.addEventListener("click", () => {
+  changeTheme("#6C8CE2", "#050D31", "#2600FF", "blue");
+});
+c2.addEventListener("click", () => {
+  changeTheme("#fcce03", "#ad871d", "#ebb852", "yellow");
+});
+c3.addEventListener("click", () => {
+  changeTheme("pink", "#97089e", "#f003fc", "pink");
+});
