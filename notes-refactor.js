@@ -63,7 +63,7 @@ const grabNote = (e) => {
 
   const alert = document.querySelector(".alert");
   alert.style.display = "block";
-  alert.innerHTML = "Note Saved";
+  alert.innerHTML = "Note Saved &#x1F609;";
   setTimeout(() => {
     document.querySelector(".alert").style.display = "none";
   }, 3000);
@@ -304,7 +304,9 @@ const importNotes = (e) => {
       reader.onload = function (event) {
         let newNotes = JSON.parse(event.target.result).notes;
         localStorage.setItem("notes", JSON.stringify(newNotes));
-        document.querySelector(".alert").style.display = "block";
+        const alert = document.querySelector(".alert");
+        alert.style.display = "block";
+        alert.innerHTML = "Notes imported Successfully &#x1F609;";
         setTimeout(() => {
           document.querySelector(".alert").style.display = "none";
         }, 3000);
