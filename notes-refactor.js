@@ -51,7 +51,7 @@ const grabNote = (e) => {
   noteDiv.appendChild(span);
   icon1.addEventListener("click", editFresh);
   const icon2 = document.createElement("i");
-  icon2.className = "fa fa-times-circle";
+  icon2.className = "fa fa-times-circle delete-fresh";
   noteDiv.appendChild(icon2);
   icon2.addEventListener("click", deleteFresh);
   const hr = document.createElement("hr");
