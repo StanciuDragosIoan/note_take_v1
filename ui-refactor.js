@@ -78,6 +78,39 @@ const swapToYellow = () => {
 };
 
 const swapToPink = () => {
+  //keep track of active page
+  if (activeBtn === "input") {
+    console.log("input");
+    toggleElement(
+      [input, paper],
+      [list, importExportDiv, filterInput],
+      [inputBtn],
+      [listBtn, importBtn, exportBtn, importExportBtn],
+      btn1Color,
+      btn2Color
+    );
+  } else if (activeBtn === "entries") {
+    console.log("entries");
+    toggleElement(
+      [list, filterInput],
+      [input, importExportDiv],
+      [listBtn],
+      [inputBtn, importBtn, exportBtn, importExportBtn],
+      btn1Color,
+      btn2Color
+    );
+  } else if (activeBtn === "importExport") {
+    console.log("import exp");
+    toggleElement(
+      [importExportDiv],
+      [input, filterInput, list],
+      [importExportBtn],
+      [inputBtn, listBtn, exportBtn, importBtn],
+      btn1Color,
+      btn2Color
+    );
+  }
+
   console.log("pink theme here");
   bodyBackground.style.backgroundColor = "pink";
   btn1Color = "#97089e";

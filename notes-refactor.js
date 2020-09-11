@@ -11,8 +11,10 @@ if (localStorage.getItem("notes") === null) {
  */
 const grabNote = (e) => {
   const note = {};
-  let noteText = document.querySelector("#note").value;
-  note.text = noteText;
+  let noteText =
+    //regexp to 'know' how to put linebreaks
+    document.querySelector("#note").value;
+  note.text = noteText.replace(/\r?\n/g, "<br />");
   const noteDate = new Date()
     .toString()
     .replace(/\S+\s(\S+)\s(\d+)\s(\d+)\s.*/, "$2-$1-$3");
@@ -29,10 +31,11 @@ const grabNote = (e) => {
   const noteDiv = document.createElement("div");
   noteDiv.className = "card card-fresh";
   const pText = document.createElement("p");
-  pText.className = "text";
+  pText.className = "text latest";
   const text = document.createTextNode(`${noteText}`);
   pText.appendChild(text);
   noteDiv.appendChild(pText);
+
   const pDate = document.createElement("p");
   pDate.className = "text";
   const dateText = document.createTextNode(`Written at: ${noteDate}`);
@@ -151,7 +154,9 @@ const saveFresh = (e) => {
   let idToEdit;
   // let deleteIcon;
   if (e.target.parentElement.parentElement.childNodes[0] !== undefined) {
-    newText = e.target.parentElement.parentElement.childNodes[0].innerHTML.trim();
+    newText = e.target.parentElement.parentElement.childNodes[0].innerHTML
+      .trim()
+      .replace(/\r?\n/g, "<br />");
   }
   // console.log(newText);
   let newDate = new Date()
@@ -207,7 +212,9 @@ const deleteFresh = (e) => {
  * saves note after edit
  */
 const saveNote = (e) => {
-  let newText = e.target.parentElement.parentElement.childNodes[1].innerText.trim();
+  let newText = e.target.parentElement.parentElement.childNodes[1].innerText
+    .trim()
+    .replace(/\r?\n/g, "<br />");
   let newDate = new Date()
     .toString()
     .replace(/\S+\s(\S+)\s(\d+)\s(\d+)\s.*/, "$2-$1-$3");
