@@ -137,14 +137,21 @@ const editFresh = (e) => {
 
 //save while just adding it (no refresh)
 const saveFresh = (e) => {
-  let newText = e.target.parentElement.parentElement.childNodes[0].innerHTML.trim();
+  let newText;
+  let idToEdit;
+  // let deleteIcon;
+  if (e.target.parentElement.parentElement.childNodes[0] !== undefined) {
+    newText = e.target.parentElement.parentElement.childNodes[0].innerHTML.trim();
+  }
   // console.log(newText);
   let newDate = new Date()
     .toString()
     .replace(/\S+\s(\S+)\s(\d+)\s(\d+)\s.*/, "$2-$1-$3");
-  let idToEdit = e.target.parentElement.parentElement.childNodes[2].innerHTML
-    .split(":")[1]
-    .trim();
+  if (e.target.parentElement.parentElement.childNodes[2] !== undefined) {
+    idToEdit = e.target.parentElement.parentElement.childNodes[2].innerHTML
+      .split(":")[1]
+      .trim();
+  }
   let newResource = {
     text: newText,
     date: newDate,
@@ -160,7 +167,7 @@ const saveFresh = (e) => {
   cardToEdit.contentEditable = "false";
   cardToEdit.style.backgroundColor = "#f0edd9";
   cardToEdit.style.padding = "0";
-  const editIcon = e.target.parentElement.parentElement.childNodes[4];
+  const editIcon = e.target.parentElement.childNodes[0];
   editIcon.style.display = "none";
 };
 
@@ -170,10 +177,12 @@ editBtns.map((i) => {
 
 //deletes while no refresh
 const deleteFresh = (e) => {
-  let idToDelete = e.target.parentElement.childNodes[2].innerText
-    .split(":")[1]
-    .trim();
-
+  let idToDelete;
+  if (e.target.parentElement.childNodes[2] !== undefined) {
+    idToDelete = e.target.parentElement.childNodes[2].innerText
+      .split(":")[1]
+      .trim();
+  }
   notes.map((n, index) => {
     if (n.id === idToDelete) {
       notes.splice(index, 1);
