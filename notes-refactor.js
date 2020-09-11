@@ -31,11 +31,12 @@ const grabNote = (e) => {
   const noteDiv = document.createElement("div");
   noteDiv.className = "card card-fresh";
   const pText = document.createElement("p");
-  pText.className = "text latest";
+  //pre tag allows for text to be displayed on multiple lines
+  const preTag = document.createElement("pre");
+  pText.appendChild(preTag);
   const text = document.createTextNode(`${noteText}`);
-  pText.appendChild(text);
+  preTag.appendChild(text);
   noteDiv.appendChild(pText);
-
   const pDate = document.createElement("p");
   pDate.className = "text";
   const dateText = document.createTextNode(`Written at: ${noteDate}`);
