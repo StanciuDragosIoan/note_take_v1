@@ -31,6 +31,7 @@ const grabNote = (e) => {
   const noteDiv = document.createElement("div");
   noteDiv.className = "card card-fresh";
   const pText = document.createElement("p");
+  pText.className = "text";
   //pre tag allows for text to be displayed on multiple lines
   const preTag = document.createElement("pre");
   pText.appendChild(preTag);
@@ -278,6 +279,9 @@ deleteBtns.map((b) => {
  * filters notes
  */
 
+const filterField = document.querySelector(".filter");
+filterField.addEventListener("click", () => (filterField.value = ""));
+
 const filter = () => {
   //filter by title,  date
   document.querySelectorAll(".card").forEach((item) => {
@@ -313,13 +317,15 @@ const importNotes = (e) => {
       var reader = new FileReader();
       reader.onload = function (event) {
         let newNotes = JSON.parse(event.target.result).notes;
-        localStorage.setItem("notes", JSON.stringify(newNotes));
+        newNotes.map((i) => notes.push(i));
+        localStorage.setItem("notes", JSON.stringify(notes));
         const alert = document.querySelector(".alert");
         alert.style.display = "block";
         alert.innerHTML = "Notes imported Successfully &#x1F609;";
         setTimeout(() => {
           document.querySelector(".alert").style.display = "none";
         }, 3000);
+        displayNotes();
       };
       let readValue = reader.readAsText(file);
     },
@@ -351,3 +357,16 @@ const exportNotes = () => {
 
 importBtn.addEventListener("click", importNotes);
 exportBtn.addEventListener("click", exportNotes);
+
+const deleteAllBtn = document.querySelector("#deleteNotes");
+const deleteNotes = () => {
+  deleteAllBtn.style.backgroundColor = "red";
+  deleteAllBtn.style.border = "2px solid black";
+  localStorage.removeItem("notes");
+  // document.querySelector(".first-card").innerHTML = "";
+  // records.innerHTML = "";
+  window.location.reload();
+  // Array.from(document.querySelectorAll(".card")).map((i) => (i.innerHTML = ""));
+  // Array.from(document.querySelectorAll(".card")).map((i) => (i.innerHTML = ""));
+};
+deleteAllBtn.addEventListener("click", deleteNotes);

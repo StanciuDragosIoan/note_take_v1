@@ -181,7 +181,9 @@ const importNotes = (e) => {
       var reader = new FileReader();
       reader.onload = function (event) {
         let newNotes = JSON.parse(event.target.result).notes;
-        localStorage.setItem("notes", JSON.stringify(newNotes));
+        notes.push(newNotes);
+        // console.log(notes);
+        localStorage.setItem("notes", JSON.stringify(notes));
         document.querySelector(".alert").style.display = "block";
         setTimeout(() => {
           document.querySelector(".alert").style.display = "none";

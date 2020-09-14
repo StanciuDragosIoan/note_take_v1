@@ -45,6 +45,7 @@ body {
 #records {
   display: none;
   word-wrap: break-word;
+  font-family: Arial, Helvetica, sans-serif !important;
 }
 
 /* paper input */
@@ -167,6 +168,27 @@ body {
   border-radius: 50%;
 }
 
+#deleteNotes {
+  background: rgb(194, 57, 57) !important;
+  display: block;
+  margin: auto;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  color: #fff;
+  border: 2px solid #ccc;
+  width: 20%;
+  height: 3rem;
+  text-align: center;
+  padding-top: 10px;
+  border-radius: 15px;
+  font-size: 2rem;
+  outline: none;
+}
+
+#deleteNotes:hover {
+  cursor: pointer;
+}
+
 /* notes style */
 .card {
   display: block;
@@ -175,6 +197,14 @@ body {
   font-size: 2rem;
   background: #f0edd9;
   padding: 1rem;
+}
+
+.card.card-fresh > p.text {
+  /* background: red; */
+  overflow-wrap: break-word !important;
+  word-wrap: break-word !important;
+  hyphens: auto !important;
+  font-family: inherit !important;
 }
 
 .invisible {
@@ -283,6 +313,9 @@ body {
     position: absolute;
     left: 5%;
   }
+  #deleteNotes {
+    width: 25%;
+  }
 }
 
 @media (max-width: 1000px) {
@@ -292,6 +325,9 @@ body {
 
   .save-fresh {
     left: 7%;
+  }
+  #deleteNotes {
+    width: 30%;
   }
 }
 
@@ -318,6 +354,9 @@ body {
   .save-fresh {
     left: 9%;
   }
+  #deleteNotes {
+    width: 45%;
+  }
 }
 
 @media (max-width: 590px) {
@@ -331,6 +370,9 @@ body {
   #importBtn,
   #exportBtn {
     width: 100% !important;
+  }
+  #deleteNotes {
+    width: 75%;
   }
 }
 

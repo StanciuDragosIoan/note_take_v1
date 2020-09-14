@@ -137,7 +137,7 @@ if (activeBtn === "input") {
   console.log("input");
   toggleElement(
     [input, paper],
-    [list, importExportDiv, filterInput],
+    [list, importExportDiv, filterInput, deleteAllBtn],
     [inputBtn],
     [listBtn, importBtn, exportBtn, importExportBtn],
     btn1Color,
@@ -170,7 +170,7 @@ if (activeBtn === "input") {
 inputBtn.addEventListener("click", () => {
   toggleElement(
     [input, paper],
-    [list, importExportDiv, filterInput],
+    [list, importExportDiv, filterInput, deleteAllBtn],
     [inputBtn],
     [listBtn, importBtn, exportBtn, importExportBtn],
     btn1Color,
@@ -183,10 +183,10 @@ inputBtn.addEventListener("click", () => {
 //toggle diary entries
 listBtn.addEventListener("click", () => {
   toggleElement(
-    [list, filterInput],
+    [list, filterInput, deleteAllBtn],
     [input, importExportDiv],
     [listBtn],
-    [inputBtn, importBtn, exportBtn, importExportBtn],
+    [inputBtn, importBtn, exportBtn, importExportBtn, deleteAllBtn],
     btn1Color,
     btn2Color
   );
@@ -197,7 +197,7 @@ listBtn.addEventListener("click", () => {
 importExportBtn.addEventListener("click", () => {
   toggleElement(
     [importExportDiv],
-    [input, filterInput, list],
+    [input, filterInput, list, deleteAllBtn],
     [importExportBtn],
     [inputBtn, listBtn, exportBtn, importBtn],
     btn1Color,
