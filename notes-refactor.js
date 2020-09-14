@@ -366,11 +366,5 @@ const deleteNotes = () => {
   document.querySelector(".first-card").innerHTML = "";
   const cardsToDelete = Array.from(document.querySelectorAll(".card"));
   cardsToDelete.map((i) => (i.style.display = "none"));
-  console.log(cardsToDelete);
-  // console.log(cardsToDelete);
-  // records.innerHTML = "";
-  // window.location.reload();
-  // Array.from(document.querySelectorAll(".card")).map((i) => (i.innerHTML = ""));
-  // Array.from(document.querySelectorAll(".card")).map((i) => (i.innerHTML = ""));
 };
 deleteAllBtn.addEventListener("click", deleteNotes);
