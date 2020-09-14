@@ -153,8 +153,6 @@ if (activeBtn === "input") {
     btn1Color,
     btn2Color
   );
-  const alert = document.querySelector(".alert");
-  alert.style.display = "none";
 } else if (activeBtn === "importExport") {
   console.log("import exp");
   toggleElement(

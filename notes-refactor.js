@@ -363,9 +363,12 @@ const deleteNotes = () => {
   deleteAllBtn.style.backgroundColor = "red";
   deleteAllBtn.style.border = "2px solid black";
   localStorage.removeItem("notes");
-  // document.querySelector(".first-card").innerHTML = "";
+  document.querySelector(".first-card").innerHTML = "";
+  const cardsToDelete = Array.from(document.querySelectorAll(".card"));
+  cardsToDelete.map((i) => (i.innerHTML = ""));
+  // console.log(cardsToDelete);
   // records.innerHTML = "";
-  window.location.reload();
+  // window.location.reload();
   // Array.from(document.querySelectorAll(".card")).map((i) => (i.innerHTML = ""));
   // Array.from(document.querySelectorAll(".card")).map((i) => (i.innerHTML = ""));
 };
