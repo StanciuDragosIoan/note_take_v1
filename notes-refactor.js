@@ -365,7 +365,8 @@ const deleteNotes = () => {
   localStorage.removeItem("notes");
   document.querySelector(".first-card").innerHTML = "";
   const cardsToDelete = Array.from(document.querySelectorAll(".card"));
-  cardsToDelete.map((i) => (i.innerHTML = ""));
+  cardsToDelete.map((i) => (i.style.display = "none"));
+  console.log(cardsToDelete);
   // console.log(cardsToDelete);
   // records.innerHTML = "";
   // window.location.reload();
