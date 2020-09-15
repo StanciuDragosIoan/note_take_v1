@@ -11,9 +11,8 @@ if (localStorage.getItem("notes") === null) {
  */
 const grabNote = (e) => {
   const note = {};
-  let noteText =
-    //regexp to 'know' how to put linebreaks
-    document.querySelector("#note").value;
+  //regexp to 'know' how to put linebreaks
+  let noteText = document.querySelector("#note").value;
   note.text = noteText.replace(/\r?\n/g, "<br />");
   const noteDate = new Date()
     .toString()
@@ -34,6 +33,7 @@ const grabNote = (e) => {
   pText.className = "text";
   //pre tag allows for text to be displayed on multiple lines
   const preTag = document.createElement("pre");
+  preTag.style = "white-space: normal;";
   pText.appendChild(preTag);
   const text = document.createTextNode(`${noteText}`);
   preTag.appendChild(text);
