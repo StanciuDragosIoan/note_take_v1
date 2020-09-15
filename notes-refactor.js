@@ -62,14 +62,15 @@ const grabNote = (e) => {
   const hr = document.createElement("hr");
   noteDiv.appendChild(hr);
   const list = document.querySelector(".first-card");
-  list.appendChild(noteDiv);
+  // list.appendChild(noteDiv);
+  list.insertBefore(noteDiv, list.childNodes[0]);
   //alert func
   const alert = document.querySelector(".alert");
   alert.style.display = "block";
   alert.innerHTML = "Note Saved &#x1F609;";
   setTimeout(() => {
     document.querySelector(".alert").style.display = "none";
-  }, 3000);
+  }, 2000);
 };
 
 let saveBtn = document.querySelector(".add-note");

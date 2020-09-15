@@ -59,7 +59,7 @@ const toggleImportExport = () => {
 
 // swap themes for colors
 const swapToBlue = () => {
-  console.log("blue theme here");
+  // console.log("blue theme here");
   bodyBackground.style.backgroundColor = "#6C8CE2";
   btn1Color = "#050D31";
   btn2Color = "#2600FF";
@@ -79,7 +79,7 @@ const swapToBlue = () => {
 };
 
 const swapToYellow = () => {
-  console.log("yellow theme here");
+  // console.log("yellow theme here");
   bodyBackground.style.backgroundColor = "#fcce03";
   btn1Color = "#ad871d";
   btn2Color = "#ebb852";
@@ -99,7 +99,7 @@ const swapToYellow = () => {
 };
 
 const swapToPink = () => {
-  console.log("pink theme here");
+  // console.log("pink theme here");
   bodyBackground.style.backgroundColor = "pink";
   btn1Color = "#97089e";
   btn2Color = "#f003fc";

@@ -99,7 +99,7 @@ const changeTheme = (c1, c2, c3, c4) => {
 
 const swapToPink = () => {
   //keep track of active page
-  console.log("pink theme here");
+  // console.log("pink theme here");
   bodyBackground.style.backgroundColor = "pink";
   btn1Color = "#97089e";
   btn2Color = "#f003fc";
@@ -119,7 +119,7 @@ const swapToPink = () => {
   localStorage.setItem("theme", "pink");
 };
 
-console.log(theme);
+// console.log(theme);
 //keep track of UI theme and update
 if (theme === "blue") {
   // swapToBlue();
@@ -134,7 +134,7 @@ if (theme === "blue") {
 
 //keep track of active page
 if (activeBtn === "input") {
-  console.log("input");
+  // console.log("input");
   toggleElement(
     [input, paper],
     [list, importExportDiv, filterInput, deleteAllBtn],
@@ -144,7 +144,7 @@ if (activeBtn === "input") {
     btn2Color
   );
 } else if (activeBtn === "entries") {
-  console.log("entries");
+  // console.log("entries");
   toggleElement(
     [list, filterInput],
     [input, importExportDiv],
@@ -154,7 +154,7 @@ if (activeBtn === "input") {
     btn2Color
   );
 } else if (activeBtn === "importExport") {
-  console.log("import exp");
+  // console.log("import exp");
   toggleElement(
     [importExportDiv],
     [input, filterInput, list],
@@ -190,6 +190,7 @@ listBtn.addEventListener("click", () => {
     btn1Color,
     btn2Color
   );
+  // document.querySelector(".alert").style.display = "none";
   localStorage.setItem("activeBtn", "entries");
 });
 
@@ -203,6 +204,7 @@ importExportBtn.addEventListener("click", () => {
     btn1Color,
     btn2Color
   );
+  // document.querySelector(".alert").style.display = "none";
   localStorage.setItem("activeBtn", "importExport");
 });
 
