@@ -6,7 +6,7 @@
     <title>My first wepbage</title>
     <style>
       /* css rules here */
-      p {
+      .blue-card {
         display: block;
         margin: auto;
         font-size: 2rem;
@@ -18,10 +18,36 @@
         padding: 1rem;
         border-radius: 15px;
       }
+
+      .header {
+        display: block;
+        margin: auto;
+        text-align: center;
+        background: green;
+        color: #fff;
+        padding: 1rem;
+        font-size: 2.5rem;
+        width: 30rem;
+        border: 8px solid #000;
+        padding: 1rem;
+        border-radius: 15px;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+      }
     </style>
   </head>
   <body>
-    <h1>This is my first webpage</h1>
-    <p>I am very excited to further develop it.</p>
+    <h1 class="header">This is my first webpage</h1>
+    <p class="blue-card">I am very excited to further develop it.</p>
+    <input type="text" id="myInput" />
+
+    <script>
+      var input = document.getElementById("myInput");
+      var header = document.querySelector(".header");
+      input.addEventListener("input", function (event) {
+        var newHeaderValue = event.target.value;
+        header.innerHTML = newHeaderValue;
+      });
+    </script>
   </body>
 </html>
