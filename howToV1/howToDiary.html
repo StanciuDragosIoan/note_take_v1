@@ -67,7 +67,9 @@
     </p>
     <p class="text center bold">HTML</p>
     <p class="text">
-      HTML stands for <span class="snippet">HyperText Markup Language</span>.
+      HTML stands for <span class="snippet">HyperText Markup Language</span>. Remember, it is a 
+      markup language not a programming one (so it can represent content but it does not 'do'
+      anything/it has no logic/ it is NOT a programming language).
       HTML defines the meaning and structure of web content. It uses tags for
       defining blocks of content. Some examples of tags would be a header (
       <span class="snippet">h1</span> ) or a paragraph (
@@ -135,13 +137,14 @@
     </p>
     <p class="text">
       In order to add CSS to our document, we can use a
-      <span class="snippet">link</span>, an inline
+      <span class="snippet">link</span> such as <span class="snippet">
+        &lt;link rel="stylesheet" href="myStyle.css" /&gt;</span>, an inline
       <span class="snippet">style tag</span> attribute such as
       <span class="snippet"
         >&lt;p style="color:red;"&gt;my red text here..&lt;/p&gt;</span
       >
       or a <span class="snippet"> &lt;style&gt; &lt;/style&gt;</span> tag. For
-      this basic presentation, we will use a style tag so add it as per below:
+      this basic demo, we will use a style tag so add it as per below:
     </p>
     <pre class="code">
   &lt;!DOCTYPE html&gt;
@@ -211,7 +214,7 @@
     Note how the styles changed with a single CSS rule for the paragraph. 
     However, our approach is not ideal. The reason for this is that usually css
     rules complexity gets out of control if we are not careful. In order for the
-    complexity to be kept under control (and for the rules not to conflict with eachother)
+    complexity to be kept under control (and for the rules not to conflict with each other)
     we need the CSS rules to be as specific as possible. We can increase the specificity by moving
      the rule we wrote inside a class.
   </p>
@@ -328,7 +331,7 @@
         </p>
         <p class="text">
           I will not do a generic introduction to JavaScript, as this is not the place for it, I will just show you how to add JavaScript
-          to your webpage and then, we will move onto building the application.
+          to your webpage and then, we will move on to building the application.
         </p>
         <p class="text">
           In order to add JavaScript to a page, we have to use a <span class="snippet">&lt;script&gt;&lt;/script&gt;</span> tag.
@@ -541,6 +544,9 @@
     So as for the structure of our application, we will have an <span class="snippet">index.html</span> file, a <span class="snippet">css</span>
     file and two <span class="snippet">JavaScript</span> files. The two JavaScript files are handling the UI (user interface) and the notes processing.
     So one will do the notes and the other one will do the interface manipulation (and there will be quite a bit of code in there).
+  </p>
+  <p class="text">
+    Start by creating a folder (I named mine project) and create an <span class="snippet">index.html</span> file in it. Inside the .html file, add the below code:
   </p>
   </body>
 
