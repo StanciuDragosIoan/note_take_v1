@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Domine:wght@400;700&family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./assets/css/main.css" type="text/css" />
+    <title>Introduction to web development</title>
+  </head>
+  <body>
+    <h1 class="header">Intro to web dev</h1>
+    <p class="text center bold">+ a kickstarter project</p>
+    <p class="text">
+      As the title involves, this article represents an introduction to web
+      development. We will see very briefly how the web works and we will get a
+      bit familiar with the main technologies of the web (namely HTML, CSS and
+      JavaScript). Finally, after 'getting our feet wet' a bit, and
+      understanding how everything works, we will build a little project
+      together.
+    </p>
+    <p class="text">
+      This project will be a nice warm-up for future projects, and it will help
+      you get familiar with how a JavaScript application is built, without any
+      framework. This will help you regardless of which framework you will use
+      (as you will build something using the full power of JavaScript, power on
+      which all the hot frameworks now and I mean React, Angular or VueJS are
+      built).
+    </p>
+    <p class="text center bold">How the web works.</p>
+    <p class="text">
+      The web is like a huge network (it reaches all over the world, and anyone
+      can 'talk' to anyone via this network).However, the main logic behind a
+      webpage is pretty simple, the user (that's you) also called the 'client'
+      makes an <span class="snippet">http request</span> to a webserver. The
+      webserver, answers the request, with the required content (let's say a
+      webpage):
+    </p>
+    <div class="devPic">
+      <img src="./img/request.jpg" alt="" />
+    </div>
+    <p class="text">
+      Of course there are many types of content we can request from a server (we
+      can have a simple webpage but also a video, a game, etc...) and we will
+      not dive deep into this for now. We can also have multiple types of
+      <span class="snippet">HTTP Requests</span> like:
+      <span class="snippet">GET</span>, <span class="snippet">POST</span>,
+      <span class="snippet">PUT</span>, <span class="snippet">PATCH</span>,
+      <span class="snippet">DELETE</span>. Feel free to read onto them, but I
+      think for this introductory article, we do not need to look at them in
+      detail.
+    </p>
+    <p class="text">
+      This article is meant for those who have never wrote a line of code, and
+      who will still, be able to build a nice application by reading it. For
+      those of you who have prior experience, feel free to just skip below to
+      building the application as you will definitely learn something new from
+      it.
+    </p>
+    <p class="text center bold">HTML, CSS, JS basics</p>
+    <p class="text">
+      Before we start building the application, you need to understand how these
+      3 technologies work. They are the foundational blocks of the web, every
+      application you have seen and you will see, is build with them.
+    </p>
+    <p class="text center bold">HTML</p>
+    <p class="text">
+      HTML stands for <span class="snippet">HyperText Markup Language</span>.
+      HTML defines the meaning and structure of web content. It uses tags for
+      defining blocks of content. Some examples of tags would be a header (
+      <span class="snippet">h1</span> ) or a paragraph (
+      <span class="snippet">p</span> ).
+    </p>
+    <p class="text">
+      Usually tags come in pairs (an opening and a closing one so
+      <span class="snippet"> &lt;p&gt; text here...&lt;/p&gt;</span> but there
+      can also be self closing tags like &lt;img src="sample.jpg" alt="sample
+      pic" /&gt;).
+    </p>
+    <p class="text">
+      Note that beside the opening and closing tags, an HTML element can also
+      have attributes, which are properties that further configure the element
+      (specifying the source for the image like the
+      <span class="snippet">src</span> attribute, or a description of the image
+      like the <span class="snippet">alt</span> attribute, an attribute which is
+      very important for SEO and accessibility).
+    </p>
+    <p class="text">
+      For a better understanding, let's create quickly a basic webpage with
+      some text on it. Copy the below code and paste it in a
+      <span class="snippet">index.html</span> file. Ignore the unknown tags or attributes for now,
+      little by little you will learn about all of them.
+    </p>
+    <pre class="code">
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+  &lt;head&gt;
+    &lt;meta charset="UTF-8" /&gt;
+    &lt;meta 
+      name="viewport" 
+      content="width=device-width, 
+      initial-scale=1.0" /&gt;
+    &lt;title&gt;My first wepbage&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;This is my first webpage&lt;/h1&gt;
+    &lt;p&gt;I am very excited to further develop it.&lt;/p&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+    </pre>
+    <p class="text">
+      Open the page you just created in a browser and you will see some plain
+      looking, simple page:
+    </p>
+    <div class="devPic">
+      <img src="./img/html.png" alt="" />
+    </div>
+    <p class="text">
+      * Note how the <span class="snippet">title</span> tag is reflected in the title
+      of the browser tab.
+    </p>
+    <p class="text bold center">CSS - Cascading Style Sheets</p>
+    <p class="text">
+      In order to make our little webpage look better, let's add some
+      <span class="snippet">CSS</span> to it. CSS stands for Cascading Style
+      Sheets. This means that the 'styles' we set with our CSS code, are applied
+      from top to bottom in a cascading way. The same can be said about CSS
+      links.
+    </p>
+    <p class="text">
+      CSS has no logic behind it but it is basically a language that describes
+      the presentation of an HTML page.
+    </p>
+    <p class="text">
+      In order to add CSS to our document, we can use a
+      <span class="snippet">link</span>, an inline
+      <span class="snippet">style tag</span> attribute such as
+      <span class="snippet"
+        >&lt;p style="color:red;"&gt;my red text here..&lt;/p&gt;</span
+      >
+      or a <span class="snippet"> &lt;style&gt; &lt;/style&gt;</span> tag. For
+      this basic presentation, we will use a style tag so add it as per below:
+    </p>
+    <pre class="code">
+  &lt;!DOCTYPE html&gt;
+  &lt;html lang="en"&gt;
+    &lt;head&gt;
+      &lt;meta charset="UTF-8" /&gt;
+      &lt;meta 
+        name="viewport" 
+        content="width=device-width, 
+        initial-scale=1.0" /&gt;
+      &lt;title&gt;My first wepbage&lt;/title&gt;
+      &lt;style&gt;
+        /* css rules here */
+      &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+      &lt;h1&gt;This is my first webpage&lt;/h1&gt;
+      &lt;p&gt;I am very excited to further develop it.&lt;/p&gt;
+    &lt;/body&gt;
+  &lt;/html&gt;
+          </pre
+    >
+  </p>
+  <p class="text">
+    CSS can "style" elements by selecting them. Let's say we want to select a paragraph and 
+    apply some styles to it. This is how you select a paragraph with css:
+  </p>
+<pre class="code">
+  <pre class="code">
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+  &lt;head&gt;
+    &lt;meta charset="UTF-8" /&gt;
+    &lt;meta 
+      name="viewport" 
+      content="width=device-width, 
+      initial-scale=1.0" /&gt;
+    &lt;title&gt;My first wepbage&lt;/title&gt;
+    &lt;style&gt;
+      /* css rules here */
+      p {
+        display: block;
+        margin: auto;
+        font-size: 2rem;
+        background: blue;
+        border: 5px solid #ccc;
+        color: #fff;
+        text-align: center;
+        width: 30rem;
+        padding: 1rem;
+        border-radius: 15px;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;This is my first webpage&lt;/h1&gt;
+    &lt;p&gt;
+      I am very excited to further 
+        develop it.
+    &lt;/p&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+        </pre
+  >
+
+  </pre>
+  <p class="text">
+    Note how the styles changed with a single CSS rule for the paragraph. 
+    However, our approach is not ideal. The reason for this is that usually css
+    rules complexity gets out of control if we are not careful. In order for the
+    complexity to be kept under control (and for the rules not to conflict with eachother)
+    we need the CSS rules to be as specific as possible.
+  </p>
+  </body>
+</html>

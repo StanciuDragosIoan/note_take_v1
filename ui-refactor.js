@@ -134,7 +134,6 @@ if (theme === "blue") {
 
 //keep track of active page
 if (activeBtn === "input") {
-  // console.log("input");
   toggleElement(
     [input, paper],
     [list, importExportDiv, filterInput, deleteAllBtn],
@@ -144,7 +143,6 @@ if (activeBtn === "input") {
     btn2Color
   );
 } else if (activeBtn === "entries") {
-  // console.log("entries");
   toggleElement(
     [list, filterInput],
     [input, importExportDiv],
@@ -154,7 +152,6 @@ if (activeBtn === "input") {
     btn2Color
   );
 } else if (activeBtn === "importExport") {
-  // console.log("import exp");
   toggleElement(
     [importExportDiv],
     [input, filterInput, list],
@@ -190,7 +187,6 @@ listBtn.addEventListener("click", () => {
     btn1Color,
     btn2Color
   );
-  // document.querySelector(".alert").style.display = "none";
   localStorage.setItem("activeBtn", "entries");
 });
 
@@ -204,7 +200,6 @@ importExportBtn.addEventListener("click", () => {
     btn1Color,
     btn2Color
   );
-  // document.querySelector(".alert").style.display = "none";
   localStorage.setItem("activeBtn", "importExport");
 });
 
