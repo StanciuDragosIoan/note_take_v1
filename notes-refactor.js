@@ -63,9 +63,7 @@ const grabNote = (e) => {
   noteDiv.appendChild(hr);
   const list = document.querySelector(".first-card");
   list.appendChild(noteDiv);
-
   //alert func
-
   const alert = document.querySelector(".alert");
   alert.style.display = "block";
   alert.innerHTML = "Note Saved &#x1F609;";
