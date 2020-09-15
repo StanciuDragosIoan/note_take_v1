@@ -142,6 +142,7 @@ if (activeBtn === "input") {
     btn1Color,
     btn2Color
   );
+  document.querySelector("#deleteNotes").style.display = "none";
 } else if (activeBtn === "entries") {
   toggleElement(
     [list, filterInput],
@@ -160,6 +161,8 @@ if (activeBtn === "input") {
     btn1Color,
     btn2Color
   );
+
+  document.querySelector("#deleteNotes").style.display = "none";
 }
 //event listeners
 
