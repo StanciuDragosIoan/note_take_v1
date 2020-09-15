@@ -315,7 +315,7 @@ const importNotes = (e) => {
         alert.innerHTML = "Notes imported Successfully &#x1F609;";
         setTimeout(() => {
           document.querySelector(".alert").style.display = "none";
-        }, 3000);
+        }, 2000);
         displayNotes();
       };
       let readValue = reader.readAsText(file);
