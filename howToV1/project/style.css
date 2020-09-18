@@ -304,9 +304,8 @@ body {
 
 /* alert div styles (used for add and import/export */
 .alert {
-  margin-top: 10rem;
+  margin-top: 5rem;
   width: 40rem;
-  display: none;
 }
 
 /* media queries for responsiveness */

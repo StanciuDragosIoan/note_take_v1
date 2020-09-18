@@ -26,14 +26,15 @@ const grabNote = (e) => {
   localStorage.setItem("notes", JSON.stringify(notes));
   document.querySelector("#note").value = "";
 
-  //build the new note in the DOM so it is seemlessly added and the UI flow is not broken
+  //build the new note in the DOM so it is
+  //seemlessly added and the UI flow is not broken
   const noteDiv = document.createElement("div");
   noteDiv.className = "card card-fresh";
   const pText = document.createElement("p");
   pText.className = "text";
   //pre tag allows for text to be displayed on multiple lines
   const preTag = document.createElement("pre");
-  preTag.style = "white-space: normal;";
+  // preTag.style = "white-space: normal;";
   pText.appendChild(preTag);
   const text = document.createTextNode(`${noteText}`);
   preTag.appendChild(text);
