@@ -106,3 +106,25 @@ const displayNotes = () => {
 };
 //call display notes to see the notes
 displayNotes();
+
+const filterField = document.querySelector(".filter");
+filterField.addEventListener("click", () => (filterField.value = ""));
+
+const filter = () => {
+  //filter by title,  date
+  document.querySelectorAll(".card").forEach((item) => {
+    let value = document.querySelector(".filter").value.toLowerCase();
+
+    const note = item.children[0].innerText;
+    const date = item.children[1].innerText;
+
+    if (
+      note.toLowerCase().indexOf(value) != -1 ||
+      date.toLowerCase().indexOf(value) != -1
+    ) {
+      item.style.display = "block";
+    } else {
+      item.style.display = "none";
+    }
+  });
+};

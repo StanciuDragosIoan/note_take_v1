@@ -2442,8 +2442,44 @@ setTimeout(() => {
 };
         </pre>
         <p class="text">
-          Now, when we add a note, it shows into the DOM immediately. The code should be self explanatory. Ignore the <span class="snippet">pre</span> tag and the <span class="snippet">regexp</span>.
-          They will
+          Now, when we add a note, it shows into the DOM immediately. The code should be self explanatory. The <span class="snippet">pre</span> tag and the <span class="snippet">regexp</span>
+          make sure that we can add notes on multiple lines too. If we remove them, the note will split on multiple lines only when it fills the full row of its container (in this case, the 
+          'note' sheet).
+        </p>
+        <p class="text">
+          Now that we can add notes to the DOM and we can see them displayed, let's add the filter functionality quickly. Note that the input
+          with the class <span class="snippet">.filter</span> already has an <span class="snippet">oninput</span> attribute which calls the <span class="snippet">filter()</span> 
+          method. However, it currently throws an error in the console if we type something in it. As it should since the 
+          filter method does not exist. Let's add it in the <span class="snippet">notes.js</span> file. Add the below code at the end of the file:
+        </p>
+        <pre class="code">
+const filterField = document.querySelector(".filter");
+//put this on one line
+filterField.addEventListener("click", 
+  () => (filterField.value = ""));
+
+const filter = () => {
+  //filter by title,  date
+document.querySelectorAll(".card").forEach((item) => {
+  let value = document.querySelector(".filter")
+                          .value.toLowerCase();
+
+  const note = item.children[0].innerText;
+  const date = item.children[1].innerText;
+
+  if (
+    note.toLowerCase().indexOf(value) != -1 ||
+    date.toLowerCase().indexOf(value) != -1
+  ) {
+    item.style.display = "block";
+  } else {
+    item.style.display = "none";
+  }
+});
+};
+        </pre>
+        <p class="text">
+          We now have filter functionality too.
         </p>
    </body>
 
