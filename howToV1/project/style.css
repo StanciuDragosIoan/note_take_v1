@@ -1,0 +1,384 @@
+/* make text non-selectable */
+* {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                          supported by Chrome and Opera */
+}
+
+body {
+  background: rgb(108, 140, 226);
+}
+
+/* navigation */
+.nav {
+  display: block;
+  margin: auto;
+  width: 40vw;
+}
+
+/* navigation item */
+.nav > .navItem {
+  background: rgb(38, 0, 255);
+  display: inline-block;
+  color: #fff;
+  border: 2px solid #ccc;
+  width: 32%;
+  height: 3rem;
+  text-align: center;
+  padding-top: 10px;
+  border-radius: 15px;
+  font-size: 2rem;
+}
+
+.nav > .navItem:hover {
+  cursor: pointer;
+  transition: 1s;
+}
+
+.nav > .navItem:focus {
+  outline: none;
+}
+
+/* colors */
+.colors {
+  background: #fff;
+  width: 10rem;
+  height: 5rem;
+  display: block;
+  margin: auto;
+  margin-top: 2rem;
+  border-radius: 30px;
+}
+
+.color:hover {
+  cursor: pointer;
+}
+
+.color:first-child {
+  background: blue;
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+  margin-top: 15%;
+  margin-left: 8%;
+  border-radius: 50%;
+}
+
+.color:nth-child(2) {
+  background: rgb(255, 239, 19);
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+  margin-top: 15%;
+  margin-left: 8%;
+  border-radius: 50%;
+}
+
+.color:nth-child(3) {
+  background: pink;
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+  margin-top: 15%;
+  margin-left: 8%;
+  border-radius: 50%;
+}
+
+/* paper styles for the input form */
+.paper {
+  background: #fff;
+  padding: 60px;
+  position: relative;
+  width: 80vw;
+  display: block;
+  margin: auto;
+  margin-top: 3rem;
+  height: 20rem;
+  display: none;
+}
+
+.paper,
+.paper::before,
+.paper::after {
+  /* Styles to distinguish sheets from one another */
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+  border: 1px solid #bbb;
+}
+
+.paper::before,
+.paper::after {
+  content: "";
+  position: absolute;
+  height: 95%;
+  width: 99%;
+  background-color: #eee;
+}
+
+.paper::before {
+  right: 15px;
+  top: 0;
+  transform: rotate(-1deg);
+  z-index: -1;
+}
+
+.paper::after {
+  top: 5px;
+  right: -5px;
+  transform: rotate(1deg);
+  z-index: -2;
+}
+
+.paper > textarea {
+  border: none;
+  overflow: auto;
+  outline: none;
+
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  /*remove the resize handle on the bottom right*/
+  resize: none;
+
+  font-size: 2rem;
+  width: 100%;
+  height: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.add-note {
+  background: rgb(156, 154, 154);
+  color: #fff;
+  outline: none;
+  border: 2px solid #eee;
+  font-size: 2rem;
+  border-radius: 15px;
+}
+
+.add-note:hover {
+  cursor: pointer;
+  background: rgb(39, 37, 37);
+  transition: 1s;
+}
+
+/* notes style */
+
+#diaryEntries {
+  display: none;
+}
+
+.card {
+  display: block;
+  margin: auto;
+  width: 90vw;
+  font-size: 2rem;
+  background: #f0edd9;
+  padding: 1rem;
+}
+
+.card.card-fresh > p.text {
+  /* background: red; */
+  overflow-wrap: break-word !important;
+  word-wrap: break-word !important;
+  hyphens: auto !important;
+  font-family: inherit !important;
+}
+
+.invisible {
+  display: none;
+}
+
+.pencil-note:hover {
+  cursor: pointer;
+}
+
+.fa-save {
+  display: inline !important;
+}
+
+#saveEdit:hover {
+  cursor: pointer;
+}
+
+.fa-times-circle {
+  margin-left: 90%;
+  margin-bottom: 5srem;
+}
+
+.fa-times-circle:hover {
+  cursor: pointer;
+}
+
+.filter {
+  display: none;
+  margin: auto;
+  margin-top: 2rem;
+  width: 20rem;
+  height: 3rem;
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  outline: none;
+  border: 2px solid #000;
+  border-radius: 15px;
+}
+
+::-webkit-input-placeholder {
+  text-align: center;
+}
+
+.save-fresh {
+  position: absolute;
+  left: 3%;
+}
+
+.delete-fresh {
+  display: inline-block;
+}
+
+.card-fresh {
+  position: relative;
+}
+
+/* delete Notes Button */
+#deleteNotes {
+  background: rgb(194, 57, 57) !important;
+  display: block;
+  margin: auto;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  color: #fff;
+  border: 2px solid #ccc;
+  width: 20%;
+  height: 3rem;
+  text-align: center;
+  padding-top: 10px;
+  border-radius: 15px;
+  font-size: 2rem;
+  outline: none;
+}
+
+#deleteNotes:hover {
+  cursor: pointer;
+}
+
+/* import export styles */
+.importExport {
+  display: none;
+}
+
+.import {
+  width: 48% !important;
+}
+
+.import-file {
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#importBtn {
+  position: relative;
+}
+
+.uiText {
+  display: block;
+  margin: auto;
+  text-align: center;
+  font-size: 2rem;
+  background: #fff;
+  padding: 1rem;
+  border-radius: 15px;
+  margin-bottom: 2rem;
+  color: #524f4f;
+  border: 2px solid #ccc;
+}
+
+/* alert div styles (used for add and import/export */
+.alert {
+  margin-top: 10rem;
+  width: 40rem;
+  display: none;
+}
+
+/* media queries for responsiveness */
+@media (max-width: 1500px) {
+  .nav {
+    width: 60vw;
+  }
+  .save-fresh {
+    position: absolute;
+    left: 5%;
+  }
+  #deleteNotes {
+    width: 25%;
+  }
+}
+
+@media (max-width: 1000px) {
+  .nav {
+    width: 80vw;
+  }
+  .save-fresh {
+    left: 7%;
+  }
+  #deleteNotes {
+    width: 30%;
+  }
+}
+
+@media (max-width: 750px) {
+  .nav {
+    width: 70vw;
+  }
+  .nav > .navItem {
+    display: block;
+    margin: auto;
+    margin-bottom: 1rem;
+    width: 100%;
+  }
+  .add-note {
+    font-size: 1.5rem;
+  }
+  .card {
+    font-size: 1.5rem;
+    width: 70vw;
+  }
+
+  .save-fresh {
+    left: 9%;
+  }
+  #deleteNotes {
+    width: 45%;
+  }
+}
+
+@media (max-width: 590px) {
+  .save-fresh {
+    left: 12%;
+    top: 67%;
+  }
+}
+
+@media (max-width: 500px) {
+  #deleteNotes {
+    width: 75%;
+  }
+  #importBtn,
+  #exportBtn {
+    width: 100% !important;
+  }
+}
+
+@media (max-width: 450px) {
+  .save-fresh {
+    left: 15%;
+    top: 67%;
+  }
+}

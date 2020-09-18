@@ -548,6 +548,1461 @@
   <p class="text">
     Start by creating a folder (I named mine project) and create an <span class="snippet">index.html</span> file in it. Inside the .html file, add the below code:
   </p>
+  <pre class="code">
+<!DOCTYPE html>
+<html lang="en">
+  &lt;head&gt;
+    &lt;meta charset="UTF-8" /&gt;
+    &lt;meta 
+      name="viewport" 
+      content="width=device-width, initial-scale=1.0" 
+    /&gt;
+
+  // this link must be on 1 line for it to work 
+&lt;link
+rel="stylesheet"
+href="https://stackpath.bootstrapcdn.com/font-awesome
+/4.7.0/css/font-awesome.min.css"
+/&gt;
+
+    &lt;link rel="stylesheet" href="style.css" /&gt;
+    &lt;title&gt;Diary App&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+    &lt;div class="nav"&gt;
+        &lt;div 
+          id="inputBtn" 
+          class="navItem" 
+          tabindex="1"&gt;
+            Input
+        &lt;/div&gt;
+
+        &lt;div 
+          id="recordsBtn" 
+          class="navItem" 
+          tabindex="1"
+        &gt;
+            Entries
+        &lt;/div&gt;
+
+        &lt;div 
+          id="importExportBtn" 
+          class="navItem" 
+          tabindex="1"
+        &gt;
+            Import/Export
+        &lt;/div&gt;
+
+    &lt;/div&gt;
+
+      &lt;div class="colors"&gt;
+        &lt;div id="c1" class="color"&gt;&lt;/div&gt;
+        &lt;div id="c2" class="color"&gt;&lt;/div&gt;
+        &lt;div id="c3" class="color"&gt;&lt;/div&gt;
+      &lt;/div&gt;
+
+      
+    &lt;script src="notes.js"&gt;&lt;/script&gt;
+    &lt;script src="ui.js"&gt;&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+
+  </pre>
+   <p class="text">
+     This is only a part of our UI, but we will start working on the interface from it.
+   </p>
+  <p class="text">
+    Next, create the 3 files referenced into the HTML, namely the <span class="snippet">style.css</span>, 
+    <span class="snippet">notes.js</span> and <span class="snippet">ui.js</span>. Now, you can open the 
+    <span class="snippet">index.html</span> file in the browser, and you will see some very ugly html
+    code thrown in there. Do not worry, we will right now start styling it and make it look pretty and do awesome
+    things.
+  </p>
+  <p class="text">
+    We will start working on the <span class="snippet">style.css</span> file in order to make the first bit of UI look better.
+    Add the below code to the css file:
+  </p>
+  <pre class="code">
+    /* make text non-selectable */
+* {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, 
+                        currently supported 
+                        by Chrome and Opera */
+}
+
+body {
+  background: rgb(108, 140, 226);
+}
+
+/* navigation */
+.nav {
+  display: block;
+  margin: auto;
+  width: 40vw;
+}
+
+/* navigation item */
+.nav > .navItem {
+  background: rgb(38, 0, 255);
+  display: inline-block;
+  color: #fff;
+  border: 2px solid #ccc;
+  width: 32%;
+  height: 3rem;
+  text-align: center;
+  padding-top: 10px;
+  border-radius: 15px;
+  font-size: 2rem;
+}
+
+.nav > .navItem:hover {
+  cursor: pointer;
+  transition: 1s;
+}
+
+.nav > .navItem:focus {
+  outline: none;
+}
+
+/* colors */
+.colors {
+  background: #fff;
+  width: 10rem;
+  height: 5rem;
+  display: block;
+  margin: auto;
+  margin-top: 2rem;
+  border-radius: 30px;
+}
+
+.color:hover {
+  cursor: pointer;
+}
+
+.color:first-child {
+  background: blue;
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+  margin-top: 15%;
+  margin-left: 8%;
+  border-radius: 50%;
+}
+
+.color:nth-child(2) {
+  background: rgb(255, 239, 19);
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+  margin-top: 15%;
+  margin-left: 8%;
+  border-radius: 50%;
+}
+
+.color:nth-child(3) {
+  background: pink;
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+  margin-top: 15%;
+  margin-left: 8%;
+  border-radius: 50%;
+}
+
+/* media queries for responsiveness */
+@media (max-width: 1500px) {
+  .nav {
+    width: 60vw;
+  }
+}
+
+@media (max-width: 1000px) {
+  .nav {
+    width: 80vw;
+  }
+}
+
+@media (max-width: 750px) {
+  .nav {
+    width: 70vw;
+  }
+  .nav > .navItem {
+    display: block;
+    margin: auto;
+    margin-bottom: 1rem;
+    width: 100%;
+  }
+}
+
+  </pre>
+  <p class="text">
+    Now everything looks much better.
+    We now want to implement an 'active' class on each of the navigation items we have there.
+    And we want to set it up so that whenever we click one of them, it 'activates' and it displays
+    the specific section it is allocated to. For instance, when we click on 'input', we want the input
+    to be displayed, 'entries' should display the diary entries and 'import/export' should display
+    the import and export section.
+  </p>
+  <p class="text">
+    For starters, we will make it so that the input section is displayed when we click on the 'Input'
+    navigation item. 
+  </p>
+  <p class="text">
+    The first thing we need to do is add the input section. As you have seen in the demo project, the input
+    section looks just like a stack of sheets of paper, so let's add that to the UI.
+  </p>
+  <p class="text">
+    Add the below div, right under the one with class 'colors' in index.html
+  </p>
+  <pre class="code">
+    &lt;div id="input"&gt;
+      &lt;div class="paper"&gt;
+        &lt;textarea 
+          name="note" 
+          id="note" 
+          cols="120" 
+          rows="10"
+        &gt;
+        &lt;/textarea&gt;
+        &lt;button class="add-note"&gt;
+          Save Note &lt;i 
+                      class="fa fa-pencil" 
+                      aria-hidden="true"
+                    &gt;&lt;/i&gt;
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  </pre>
+  <p class="text">
+    The input section obviously looks bad so let's add some CSS styling for it first.
+    Replace all the code in style.css with the below:
+  </p>
+   <pre class="code">
+/* make text non-selectable */
+* {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                        supported by Chrome and Opera */
+}
+
+body {
+  background: rgb(108, 140, 226);
+}
+
+/* navigation */
+.nav {
+  display: block;
+  margin: auto;
+  width: 40vw;
+}
+
+/* navigation item */
+.nav > .navItem {
+  background: rgb(38, 0, 255);
+  display: inline-block;
+  color: #fff;
+  border: 2px solid #ccc;
+  width: 32%;
+  height: 3rem;
+  text-align: center;
+  padding-top: 10px;
+  border-radius: 15px;
+  font-size: 2rem;
+}
+
+.nav > .navItem:hover {
+  cursor: pointer;
+  transition: 1s;
+}
+
+.nav > .navItem:focus {
+  outline: none;
+}
+
+/* colors */
+.colors {
+  background: #fff;
+  width: 10rem;
+  height: 5rem;
+  display: block;
+  margin: auto;
+  margin-top: 2rem;
+  border-radius: 30px;
+}
+
+.color:hover {
+  cursor: pointer;
+}
+
+.color:first-child {
+  background: blue;
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+  margin-top: 15%;
+  margin-left: 8%;
+  border-radius: 50%;
+}
+
+.color:nth-child(2) {
+  background: rgb(255, 239, 19);
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+  margin-top: 15%;
+  margin-left: 8%;
+  border-radius: 50%;
+}
+
+.color:nth-child(3) {
+  background: pink;
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+  margin-top: 15%;
+  margin-left: 8%;
+  border-radius: 50%;
+}
+
+/* paper styles for the input form */
+.paper {
+  background: #fff;
+  padding: 60px;
+  position: relative;
+  width: 80vw;
+  display: block;
+  margin: auto;
+  margin-top: 3rem;
+  height: 20rem;
+  /* display: none; */
+}
+
+.paper,
+.paper::before,
+.paper::after {
+  /* Styles to distinguish sheets from one another */
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+  border: 1px solid #bbb;
+}
+
+.paper::before,
+.paper::after {
+  content: "";
+  position: absolute;
+  height: 95%;
+  width: 99%;
+  background-color: #eee;
+}
+
+.paper::before {
+  right: 15px;
+  top: 0;
+  transform: rotate(-1deg);
+  z-index: -1;
+}
+
+.paper::after {
+  top: 5px;
+  right: -5px;
+  transform: rotate(1deg);
+  z-index: -2;
+}
+
+.paper > textarea {
+  border: none;
+  overflow: auto;
+  outline: none;
+
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  /*remove the resize handle on the bottom right*/
+  resize: none;
+
+  font-size: 2rem;
+  width: 100%;
+  height: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.add-note {
+  background: rgb(156, 154, 154);
+  color: #fff;
+  outline: none;
+  border: 2px solid #eee;
+  font-size: 2rem;
+  border-radius: 15px;
+}
+
+.add-note:hover {
+  cursor: pointer;
+  background: rgb(39, 37, 37);
+  transition: 1s;
+}
+
+/* media queries for responsiveness */
+@media (max-width: 1500px) {
+  .nav {
+    width: 60vw;
+  }
+}
+
+@media (max-width: 1000px) {
+  .nav {
+    width: 80vw;
+  }
+}
+
+@media (max-width: 750px) {
+  .nav {
+    width: 70vw;
+  }
+  .nav > .navItem {
+    display: block;
+    margin: auto;
+    margin-bottom: 1rem;
+    width: 100%;
+  }
+
+  .add-note {
+    font-size: 1.5rem;
+  }
+}
+    
+   </pre>
+   <p class="text">
+     This is what the input for for our notes will look like. Next, hide it by uncommenting the last line (display:none;) of 
+     CSS from the <span class="snippet">.paper</span> css class. This will hide the input form (as it should be hidden intially and
+     display only once the user clicks on the Input button).
+   </p>
+   <p class="text">
+     Next we will add and style the entries section. This is where the diary notes will be displayed. Start by adding the HTML for it in the
+     index.html right under the div with the 'input' id:
+   </p>
+   <pre class="code">
+     //add this div right under the input one
+     <!-- entries section -->
+    &lt;div class="diaryEntries"&gt;
+      &lt;div 
+        id="deleteNotes" 
+        class="navItem" 
+        tabindex="1"&gt;
+          Delete Notes &lt;i 
+                        class="fa fa-minus-circle" 
+                        aria-hidden="true"
+                      &gt;&lt;/i&gt;
+      &lt;/div&gt;
+      &lt;input
+        oninput="filter()"
+        class="filter uiText"
+        type="text"
+        value="filter notes"
+      /&gt;
+      &lt;div id="records"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+   </pre>
+   <p class="text">
+     Refresh the page, and surprise! You will see some more ugly looking HTML. Actually this time it is 
+     quite less compared to the input section. Anyhow, let's style it and make it pretty. Add the styles 
+     for the diary entries right in the <span class="snippet">style.css</span> file, which upgraded will look
+     like this:
+   </p>
+   <pre class="code">
+/* make text non-selectable */
+* {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                      supported by Chrome and Opera */
+}
+
+body {
+  background: rgb(108, 140, 226);
+}
+
+/* navigation */
+.nav {
+  display: block;
+  margin: auto;
+  width: 40vw;
+}
+
+/* navigation item */
+.nav > .navItem {
+  background: rgb(38, 0, 255);
+  display: inline-block;
+  color: #fff;
+  border: 2px solid #ccc;
+  width: 32%;
+  height: 3rem;
+  text-align: center;
+  padding-top: 10px;
+  border-radius: 15px;
+  font-size: 2rem;
+}
+
+.nav > .navItem:hover {
+  cursor: pointer;
+  transition: 1s;
+}
+
+.nav > .navItem:focus {
+  outline: none;
+}
+
+/* colors */
+.colors {
+  background: #fff;
+  width: 10rem;
+  height: 5rem;
+  display: block;
+  margin: auto;
+  margin-top: 2rem;
+  border-radius: 30px;
+}
+
+.color:hover {
+  cursor: pointer;
+}
+
+.color:first-child {
+  background: blue;
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+  margin-top: 15%;
+  margin-left: 8%;
+  border-radius: 50%;
+}
+
+.color:nth-child(2) {
+  background: rgb(255, 239, 19);
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+  margin-top: 15%;
+  margin-left: 8%;
+  border-radius: 50%;
+}
+
+.color:nth-child(3) {
+  background: pink;
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+  margin-top: 15%;
+  margin-left: 8%;
+  border-radius: 50%;
+}
+
+/* paper styles for the input form */
+.paper {
+  background: #fff;
+  padding: 60px;
+  position: relative;
+  width: 80vw;
+  display: block;
+  margin: auto;
+  margin-top: 3rem;
+  height: 20rem;
+  display: none;
+}
+
+.paper,
+.paper::before,
+.paper::after {
+  /* Styles to distinguish sheets from one another */
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+  border: 1px solid #bbb;
+}
+
+.paper::before,
+.paper::after {
+  content: "";
+  position: absolute;
+  height: 95%;
+  width: 99%;
+  background-color: #eee;
+}
+
+.paper::before {
+  right: 15px;
+  top: 0;
+  transform: rotate(-1deg);
+  z-index: -1;
+}
+
+.paper::after {
+  top: 5px;
+  right: -5px;
+  transform: rotate(1deg);
+  z-index: -2;
+}
+
+.paper > textarea {
+  border: none;
+  overflow: auto;
+  outline: none;
+
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  /*remove the resize handle on the bottom right*/
+  resize: none;
+
+  font-size: 2rem;
+  width: 100%;
+  height: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.add-note {
+  background: rgb(156, 154, 154);
+  color: #fff;
+  outline: none;
+  border: 2px solid #eee;
+  font-size: 2rem;
+  border-radius: 15px;
+}
+
+.add-note:hover {
+  cursor: pointer;
+  background: rgb(39, 37, 37);
+  transition: 1s;
+}
+
+/* notes style */
+.card {
+  display: block;
+  margin: auto;
+  width: 90vw;
+  font-size: 2rem;
+  background: #f0edd9;
+  padding: 1rem;
+}
+
+.card.card-fresh > p.text {
+  /* background: red; */
+  overflow-wrap: break-word !important;
+  word-wrap: break-word !important;
+  hyphens: auto !important;
+  font-family: inherit !important;
+}
+
+.invisible {
+  display: none;
+}
+
+.pencil-note:hover {
+  cursor: pointer;
+}
+
+.fa-save {
+  display: inline !important;
+}
+
+#saveEdit:hover {
+  cursor: pointer;
+}
+
+.fa-times-circle {
+  margin-left: 90%;
+  margin-bottom: 5srem;
+}
+
+.fa-times-circle:hover {
+  cursor: pointer;
+}
+
+.filter {
+  display: none;
+  margin: auto;
+  margin-top: 2rem;
+  width: 20rem;
+  height: 3rem;
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  outline: none;
+  border: 2px solid #000;
+  border-radius: 15px;
+}
+
+::-webkit-input-placeholder {
+  text-align: center;
+}
+
+.save-fresh {
+  position: absolute;
+  left: 3%;
+}
+
+.delete-fresh {
+  display: inline-block;
+}
+
+.card-fresh {
+  position: relative;
+}
+
+/* delete Notes Button */
+#deleteNotes {
+  background: rgb(194, 57, 57) !important;
+  display: block;
+  margin: auto;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  color: #fff;
+  border: 2px solid #ccc;
+  width: 20%;
+  height: 3rem;
+  text-align: center;
+  padding-top: 10px;
+  border-radius: 15px;
+  font-size: 2rem;
+  outline: none;
+}
+
+#deleteNotes:hover {
+  cursor: pointer;
+}
+
+/* media queries for responsiveness */
+@media (max-width: 1500px) {
+  .nav {
+    width: 60vw;
+  }
+  .save-fresh {
+    position: absolute;
+    left: 5%;
+  }
+  #deleteNotes {
+    width: 25%;
+  }
+}
+
+@media (max-width: 1000px) {
+  .nav {
+    width: 80vw;
+  }
+  .save-fresh {
+    left: 7%;
+  }
+  #deleteNotes {
+    width: 30%;
+  }
+}
+
+@media (max-width: 750px) {
+  .nav {
+    width: 70vw;
+  }
+  .nav > .navItem {
+    display: block;
+    margin: auto;
+    margin-bottom: 1rem;
+    width: 100%;
+  }
+  .add-note {
+    font-size: 1.5rem;
+  }
+  .card {
+    font-size: 1.5rem;
+    width: 70vw;
+  }
+
+  .save-fresh {
+    left: 9%;
+  }
+  #deleteNotes {
+    width: 45%;
+  }
+}
+
+@media (max-width: 590px) {
+  .save-fresh {
+    left: 12%;
+    top: 67%;
+  }
+}
+
+@media (max-width: 500px) {
+  #deleteNotes {
+    width: 75%;
+  }
+}
+
+@media (max-width: 450px) {
+  .save-fresh {
+    left: 15%;
+    top: 67%;
+  }
+}
+    
+   </pre>
+   <p class="text">
+     Now refresh the page, and no new elements at all &#128533;. That is because the notes will be added dynamically 
+     through JavaScript and we have none at the moment. However, if you'd like to see what they will look like, just paste
+     the below code in the index.html, right inside the div with the id <span class="snippet">#records</span>. That's
+     where our little JS script will insert the real notes too:
+   </p>
+   <pre class="code">
+<div class="card">
+  &lt;p class="text"&gt;
+    Lorem ipsum dolor sit amet consectetur 
+    adipisicing elit. Omnis deleniti unde 
+    laudantium nam recusandae eaque perferendis 
+    voluptatem nobis distinctio sunt! Repudiandae, 
+    doloribus unde delectus accusantium aspernatur 
+    dolores cupiditate incidunt autem doloremque
+    deleniti minus optio tenetur dolorum recusandae. 
+    Harum possimus eius magni rem facere! Rerum 
+    quos natus architecto suscipit, quisquam
+    exercitationem!
+  &lt;/p&gt;
+  &lt;p class="text"&gt;Written at: 15-Sep-2020&lt;/p&gt;
+  &lt;p 
+    class="text invisible"
+  &gt;
+    id: 2sweecfuks046mw3k019rx
+  &lt;/p&gt;
+  &lt;i 
+    class="fa fa-pencil pencil-note" 
+    aria-hidden="true"
+  &gt;
+  &lt;/i&gt;
+  &lt;span id="saveEdit"&gt;&lt;/span
+  &gt;&lt;i 
+    class="fa fa-times-circle" 
+    aria-hidden="true"
+  &gt;&lt;/i&gt;
+  &lt;hr /&gt;
+&lt;/div&gt;
+   </pre>
+   <p class="text">
+     Next, delete the note code and hide the <span class="snippet">#diaryEntries</span> div with a new CSS property,
+     add it right above the notes styles:
+   </p>
+   <pre class="code">
+    #diaryEntries {
+      display: none;
+    }
+   </pre>
+   <p class="text">
+     We will now move on to the import/export section. Add the HTML code for it in index.html,
+     right under the entries section:
+   </p>
+   <pre class="code">
+   &lt;div class="importExport"&gt;
+     &lt;div class="nav"&gt;
+       &lt;p class="uiText"&gt;
+          Use the buttons below to export your notes as 
+          a JSON file or to import
+          a JSON notes for your notes feed.
+       &lt;/p&gt;
+       &lt;div 
+          id="importBtn" 
+          class="navItem import" 
+          tabindex="1"
+        &gt;
+          Import
+         &lt;input
+            class="import-file"
+            type="file"
+            id="file"
+            name="file"
+            enctype="multipart/form-data"
+          /&gt;
+         &lt;i 
+          class="fa fa-cloud-upload" 
+          aria-hidden="true"
+        &gt;
+        &lt;/i&gt;
+       &lt;/div&gt;
+       &lt;div 
+        id="exportBtn" 
+        class="navItem import" 
+        tabindex="1"
+      &gt;
+          Export
+          &lt;i 
+                class="fa fa-cloud-download" 
+                aria-hidden="true"
+              &gt;&lt;s/i&gt;
+       &lt;/div&gt;
+     &lt;/div&gt;
+   &lt;/div&gt;
+   </pre>
+   <p class="text">
+     Now, when you refresh, you will see that part of the ugly looking HTML is styled already by the classes from our
+     previous styles. Let's style the rest and upgrade style.css again:
+   </p>
+<pre class="code">
+/* make text non-selectable */
+* {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, 
+            currently supported by Chrome and Opera */
+}
+
+body {
+  background: rgb(108, 140, 226);
+}
+
+/* navigation */
+.nav {
+  display: block;
+  margin: auto;
+  width: 40vw;
+}
+
+/* navigation item */
+.nav > .navItem {
+  background: rgb(38, 0, 255);
+  display: inline-block;
+  color: #fff;
+  border: 2px solid #ccc;
+  width: 32%;
+  height: 3rem;
+  text-align: center;
+  padding-top: 10px;
+  border-radius: 15px;
+  font-size: 2rem;
+}
+
+.nav > .navItem:hover {
+  cursor: pointer;
+  transition: 1s;
+}
+
+.nav > .navItem:focus {
+  outline: none;
+}
+
+/* colors */
+.colors {
+  background: #fff;
+  width: 10rem;
+  height: 5rem;
+  display: block;
+  margin: auto;
+  margin-top: 2rem;
+  border-radius: 30px;
+}
+
+.color:hover {
+  cursor: pointer;
+}
+
+.color:first-child {
+  background: blue;
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+  margin-top: 15%;
+  margin-left: 8%;
+  border-radius: 50%;
+}
+
+.color:nth-child(2) {
+  background: rgb(255, 239, 19);
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+  margin-top: 15%;
+  margin-left: 8%;
+  border-radius: 50%;
+}
+
+.color:nth-child(3) {
+  background: pink;
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+  margin-top: 15%;
+  margin-left: 8%;
+  border-radius: 50%;
+}
+
+/* paper styles for the input form */
+.paper {
+  background: #fff;
+  padding: 60px;
+  position: relative;
+  width: 80vw;
+  display: block;
+  margin: auto;
+  margin-top: 3rem;
+  height: 20rem;
+  display: none;
+}
+
+.paper,
+.paper::before,
+.paper::after {
+  /* Styles to distinguish sheets from one another */
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+  border: 1px solid #bbb;
+}
+
+.paper::before,
+.paper::after {
+  content: "";
+  position: absolute;
+  height: 95%;
+  width: 99%;
+  background-color: #eee;
+}
+
+.paper::before {
+  right: 15px;
+  top: 0;
+  transform: rotate(-1deg);
+  z-index: -1;
+}
+
+.paper::after {
+  top: 5px;
+  right: -5px;
+  transform: rotate(1deg);
+  z-index: -2;
+}
+
+.paper > textarea {
+  border: none;
+  overflow: auto;
+  outline: none;
+
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  /*remove the resize handle on the bottom right*/
+  resize: none;
+
+  font-size: 2rem;
+  width: 100%;
+  height: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.add-note {
+  background: rgb(156, 154, 154);
+  color: #fff;
+  outline: none;
+  border: 2px solid #eee;
+  font-size: 2rem;
+  border-radius: 15px;
+}
+
+.add-note:hover {
+  cursor: pointer;
+  background: rgb(39, 37, 37);
+  transition: 1s;
+}
+
+/* notes style */
+
+#diaryEntries {
+  display: none;
+}
+
+.card {
+  display: block;
+  margin: auto;
+  width: 90vw;
+  font-size: 2rem;
+  background: #f0edd9;
+  padding: 1rem;
+}
+
+.card.card-fresh > p.text {
+  /* background: red; */
+  overflow-wrap: break-word !important;
+  word-wrap: break-word !important;
+  hyphens: auto !important;
+  font-family: inherit !important;
+}
+
+.invisible {
+  display: none;
+}
+
+.pencil-note:hover {
+  cursor: pointer;
+}
+
+.fa-save {
+  display: inline !important;
+}
+
+#saveEdit:hover {
+  cursor: pointer;
+}
+
+.fa-times-circle {
+  margin-left: 90%;
+  margin-bottom: 5srem;
+}
+
+.fa-times-circle:hover {
+  cursor: pointer;
+}
+
+.filter {
+  display: none;
+  margin: auto;
+  margin-top: 2rem;
+  width: 20rem;
+  height: 3rem;
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  outline: none;
+  border: 2px solid #000;
+  border-radius: 15px;
+}
+
+::-webkit-input-placeholder {
+  text-align: center;
+}
+
+.save-fresh {
+  position: absolute;
+  left: 3%;
+}
+
+.delete-fresh {
+  display: inline-block;
+}
+
+.card-fresh {
+  position: relative;
+}
+
+/* delete Notes Button */
+#deleteNotes {
+  background: rgb(194, 57, 57) !important;
+  display: block;
+  margin: auto;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  color: #fff;
+  border: 2px solid #ccc;
+  width: 20%;
+  height: 3rem;
+  text-align: center;
+  padding-top: 10px;
+  border-radius: 15px;
+  font-size: 2rem;
+  outline: none;
+}
+
+#deleteNotes:hover {
+  cursor: pointer;
+}
+
+/* import export styles */
+.importExport {
+  /* display: none; */
+}
+
+.import {
+  width: 48% !important;
+}
+
+.import-file {
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#importBtn {
+  position: relative;
+}
+
+.uiText {
+  display: block;
+  margin: auto;
+  text-align: center;
+  font-size: 2rem;
+  background: #fff;
+  padding: 1rem;
+  border-radius: 15px;
+  margin-bottom: 2rem;
+  color: #524f4f;
+  border: 2px solid #ccc;
+}
+
+/* alert div styles (used for add and import/export */
+.alert {
+  margin-top: 10rem;
+  width: 40rem;
+  display: none;
+}
+
+/* media queries for responsiveness */
+@media (max-width: 1500px) {
+  .nav {
+    width: 60vw;
+  }
+  .save-fresh {
+    position: absolute;
+    left: 5%;
+  }
+  #deleteNotes {
+    width: 25%;
+  }
+}
+
+@media (max-width: 1000px) {
+  .nav {
+    width: 80vw;
+  }
+  .save-fresh {
+    left: 7%;
+  }
+  #deleteNotes {
+    width: 30%;
+  }
+}
+
+@media (max-width: 750px) {
+  .nav {
+    width: 70vw;
+  }
+  .nav > .navItem {
+    display: block;
+    margin: auto;
+    margin-bottom: 1rem;
+    width: 100%;
+  }
+  .add-note {
+    font-size: 1.5rem;
+  }
+  .card {
+    font-size: 1.5rem;
+    width: 70vw;
+  }
+
+  .save-fresh {
+    left: 9%;
+  }
+  #deleteNotes {
+    width: 45%;
+  }
+}
+
+@media (max-width: 590px) {
+  .save-fresh {
+    left: 12%;
+    top: 67%;
+  }
+}
+
+@media (max-width: 500px) {
+  #deleteNotes {
+    width: 75%;
+  }
+  #importBtn,
+  #exportBtn {
+    width: 100% !important;
+  }
+}
+
+@media (max-width: 450px) {
+  .save-fresh {
+    left: 15%;
+    top: 67%;
+  }
+}
+    
+   </pre>
+   <p class="text">
+     Refresh the page again, and you will see the import/export section in all its splendor &#128521;.
+     Now, let's hide it by uncommenting the first and only line from the <span class="snippet">.importExport</span>
+    class in our style.css file and poof it goes. But do not worry, we will now start working on the <span class="snippet">ui.js</span>
+    script to bring it all back.  
+  </p>
   </body>
 
 </html>
+
+<!--  <pre class="code">
+<!DOCTYPE html>
+<html lang="en">
+  &lt;head&gt;
+    &lt;meta charset="UTF-8" /&gt;
+    &lt;meta 
+      name="viewport" 
+      content="width=device-width, initial-scale=1.0" 
+    /&gt;
+
+  // this link must be on 1 line for it to work 
+&lt;link
+rel="stylesheet"
+href="https://stackpath.bootstrapcdn.com/font-awesome
+/4.7.0/css/font-awesome.min.css"
+/&gt;
+
+    &lt;link rel="stylesheet" href="style.css" /&gt;
+    &lt;title&gt;Diary App&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+    &lt;div class="nav"&gt;
+        &lt;div 
+          id="inputBtn" 
+          class="navItem" 
+          tabindex="1"&gt;
+            Input
+        &lt;/div&gt;
+
+        &lt;div 
+          id="recordsBtn" 
+          class="navItem" 
+          tabindex="1"
+        &gt;
+            Entries
+        &lt;/div&gt;
+
+        &lt;div 
+          id="importExportBtn" 
+          class="navItem" 
+          tabindex="1"
+        &gt;
+            Import/Export
+        &lt;/div&gt;
+
+    &lt;/div&gt;
+
+      &lt;div class="colors"&gt;
+        &lt;div id="c1" class="color"&gt;&lt;/div&gt;
+        &lt;div id="c2" class="color"&gt;&lt;/div&gt;
+        &lt;div id="c3" class="color"&gt;&lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div id="input"&gt;
+
+        &lt;div class="paper"&gt;
+
+          &lt;textarea 
+            name="note" 
+            id="note" 
+            cols="120" 
+            rows="10"
+          &gt;
+          &lt;/textarea&gt;
+            
+            &lt;button class="add-note"&gt;
+              Save Note &lt;i 
+                          class="fa fa-pencil" 
+                          aria-hidden="true"
+                        &gt;
+                        &lt;/i&gt;
+            &lt;/button&gt;
+        
+          &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;br /&gt;
+      
+        &lt;div
+           id="deleteNotes" 
+           class="navItem" 
+           tabindex="1"
+        &gt;
+          Delete Notes 
+          &lt;i 
+            class="fa fa-minus-circle" 
+            aria-hidden="true"
+          &gt;
+          &lt;/i&gt;
+          
+        &lt;/div&gt; 
+        
+
+      &lt;input 
+        oninput="filter()" 
+        class="filter uiText" 
+        type="text" 
+        value="filter notes" /&gt;
+        
+      &lt;div id="records"&gt;&lt;/div&gt;
+
+      &lt;div class="importExport"&gt;
+        &lt;div class="nav"&gt;
+          &lt;p class="uiText"&gt;
+            Use the buttons below to export your 
+            notes as a JSON file or to import 
+            a JSON notes for your notes feed.
+          &lt;/p&gt;
+
+          &lt;div 
+            id="importBtn" 
+            class="navItem import" 
+            tabindex="1"&gt;
+              Import
+            &lt;input 
+              class="import-file" 
+              type="file" 
+              id="file" 
+              name="file" 
+              enctype="multipart/form-data" 
+            /&gt; 
+            
+            &lt;i 
+              class="fa fa-cloud-upload" 
+              aria-hidden="true"
+            &gt;
+            &lt;/i&gt;
+          &lt;/div&gt;
+            
+
+          
+          &lt;div 
+            id="exportBtn" 
+            class="navItem import" 
+            tabindex="1"
+          &gt;
+            Export 
+          &lt;i 
+            class="fa fa-cloud-download" 
+            aria-hidden="true"
+          &gt;
+          
+          &lt;/i&gt;
+        &lt;/div&gt; 
+            
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+      &lt;p class="uiText alert"&gt;
+          &lt;i 
+            class="fa fa-smile-o" 
+            aria-hidden="true"
+          &gt;&lt;/i&gt;
+      &lt;/p&gt;
+    &lt;script src="notes.js"&gt;&lt;/script&gt;
+    &lt;script src="ui.js"&gt;&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+
+  </pre> -->

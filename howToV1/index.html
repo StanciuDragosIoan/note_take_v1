@@ -3,8 +3,438 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My first wepbage</title>
-    <style>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Domine:wght@400;700&family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./assets/css/main.css" type="text/css" />
+    <title>Introduction to web development</title>
+  </head>
+  <body>
+    <h1 class="header">Intro to web dev</h1>
+    <p class="text center bold">+ a kickstarter project</p>
+    <p class="text">
+      As the title involves, this article represents an introduction to web
+      development. We will see very briefly how the web works and we will get a
+      bit familiar with the main technologies of the web (namely HTML, CSS and
+      JavaScript). Finally, after 'getting our feet wet' a bit, and
+      understanding how everything works, we will build a little project
+      together.
+    </p>
+    <p class="text">
+      This project will be a nice warm-up for future projects, and it will help
+      you get familiar with how a JavaScript application is built, without any
+      framework. This will help you regardless of which framework you will use
+      (as you will build something using the full power of JavaScript, power on
+      which all the hot frameworks now and I mean React, Angular or VueJS are
+      built).
+    </p>
+    <p class="text center bold">How the web works.</p>
+    <p class="text">
+      The web is like a huge network (it reaches all over the world, and anyone
+      can 'talk' to anyone via this network).However, the main logic behind a
+      webpage is pretty simple, the user (that's you) also called the 'client'
+      makes an <span class="snippet">http request</span> to a webserver. The
+      webserver, answers the request, with the required content (let's say a
+      webpage):
+    </p>
+    <div class="devPic">
+      <img src="./img/request.jpg" alt="" />
+    </div>
+    <p class="text">
+      Of course there are many types of content we can request from a server (we
+      can have a simple webpage but also a video, a game, etc...) and we will
+      not dive deep into this for now. We can also have multiple types of
+      <span class="snippet">HTTP Requests</span> like:
+      <span class="snippet">GET</span>, <span class="snippet">POST</span>,
+      <span class="snippet">PUT</span>, <span class="snippet">PATCH</span>,
+      <span class="snippet">DELETE</span>. Feel free to read about them, but I
+      think for this introductory article, we do not need to look at them in
+      detail.
+    </p>
+    <p class="text">
+      This article is meant for those who have never wrote a line of code, and
+      who will still, be able to build a nice application by reading it. For
+      those of you who have prior experience, feel free to just skip below to
+      building the application as you will definitely learn something new from
+      it.
+    </p>
+    <p class="text center bold">HTML, CSS, JS basics</p>
+    <p class="text">
+      Before we start building the application, you need to understand how these
+      3 technologies work. They are the foundational blocks of the web, every web
+      application you have seen and you will see, is build with them.
+    </p>
+    <p class="text center bold">HTML</p>
+    <p class="text">
+      HTML stands for <span class="snippet">HyperText Markup Language</span>. Remember, it is a 
+      markup language not a programming one (so it can represent content but it does not 'do'
+      anything/it has no logic/ it is NOT a programming language).
+      HTML defines the meaning and structure of web content. It uses tags for
+      defining blocks of content. Some examples of tags would be a header (
+      <span class="snippet">h1</span> ) or a paragraph (
+      <span class="snippet">p</span> ).
+    </p>
+    <p class="text">
+      Usually tags come in pairs (an opening and a closing one so
+      <span class="snippet"> &lt;p&gt; text here...&lt;/p&gt;</span> but there
+      can also be self closing tags like &lt;img src="sample.jpg" alt="sample
+      pic" /&gt;).
+    </p>
+    <p class="text">
+      Note that beside the opening and closing tags, an HTML element can also
+      have attributes, which are properties that further configure the element
+      (specifying the source for the image like the
+      <span class="snippet">src</span> attribute, or a description of the image
+      like the <span class="snippet">alt</span> attribute, an attribute which is
+      very important for SEO and accessibility).
+    </p>
+    <p class="text">
+      For a better understanding, let's create quickly a basic webpage with
+      some text on it. Copy the below code and paste it in a
+      <span class="snippet">index.html</span> file. Ignore the unknown tags or attributes for now,
+      little by little you will learn about all of them.
+    </p>
+    <pre class="code">
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+  &lt;head&gt;
+    &lt;meta charset="UTF-8" /&gt;
+    &lt;meta 
+      name="viewport" 
+      content="width=device-width, 
+      initial-scale=1.0" /&gt;
+    &lt;title&gt;My first wepbage&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;This is my first webpage&lt;/h1&gt;
+    &lt;p&gt;I am very excited to further develop it.&lt;/p&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+    </pre>
+    <p class="text">
+      Open the page you just created in a browser and you will see some plain
+      looking, simple page:
+    </p>
+    <div class="devPic">
+      <img src="./img/html.png" alt="" />
+    </div>
+    <p class="text">
+      * Note how the <span class="snippet">title</span> tag is reflected in the title
+      of the browser tab.
+    </p>
+    <p class="text bold center">CSS - Cascading Style Sheets</p>
+    <p class="text">
+      In order to make our little webpage look better, let's add some
+      <span class="snippet">CSS</span> to it. CSS stands for Cascading Style
+      Sheets. This means that the 'styles' we set with our CSS code, are applied
+      from top to bottom in a cascading way. The same can be said about CSS
+      links.
+    </p>
+    <p class="text">
+      CSS has no logic behind it but it is basically a language that describes
+      the presentation of an HTML page.
+    </p>
+    <p class="text">
+      In order to add CSS to our document, we can use a
+      <span class="snippet">link</span> such as <span class="snippet">
+        &lt;link rel="stylesheet" href="myStyle.css" /&gt;</span>, an inline
+      <span class="snippet">style tag</span> attribute such as
+      <span class="snippet"
+        >&lt;p style="color:red;"&gt;my red text here..&lt;/p&gt;</span
+      >
+      or a <span class="snippet"> &lt;style&gt; &lt;/style&gt;</span> tag. For
+      this basic demo, we will use a style tag so add it as per below:
+    </p>
+    <pre class="code">
+  &lt;!DOCTYPE html&gt;
+  &lt;html lang="en"&gt;
+    &lt;head&gt;
+      &lt;meta charset="UTF-8" /&gt;
+      &lt;meta 
+        name="viewport" 
+        content="width=device-width, 
+        initial-scale=1.0" /&gt;
+      &lt;title&gt;My first wepbage&lt;/title&gt;
+      &lt;style&gt;
+        /* css rules here */
+      &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+      &lt;h1&gt;This is my first webpage&lt;/h1&gt;
+      &lt;p&gt;I am very excited to further develop it.&lt;/p&gt;
+    &lt;/body&gt;
+  &lt;/html&gt;
+          </pre
+    >
+  </p>
+  <p class="text">
+    CSS can "style" elements by selecting them. Let's say we want to select a paragraph and 
+    apply some styles to it. This is how you select a paragraph with css:
+  </p>
+ 
+  <pre class="code">
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+  &lt;head&gt;
+    &lt;meta charset="UTF-8" /&gt;
+    &lt;meta 
+      name="viewport" 
+      content="width=device-width, 
+      initial-scale=1.0" /&gt;
+    &lt;title&gt;My first wepbage&lt;/title&gt;
+    &lt;style&gt;
+      /* css rules here */
+      p {
+        display: block;
+        margin: auto;
+        font-size: 2rem;
+        background: blue;
+        border: 5px solid #ccc;
+        color: #fff;
+        text-align: center;
+        width: 30rem;
+        padding: 1rem;
+        border-radius: 15px;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;This is my first webpage&lt;/h1&gt;
+    &lt;p&gt;
+      I am very excited to further 
+        develop it.
+    &lt;/p&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+        </pre
+  >
+ 
+  <p class="text">
+    Note how the styles changed with a single CSS rule for the paragraph. 
+    However, our approach is not ideal. The reason for this is that usually css
+    rules complexity gets out of control if we are not careful. In order for the
+    complexity to be kept under control (and for the rules not to conflict with each other)
+    we need the CSS rules to be as specific as possible. We can increase the specificity by moving
+     the rule we wrote inside a class.
+  </p>
+  <p class="text">
+    We do this by changing the rule (specifying that it applies to a class instead of a paragraph selector):
+  </p>
+   
+  <pre class="code">
+    &lt;!DOCTYPE html&gt;
+    &lt;html lang="en"&gt;
+      &lt;head&gt;
+        &lt;meta charset="UTF-8" /&gt;
+        &lt;meta 
+          name="viewport" 
+          content="width=device-width, 
+          initial-scale=1.0" /&gt;
+        &lt;title&gt;My first wepbage&lt;/title&gt;
+        &lt;style&gt;
+          /* css rules here */
+          .blue-card {
+            display: block;
+            margin: auto;
+            font-size: 2rem;
+            background: blue;
+            border: 5px solid #ccc;
+            color: #fff;
+            text-align: center;
+            width: 30rem;
+            padding: 1rem;
+            border-radius: 15px;
+          }
+        &lt;/style&gt;
+      &lt;/head&gt;
+      &lt;body&gt;
+        &lt;h1&gt;This is my first webpage&lt;/h1&gt;
+        &lt;p&gt; class="blue-card"&gt;
+          I am very excited to further 
+            develop it.
+        &lt;/p&gt;
+      &lt;/body&gt;
+    &lt;/html&gt;
+            </pre
+      >
+     <p class="text">
+       Note how the styles apply in the exact same way and now if we want the same styles on
+       a different paragraph, we just have to apply the <span class="snippet">class="blue-card"</span>
+       to it.
+     </p>
+     <p class="text">
+       Let's add one more class for the header.
+     </p>
+     <pre class="code">
+      &lt;!DOCTYPE html&gt;
+      &lt;html lang="en"&gt;
+        &lt;head&gt;
+          &lt;meta charset="UTF-8" /&gt;
+          &lt;meta 
+            name="viewport" 
+            content="width=device-width, 
+            initial-scale=1.0" /&gt;
+          &lt;title&gt;My first wepbage&lt;/title&gt;
+          &lt;style&gt;
+            /* css rules here */
+            .blue-card {
+              display: block;
+              margin: auto;
+              font-size: 2rem;
+              background: blue;
+              border: 5px solid #ccc;
+              color: #fff;
+              text-align: center;
+              width: 30rem;
+              padding: 1rem;
+              border-radius: 15px;
+            }
+
+            .header {
+              display: block;
+              margin: auto;
+              text-align: center;
+              background: green;
+              color: #fff;
+              padding: 1rem;
+              font-size: 2.5rem;
+              width: 30rem;
+              border: 8px solid #000;
+              padding: 1rem;
+              border-radius: 15px;
+              margin-top: 1rem;
+              margin-bottom: 1rem;
+            }
+          &lt;/style&gt;
+        &lt;/head&gt;
+        &lt;body&gt;
+          &lt;h1&gt;
+            class="header"
+              This is my first webpage&lt;/h1&gt;
+          &lt;p&gt; class="blue-card"&gt;
+            I am very excited to further 
+              develop it.
+          &lt;/p&gt;
+        &lt;/body&gt;
+      &lt;/html&gt;
+              </pre
+        >
+        <p class="text">
+          Now the styles for the header have also changed. Feel free to change the colors
+          or play around with the background of the page.
+        </p>
+        <p class="text center bold">JavaScript</p>
+        <p class="text">
+          JavaScript is a highly interactiv, dynamic, programming language. It can add logic to our webpage.
+          It can make it 'do' and 'remember' stuff and add interactivity to it. 
+        </p>
+        <p class="text">
+          I will not do a generic introduction to JavaScript, as this is not the place for it, I will just show you how to add JavaScript
+          to your webpage and then, we will move on to building the application.
+        </p>
+        <p class="text">
+          In order to add JavaScript to a page, we have to use a <span class="snippet">&lt;script&gt;&lt;/script&gt;</span> tag.
+          The script tag can reference a file, like this:
+        </p>
+        <pre class="code">
+          &lt;script src="myScript.js" &gt; &lt;/script&gt;
+        </pre>
+        <p class="text">
+          In the case above, the JavaScript code is inside the <span class="snippet">myScript.js</span> file. However,
+          we can also have the JavaScript code directly in the script tag:
+        </p>
+        <pre class="code">
+          &lt;script&gt; 
+            //code that does stuff here
+          &lt;/script&gt;
+        </pre>
+        <p class="text">
+          For our introductory demo, we will use the latter approach and write the code directly inside the 
+          script tag. 
+        </p>
+        <p class="text">
+          Start by adding a script tag and an input field in the webpage:
+        </p>
+        <pre class="code">
+          &lt;!DOCTYPE html&gt;
+          &lt;html lang="en"&gt;
+            &lt;head&gt;
+              &lt;meta charset="UTF-8" /&gt;
+              &lt;meta 
+                name="viewport" 
+                content="width=device-width, 
+                initial-scale=1.0" /&gt;
+              &lt;title&gt;My first wepbage&lt;/title&gt;
+              &lt;style&gt;
+                /* css rules here */
+                .blue-card {
+                  display: block;
+                  margin: auto;
+                  font-size: 2rem;
+                  background: blue;
+                  border: 5px solid #ccc;
+                  color: #fff;
+                  text-align: center;
+                  width: 30rem;
+                  padding: 1rem;
+                  border-radius: 15px;
+                }
+    
+                .header {
+                  display: block;
+                  margin: auto;
+                  text-align: center;
+                  background: green;
+                  color: #fff;
+                  padding: 1rem;
+                  font-size: 2.5rem;
+                  width: 30rem;
+                  border: 8px solid #000;
+                  padding: 1rem;
+                  border-radius: 15px;
+                  margin-top: 1rem;
+                  margin-bottom: 1rem;
+                }
+              &lt;/style&gt;
+            &lt;/head&gt;
+            &lt;body&gt;
+              &lt;h1&gt;
+                class="header"
+                  This is my first webpage&lt;/h1&gt;
+              &lt;p&gt; class="blue-card"&gt;
+                I am very excited to further 
+                  develop it.
+              &lt;/p&gt;
+              &lt;input type="text" id="myInput" /&gt;
+
+              &lt;script&gt;
+                
+              &lt;/script&gt;
+            &lt;/body&gt;
+          &lt;/html&gt;
+                  </pre
+            >
+            <p class="text">
+              We will now use the newly added input, to change the value of the header. We will set the script up 
+              so that whenever we write something in the field, it puts it inside the header (replacing its value
+              with it).
+            </p>
+            <p class="text">
+              Note that we have an id of <span class="snippet">myInput</span> for the input field, so we will grab onto
+              it with a JavaScript selector (similar to the CSS one). Add the code below to your script:
+            </p>
+<pre class="code">
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+  &lt;head&gt;
+    &lt;meta charset="UTF-8" /&gt;
+    &lt;meta 
+      name="viewport" 
+      content="width=device-width, 
+      initial-scale=1.0" /&gt;
+    &lt;title&gt;My first wepbage&lt;/title&gt;
+    &lt;style&gt;
       /* css rules here */
       .blue-card {
         display: block;
@@ -34,19 +464,90 @@
         margin-top: 1rem;
         margin-bottom: 1rem;
       }
-    </style>
-  </head>
-  <body>
-    <h1 class="header">This is my first webpage</h1>
-    <p class="blue-card">I am very excited to further develop it.</p>
-    <input type="text" id="myInput" />
-    <script>
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;
+      class="header"
+        This is my first webpage&lt;/h1&gt;
+    &lt;p&gt; class="blue-card"&gt;
+      I am very excited to further 
+        develop it.
+    &lt;/p&gt;
+    &lt;input type="text" id="myInput" /&gt;
+
+    &lt;script&gt;
+      //grab the input value typed by the user
       var input = document.getElementById("myInput");
+      //grab the header (to write input value in it)
       var header = document.querySelector(".header");
+
+      //add an 'event' to trigger when the user types
       input.addEventListener("input", function (event) {
+        //grab the typed value
         var newHeaderValue = event.target.value;
+        //set the typed value as new header value;
         header.innerHTML = newHeaderValue;
       });
-    </script>
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+        </pre
+  >
+  <p class="text">
+    Now whatever you type in the field will get put in the green header.
+  </p>
+  <p class="text">
+    This is how you 'connect'  <span class="snippet">HTML</span> code with a <span class="snippet">CSS</span>
+    and <span class="snippet">JavaScript</span>. These three technologies together, can do many
+    awesome things and you will love to use them. 
+  </p>
+  <p class="text">
+    If you never wrote a line of code, I bet you feel a bit like a wizzard now. At least
+    that's how I felt when I first connected some HTML code with a CSS file and a JavaScript one.
+  </p>
+  <p class="text center bold">
+    Building a real application
+  </p>
+  <p class="text">
+    Now, that we have 'got our feet wet' and we know how HTML, CSS and JavaScript work together, we can try to 
+    put together a little project. This will be an introductory project, and it will represent a nice transition towards
+    more advanced full-stack applications that we will build in the future. We will build a note taking application.
+    The application will only have a client (a 'front page' doing all the logic for us). There will be no server (to store data for us
+    or to import/export data, filter it and do other 'back-end' related stuff). However, the applicaiton will be able
+    to do many things and it will sort of 'mimmick' a real backend.
+  </p>
+  <p class="text">
+    Here's a link of a live deployment of the application, so you can see what we will build and what it will look like:
+    <a target="_blank" href="https://silly-mirzakhani-1db863.netlify.app/">Link to app</a>.
+  </p>
+  <p class="text">
+    Test the application a bit before starting, so you get familiar with how it works and what you will be building. Try adding
+    some notes, edit them, delete some and add them back, etc...
+  </p>
+  <p class="text">
+    Try exporting your notes, delete all the notes and import them back. The import functionality is set so that it appends
+    the imported notes to the existing ones (so if you import without deleting the current notes, you will simply get the ones imported
+    added to your current ones).
+  </p>
+  <p class="text">
+    Once you get used to the application, we can start building it. It will be a single page application, it will serve all the contents
+    in an <span class="snippet">index.html</span> file and all the contents there (the routing from one page/section) to the next, will be 
+    performed dynamically, with JavaScript by adding and removing/hiding stuff from the <span class="snippet">DOM</span>. For those of you 
+    who are complete beginners, I will not be able to do a full introduction on the Document Object Model (that's the DOM), but just remember
+    that it is a tree-like representation of the webpage, in which all elements of a page are branches of a tree. It looks like this:
+  </p>
+  <div class="devPic"> 
+    <img src="./img/dom.jpg" alt="DOM tree representation" />
+  </div>
+  <p class="text">
+    So as for the structure of our application, we will have an <span class="snippet">index.html</span> file, a <span class="snippet">css</span>
+    file and two <span class="snippet">JavaScript</span> files. The two JavaScript files are handling the UI (user interface) and the notes processing.
+    So one will do the notes and the other one will do the interface manipulation (and there will be quite a bit of code in there).
+  </p>
+  <p class="text">
+    Start by creating a folder (I named mine project) and create an <span class="snippet">index.html</span> file in it. Inside the .html file, add the below code:
+  </p>
   </body>
+
 </html>

@@ -22,6 +22,8 @@
       <div id="c2" class="color"></div>
       <div id="c3" class="color"></div>
     </div>
+
+    <!-- input section -->
     <div id="input">
       <div class="paper">
         <textarea name="note" id="note" cols="120" rows="10"></textarea>
@@ -30,35 +32,45 @@
         </button>
       </div>
     </div>
-    <br />
-    
-    <div id="deleteNotes" class="navItem" tabindex="1">Delete Notes <i class="fa fa-minus-circle" aria-hidden="true"></i></div> 
-     
 
-    <input oninput="filter()" class="filter uiText" type="text" value="filter notes" />
-    <div id="records"></div>
+    <!-- entries section -->
+    <div class="diaryEntries">
+      <div id="deleteNotes" class="navItem" tabindex="1">
+        Delete Notes <i class="fa fa-minus-circle" aria-hidden="true"></i>
+      </div>
+      <input
+        oninput="filter()"
+        class="filter uiText"
+        type="text"
+        value="filter notes"
+      />
+      <div id="records"></div>
+    </div>
+
+    <!-- import/export section -->
     <div class="importExport">
       <div class="nav">
         <p class="uiText">
-          Use the buttons below to export your notes as a JSON file or to import 
+          Use the buttons below to export your notes as a JSON file or to import
           a JSON notes for your notes feed.
         </p>
-        <div id="importBtn" class="navItem import" tabindex="1">Import
-          <input class="import-file" type="file" id="file" name="file" enctype="multipart/form-data" /><i class="fa fa-cloud-upload" aria-hidden="true"></i>
+        <div id="importBtn" class="navItem import" tabindex="1">
+          Import
+          <input
+            class="import-file"
+            type="file"
+            id="file"
+            name="file"
+            enctype="multipart/form-data"
+          />
+          <i class="fa fa-cloud-upload" aria-hidden="true"></i>
         </div>
-         
- 
-        
-        <div id="exportBtn" class="navItem import" tabindex="1">Export <i class="fa fa-cloud-download" aria-hidden="true"></i></div> 
-          
+        <div id="exportBtn" class="navItem import" tabindex="1">
+          Export <i class="fa fa-cloud-download" aria-hidden="true"></i>
         </div>
       </div>
     </div>
-    <p class="uiText alert">
-        <i class="fa fa-smile-o" aria-hidden="true"></i>
-    </p>
- 
-    <script src="notes-refactor.js"></script>
-    <script src="ui-refactor.js"></script>
+    <script src="notes.js"></script>
+    <script src="ui.js"></script>
   </body>
 </html>
