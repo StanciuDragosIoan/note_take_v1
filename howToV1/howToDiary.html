@@ -873,6 +873,11 @@ body {
   border-radius: 50%;
 }
 
+/*hide paper initially*/
+#input {
+   display:none; 
+}
+
 /* paper styles for the input form */
 .paper {
   background: #fff;
@@ -882,8 +887,7 @@ body {
   display: block;
   margin: auto;
   margin-top: 3rem;
-  height: 20rem;
-  /* display: none; */
+  height: 20rem; 
 }
 
 .paper,
@@ -1392,11 +1396,11 @@ body {
 &lt;/div&gt;
    </pre>
    <p class="text">
-     Next, delete the note code and hide the <span class="snippet">#diaryEntries</span> div with a new CSS property,
+     Next, delete the note code and hide the <span class="snippet">.diaryEntries</span> div with a new CSS property,
      add it right above the notes styles:
    </p>
    <pre class="code">
-    #diaryEntries {
+    .diaryEntries {
       display: none;
     }
    </pre>
@@ -1407,6 +1411,7 @@ body {
    <pre class="code">
    &lt;div class="importExport"&gt;
      &lt;div class="nav"&gt;
+       <br />
        &lt;p class="uiText"&gt;
           Use the buttons below to export your notes as 
           a JSON file or to import
@@ -1618,7 +1623,7 @@ body {
 
 /* notes style */
 
-#diaryEntries {
+.diaryEntries {
   display: none;
 }
 
@@ -1842,6 +1847,188 @@ body {
     class in our style.css file and poof it goes. But do not worry, we will now start working on the <span class="snippet">ui.js</span>
     script to bring it all back.  
   </p>
+  <p class="text">
+    We will start working in the <span class="snippet">ui.js</span> file. First, let's make a little method that toggles the 3 'tabs' namely:
+    input, diary entries and import/export section. We want each tab to show when we click on the button and we want to color the button that we 
+    click in a different way (so that it has an 'active') class. We will also add an event listener on the 3 main buttons and call the method to 
+    trigger the toggle. Here's the code for that. Add it in <span class="snippet">ui.js</span>:
+   </p>
+   <pre class="code">
+//buttons and inputs
+const inputBtn = document.querySelector("#inputBtn");
+const listBtn = document.querySelector("#recordsBtn");
+//put this on one line
+const importExportBtn = document.
+                  querySelector("#importExportBtn");
+const inputDiv = document.querySelector("#input");
+//put this on one line
+const entriesDiv = document
+                    .querySelector(".diaryEntries");
+//put this on one line
+const importExportDiv = document
+                        .querySelector(".importExport");
+
+let activeColor = "#050D31";
+let inactiveColor = "#2600FF";
+
+//put this on one line
+const toggleElement = 
+(toShow, toHide, activeC, inactiveC) => {
+  toShow.map((i) => (i.style.display = "block"));
+  toHide.map((i) => (i.style.display = "none"));
+  //put this on one line
+  activeC.map((i) => 
+    (i.style.backgroundColor = activeColor));
+  //put this on one line
+  inactiveC.map((i) => 
+    (i.style.backgroundColor = inactiveColor));
+};
+
+inputBtn.addEventListener("click", () => {
+  toggleElement(
+    [inputDiv],
+    [entriesDiv, importExportDiv],
+    [inputBtn],
+    [listBtn, importExportBtn]
+  );
+});
+
+listBtn.addEventListener("click", () => {
+  toggleElement(
+    [entriesDiv],
+    [inputDiv, importExportDiv],
+    [listBtn],
+    [inputBtn, importExportBtn]
+  );
+});
+
+importExportBtn.addEventListener("click", () => {
+  toggleElement(
+    [importExportDiv],
+    [inputDiv, entriesDiv],
+    [importExportBtn],
+    [listBtn, inputBtn]
+  );
+});
+   </pre>
+   <p class="text">
+     Let's now implement a little method for the color scheme changing too. Remember that we want that 
+     when we click on one of the 3 coloures circles, to change the color scheme of the app. Here's the code 
+     to add the method and we are also adding 3 event listeners (for the 3 color circles). Add everything to 
+     <span class="snippet">ui.js</span>:
+   </p>
+   <pre class="code">
+//buttons and inputs
+const inputBtn = document.querySelector("#inputBtn");
+const listBtn = document.querySelector("#recordsBtn");
+//put this on one line
+const importExportBtn = document.
+                  querySelector("#importExportBtn");
+const inputDiv = document.querySelector("#input");
+//put this on one line
+const entriesDiv = document
+                    .querySelector(".diaryEntries");
+//put this on one line
+const importExportDiv = document
+                        .querySelector(".importExport");
+//colors for UI customisation
+const c1 = document.getElementById("c1");
+const c2 = document.getElementById("c2");
+const c3 = document.getElementById("c3");
+const bodyBackground = document.querySelector("body");
+
+let activeColor = "#050D31";
+let inactiveColor = "#2600FF";
+
+
+//change pannel/element function
+//put this on one line
+const toggleElement = 
+(toShow, toHide, activeC, inactiveC) => {
+  toShow.map((i) => (i.style.display = "block"));
+  toHide.map((i) => (i.style.display = "none"));
+  //put this on one line
+  activeC.map((i) => 
+    (i.style.backgroundColor = activeColor));
+  //put this on one line
+  inactiveC.map((i) => 
+    (i.style.backgroundColor = inactiveColor));
+};
+
+
+//change color theme function
+const changeTheme = (c1, c2, c3, c4) => {
+  bodyBackground.style.backgroundColor = c1;
+  activeColor = c2;
+  inactiveColor = c3;
+  inputBtn.style.backgroundColor = inactiveColor;
+  recordsBtn.style.backgroundColor = inactiveColor;
+  importExportBtn.style.backgroundColor = inactiveColor;
+  importBtn.style.backgroundColor = inactiveColor;
+  exportBtn.style.backgroundColor = inactiveColor;
+  listBtn.style.border = `2px solid ${activeColor}`;
+  inputBtn.style.border = `2px solid ${activeColor}`;
+  importBtn.style.border = `2px solid ${activeColor}`;
+  exportBtn.style.border = `2px solid ${activeColor}`;
+  //put this on one line
+  importExportBtn.style.border = 
+    `2px solid ${activeColor}`;
+  uiText.style.border = `2px solid ${activeColor}`;
+};
+
+
+//event listener for toggling pannels
+inputBtn.addEventListener("click", () => {
+  toggleElement(
+    [inputDiv],
+    [entriesDiv, importExportDiv],
+    [inputBtn],
+    [listBtn, importExportBtn]
+  );
+});
+
+listBtn.addEventListener("click", () => {
+  toggleElement(
+    [entriesDiv],
+    [inputDiv, importExportDiv],
+    [listBtn],
+    [inputBtn, importExportBtn]
+  );
+});
+
+importExportBtn.addEventListener("click", () => {
+  toggleElement(
+    [importExportDiv],
+    [inputDiv, entriesDiv],
+    [importExportBtn],
+    [listBtn, inputBtn]
+  );
+});
+
+//event listeners for changing theme
+c1.addEventListener("click", () => {
+changeTheme("#6C8CE2", "#050D31", "#2600FF", "blue");
+});
+c2.addEventListener("click", () => {
+changeTheme("#fcce03", "#ad871d", "#ebb852", "yellow");
+});
+c3.addEventListener("click", () => {
+changeTheme("pink", "#97089e", "#f003fc", "pink");
+});
+       </pre>
+       <p class="text">
+         We have implemented the 'themes changing' feature. The <span class="snippet">toggleElement()</span>
+         method hides and shows elements depending on what we need, and the <span class="snippet">changeTheme()</span>
+         method changes the color scheme (borders and  backgrounds) for the app. As a last step before we finish with the 
+         <span class="snippet">ui.js</span> script, we will also make the application 'remember' what was last clicked,
+         what is 'active' and what color was picked by the user. Note that it currently cannot do that, if we refresh
+         the page, it loses all <span class="snippet">state</span> and hides everything. This is how we will manage <span class="snippet">state</span> in our application. <span class="snippet">State</span> is a
+         concept which basically reffers to the data an application has 'in memory' and on which the application's looks
+         and what it can do at a certain point in time are based (for instance if we click the yellow circle, the app turns
+         yellow, this is its <span class="snippet">state</span> at that point in time, and if we refresh the page, we lose that <span class="snippet">state</span> ).
+         It is also fairly hard to manage (for our application it's not such a big deal, given the low level of complexity of our notes app, but 
+         the more complex an application becomes, the harder it gets to keep the state well structured and organised).
+       </p>
   </body>
 
 </html>

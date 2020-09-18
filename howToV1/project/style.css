@@ -88,6 +88,10 @@ body {
   border-radius: 50%;
 }
 
+/* hide paper initially */
+#input {
+  display: none;
+}
 /* paper styles for the input form */
 .paper {
   background: #fff;
@@ -98,7 +102,6 @@ body {
   margin: auto;
   margin-top: 3rem;
   height: 20rem;
-  display: none;
 }
 
 .paper,
@@ -165,8 +168,7 @@ body {
 }
 
 /* notes style */
-
-#diaryEntries {
+.diaryEntries {
   display: none;
 }
 
