@@ -152,7 +152,6 @@ const saveFresh = (e) => {
       .trim()
       .replace(/\r?\n/g, "<br />");
   }
-  // console.log(newText);
   let newDate = new Date()
     .toString()
     .replace(/\S+\s(\S+)\s(\d+)\s(\d+)\s.*/, "$2-$1-$3");

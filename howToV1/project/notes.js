@@ -54,7 +54,7 @@ const grabNote = (e) => {
   const span = document.createElement("span");
   span.id = "saveEdit";
   noteDiv.appendChild(span);
-  // icon1.addEventListener("click", editFresh);
+  icon1.addEventListener("click", editFresh);
   const icon2 = document.createElement("i");
   icon2.className = "fa fa-times-circle delete-fresh";
   noteDiv.appendChild(icon2);
@@ -69,6 +69,7 @@ const grabNote = (e) => {
   alert.style.display = "block";
   alert.className = "alert uiText";
   alert.innerHTML = "Note Saved &#x1F609;";
+
   setTimeout(() => {
     alert.innerHTML = "";
     alert.style.display = "none";
@@ -128,3 +129,155 @@ const filter = () => {
     }
   });
 };
+
+//put this on one line
+const editBtns = Array.from(document.querySelectorAll(".pencil-note"));
+
+/*
+ * Allows note editing
+ */
+const editNote = (e) => {
+  let idToEdit = e.target.parentElement.childNodes[5].innerText
+    .trim()
+    .split(":")[1]
+    .trim();
+  let cardToEdit = e.target.parentElement.childNodes[1];
+  cardToEdit.contentEditable = "true";
+  cardToEdit.style.backgroundColor = "#fff";
+  cardToEdit.style.padding = "1.5rem";
+  const editIcon = e.target.parentElement.childNodes[9];
+  editIcon.style.display = "inline-block";
+  editIcon.innerHTML = `<i class="fa fa-check" aria-hidden="true"></i>`;
+  e.preventDefault();
+};
+
+editBtns.map((i) => {
+  i.addEventListener("click", editNote);
+});
+
+/*
+ * saves note after edit
+ */
+const saveNote = (e) => {
+  let newText = e.target.parentElement.parentElement.childNodes[1].innerText
+    .trim()
+    .replace(/\r?\n/g, "<br />");
+  let newDate = new Date()
+    .toString()
+    .replace(/\S+\s(\S+)\s(\d+)\s(\d+)\s.*/, "$2-$1-$3");
+  let idToEdit = e.target.parentElement.parentElement.childNodes[5].innerText
+    .trim()
+    .split(":")[1]
+    .trim();
+
+  let newResource = {
+    text: newText,
+    date: newDate,
+    id: idToEdit,
+  };
+
+  notes.map((n, index) => {
+    if (n.id === idToEdit) {
+      notes[index] = newResource;
+    }
+  });
+
+  localStorage.setItem("notes", JSON.stringify(notes.reverse()));
+
+  let cardToEdit = e.target.parentElement.parentElement.childNodes[1];
+  cardToEdit.contentEditable = "false";
+  cardToEdit.style.backgroundColor = "#f0edd9";
+  cardToEdit.style.padding = "0";
+  const editIcon = e.target.parentElement.parentElement.childNodes[9];
+  editIcon.style.display = "none";
+};
+
+const saveIcon = Array.from(document.querySelectorAll("#saveEdit"));
+
+saveIcon.map((i) => {
+  i.addEventListener("click", saveNote);
+});
+
+/*
+ * Deletes a note
+ */
+const deleteNote = (e) => {
+  let idToDelete = e.target.parentElement.childNodes[5].innerText
+    .split(":")[1]
+    .trim();
+  notes.map((n, index) => {
+    if (n.id === idToDelete) {
+      notes.splice(index, 1);
+    }
+  });
+  localStorage.setItem("notes", JSON.stringify(notes));
+  e.target.parentElement.style.display = "none";
+};
+let deleteBtns = Array.from(document.querySelectorAll(".fa-times-circle"));
+deleteBtns.map((b) => {
+  b.addEventListener("click", deleteNote);
+});
+
+/*
+ * Edit note while just adding it (without refresh)
+ */
+const editFresh = (e) => {
+  let idToEdit = e.target.parentElement.childNodes[2].innerText
+    .split(":")[1]
+    .trim();
+  let cardToEdit = e.target.parentElement.childNodes[0];
+  cardToEdit.contentEditable = "true";
+  cardToEdit.style.backgroundColor = "#fff";
+  cardToEdit.style.padding = "1.5rem";
+  const editIcon = e.target.parentElement.childNodes[5];
+  editIcon.style.display = "inline";
+  editIcon.addEventListener("click", saveFresh);
+  editIcon.innerHTML = `<i  class="fa fa-check save-fresh" aria-hidden="true"></i>`;
+  e.preventDefault();
+};
+
+/*
+ * Save while just adding it (no refresh)
+ */
+const saveFresh = (e) => {
+  let newText;
+  let idToEdit;
+  // let deleteIcon;
+  if (e.target.parentElement.parentElement.childNodes[0] !== undefined) {
+    newText = e.target.parentElement.parentElement.childNodes[0].innerHTML
+      .trim()
+      .replace(/\r?\n/g, "<br />");
+  }
+
+  let newDate = new Date()
+    .toString()
+    .replace(/\S+\s(\S+)\s(\d+)\s(\d+)\s.*/, "$2-$1-$3");
+  if (e.target.parentElement.parentElement.childNodes[2] !== undefined) {
+    idToEdit = e.target.parentElement.parentElement.childNodes[2].innerHTML
+      .split(":")[1]
+      .trim();
+  }
+  let newResource = {
+    text: newText,
+    date: newDate,
+    id: idToEdit,
+  };
+  notes.map((n, index) => {
+    if (n.id === idToEdit) {
+      notes[index] = newResource;
+    }
+  });
+  localStorage.setItem("notes", JSON.stringify(notes));
+  let cardToEdit = e.target.parentElement.parentElement.childNodes[0];
+  cardToEdit.contentEditable = "false";
+  cardToEdit.style.backgroundColor = "#f0edd9";
+  cardToEdit.style.padding = "0";
+  const editIcon = e.target.parentElement.childNodes[0];
+  editIcon.style.display = "none";
+  const deleteIcon = document.querySelector(".delete-fresh");
+  deleteIcon.style.display = "block";
+};
+
+editBtns.map((i) => {
+  i.addEventListener("click", editNote);
+});

@@ -31,7 +31,7 @@ body {
   text-align: center;
   padding-top: 10px;
   border-radius: 15px;
-  font-size: 2rem;
+  font-size: 1.8rem;
 }
 
 .nav > .navItem:hover {
@@ -305,7 +305,7 @@ body {
 /* alert div styles (used for add and import/export */
 .alert {
   margin-top: 5rem;
-  width: 40rem;
+  max-width: 40rem;
 }
 
 /* media queries for responsiveness */
@@ -372,8 +372,13 @@ body {
     width: 75%;
   }
   #importBtn,
-  #exportBtn {
+  #exportBtn,
+  .navItem {
     width: 100% !important;
+  }
+
+  .paper {
+    max-width: 50%;
   }
 }
 

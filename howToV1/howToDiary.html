@@ -817,7 +817,7 @@ body {
   text-align: center;
   padding-top: 10px;
   border-radius: 15px;
-  font-size: 2rem;
+  font-size: 1.8rem;
 }
 
 .nav > .navItem:hover {
@@ -1344,6 +1344,14 @@ body {
 }
 
 @media (max-width: 500px) {
+  .navItem {
+    width: 100% !important;
+  }
+
+  .paper {
+    max-width: 50%;
+  }
+
   #deleteNotes {
     width: 75%;
   }
@@ -1761,7 +1769,7 @@ body {
 /* alert div styles (used for add and import/export */
 .alert {
   margin-top: 5rem;
-  width: 40rem; 
+  max-width: 40rem; 
 }
 
 /* media queries for responsiveness */
@@ -1828,7 +1836,8 @@ body {
     width: 75%;
   }
   #importBtn,
-  #exportBtn {
+  #exportBtn,
+  .navItem {
     width: 100% !important;
   }
 }
@@ -2479,8 +2488,258 @@ document.querySelectorAll(".card").forEach((item) => {
 };
         </pre>
         <p class="text">
-          We now have filter functionality too.
+          We now have filter functionality too. Test it out to see how it works. Next, let's add the edit and delete methods.
+          We will start with the edit. Note that each note has a little pencil icon. That's what we'll use to hook our little function
+          that will allow us to edit the note. As for 'knowing' which note to edit in the localStorage array of notes, also do note
+          (if you haven't already) that each note has a hidden paragraph in it, with the class <span class="snippet">.invisible</span>
+          added to the <span class="snippet">.text</span> one, which holds an ID. That's what we'll use to search for the specific note 
+          to edit in memory and in localStorage too. Go to the <span class="snippet">notes.js</span> file and add the edit functionality:
         </p>
+        <pre class="code">
+
+//select 'all' edit buttons (not just 1)
+//put this on one line
+const editBtns = Array.from(document
+              .querySelectorAll(".pencil-note"));
+
+/*
+ * Allows note editing
+ */
+const editNote = (e) => {
+  let idToEdit = e.target.parentElement.childNodes[5]
+    .innerText
+    .trim()
+    .split(":")[1]
+    .trim();
+  let cardToEdit = e.target.parentElement.childNodes[1];
+  cardToEdit.contentEditable = "true";
+  cardToEdit.style.backgroundColor = "#fff";
+  cardToEdit.style.padding = "1.5rem";
+  const editIcon = e.target.parentElement.childNodes[9];
+  editIcon.style.display = "inline-block";
+  editIcon.innerHTML = `<i class="fa fa-check" aria-hidden="true"></i>`;
+  e.preventDefault();
+};
+
+//bind the event to all edit buttons
+editBtns.map((i) => {
+  i.addEventListener("click", editNote);
+});
+        </pre>
+        <p class="text">
+          Now, if we click on the pen icon (do hit refresh after adding a new note, I will come back to this 'bug' a bit later), the edit interface pops up and  the <span class="snippet">contentEditable</span> property of the paragraph becomes true
+          (so the user can 'edit' the note). Please note how we used the <span class="snippet">querySelectorAll()</span>
+          method to select all the pen icons and how we have turned the <span class="snippet">NodeList</span> object that it returns into an
+          array. We did that so we can use the nice <span class="snippet">map()</span> higher order function to bind the event on all pen buttons.
+          However, we need to be able to save the note too. So let's just add that functionality. Add the below to <span class="snippet">notes.js</span>:
+        </p>
+        <pre class="code">
+/*
+ * saves note after edit
+ */
+const saveNote = (e) => {
+  let newText = e.target.parentElement.parentElement
+    .childNodes[1].innerText
+    .trim()
+    .replace(/\r?\n/g, "<br />");
+  let newDate = new Date()
+    .toString()
+  .replace(/\S+\s(\S+)\s(\d+)\s(\d+)\s.*/, "$2-$1-$3");
+  let idToEdit = e.target.parentElement.parentElement
+    .childNodes[5].innerText
+    .trim()
+    .split(":")[1]
+    .trim();
+
+  let newResource = {
+    text: newText,
+    date: newDate,
+    id: idToEdit,
+  };
+
+  notes.map((n, index) => {
+    if (n.id === idToEdit) {
+      notes[index] = newResource;
+    }
+  });
+
+  localStorage.setItem("notes", 
+        JSON.stringify(notes.reverse())
+      );
+
+  let cardToEdit = e.target.parentElement.parentElement
+                  .childNodes[1];
+  cardToEdit.contentEditable = "false";
+  cardToEdit.style.backgroundColor = "#f0edd9";
+  cardToEdit.style.padding = "0";
+  const editIcon = e.target.parentElement.parentElement
+                  .childNodes[9];
+  editIcon.style.display = "none";
+};
+
+const saveIcon = Array.from(document
+        .querySelectorAll("#saveEdit"));
+
+saveIcon.map((i) => {
+  i.addEventListener("click", saveNote);
+});
+        </pre>
+        <p class="text">
+          For the save method, we use the same tricks as for the edit one. We select all the save icons (the little tick icon), we convert the <span class="snippet">NodeList</span>
+          into an array and map through it to attach the event to each button. Inside the save function we basically make the <span class="snippet">contentEditable</span> property 
+          back to false, so the user can't edit the note anymore, we set the new date and the new text to the note, we keep the ID, and we save the note.
+          In the <span class="snippet">save()</span> method we use the nice <span class="snippet">map()</span> method to also loop quick through all
+          notes and find ours to save after edit. As you will work with JavaScript more, you will come to better understand how useful <span class="snippet">higher order functions</span>
+          such as <span class="snippet">map()</span> are. The last 'new trick' we used in the save method (we use it in edit too but I am explaining it now for the first time), is selecting
+          <span class="snippet">DOM</span> (remember what that was right?) nodes using the <span class="snippet">.childNodes</span> property (and we also used <span class="snippet">.children</span> 
+          for the <span class="snippet">filter()</span> method).
+        </p> 
+        <p class="text">
+          Finally, let's go on to implement the <span class="snippet">delete()</span> method. It will not have anything special (nothing different from what we 
+          have been using so far for the <span class="snippet">edit()</span> and <span class="snippet">save()</span> methods). Add it to the <span class="snippet">notes.js</span>:
+        </p>
+        <pre class="code">
+/*
+ * Deletes a note
+ */
+const deleteNote = (e) => {
+  let idToDelete = e.target.parentElement.childNodes[5]
+    .innerText
+    .split(":")[1]
+    .trim();
+  notes.map((n, index) => {
+    if (n.id === idToDelete) {
+      notes.splice(index, 1);
+    }
+  });
+  localStorage.setItem("notes", JSON.stringify(notes));
+  e.target.parentElement.style.display = "none";
+};
+let deleteBtns = Array.from(document.
+    querySelectorAll(".fa-times-circle"));
+deleteBtns.map((b) => {
+  b.addEventListener("click", deleteNote);
+});
+        </pre>
+        <p class="text">
+          Note that now, we have delete functionality too. If we click on the little X icon, the note disappears. Also, do note that our 
+          previous 'bug' from the edit note pops up here too. We cannot delete a note right after we have added it, without first refreshing 
+          the page. If we try to do that, nothing happens. The cause for this is pretty simple but may not be intuitive at first sight. When we set up
+          our <span class="snippet">edit()</span> and <span class="snippet">delete()</span> methods, onto all the pencil and X icons from the DOM,
+          this only included the notes currently on the page (and loaded in the DOM). You might be wondering, why not simply make the binding of the event,
+          inside the <span class="snippet">grabNote()</span> method too (just duplicate that little bit of code, as you still want the binding outside the
+          grab method so users can edit notes that are already on the page too). It is a good idea at first sight but, there is an issue with that. Due to how the
+          'freshly added' note to the DOM is constructed (so the note that 'shows up') in the UI right when we input the note text, without a page refresh, 
+          the DOM nodes are different. Remember the <span class="snippet">childNodes[5]</span> property, well this time the childNodes array might have only 2 elements,
+          so most you can get is choldNodes[3]. Due to that fact, the edit icon or the save/delete one, might have to be defined differently.
+        </p>
+        <p class="text">
+          My approach may not be ideal, feel free to twean it if you want to dive deeper into this issue, but it works and it suits our need. We will simply create a second set 
+          of edit and delete methods and we will hook them onto the icons of the freshly added notes to the dom. In order to distinguish between the methods,
+          we will call them <span class="snippet">editFresh()</span>, <span class="snippet">deleteFresh()</span> and so on... Let's start with <span class="snippet">editFresh()</span>. Note
+          that we already have a binding for it inside the <span class="snippet">grabNote()</span> method, but it is commented out for now (as the method does not exist):
+        </p>
+        <pre class="code">
+icon1.addEventListener("click", editFresh);
+        </pre>
+        <p class="text">
+          Uncomment the line and add the <span class="snippet">editFresh()</span> method to the <span class="snippet">notes.js</span> file:
+        </p>
+        <pre class="code">
+/*
+ * Edit note while just adding it (without refresh)
+ */
+const editFresh = (e) => {
+  let idToEdit = e.target.parentElement.childNodes[2]
+    .innerText
+    .split(":")[1]
+    .trim();
+  let cardToEdit = e.target.parentElement.childNodes[0];
+  cardToEdit.contentEditable = "true";
+  cardToEdit.style.backgroundColor = "#fff";
+  cardToEdit.style.padding = "1.5rem";
+  const editIcon = e.target.parentElement.childNodes[5];
+  editIcon.style.display = "inline";
+  editIcon.addEventListener("click", saveFresh);
+  editIcon.innerHTML = `&lt;i  
+                      class="fa fa-check save-fresh" 
+                          aria-hidden="true"
+                        &gt;
+                        &lt;/i&gt;`;
+  e.preventDefault();
+};
+
+        </pre>
+        <p class="text">
+          Now, if you click on the pen icon right after editing a note, the edit method works, however, you do get a little error in the console:
+        </p>
+        <div class="devPic">
+          <img src="./img/editErrFresh.png" alt="">
+        </div>
+        <p class="text">
+          <span class="snippet">saveFresh is not defined</span> this happens because we have an event binding onto this method which does not exist yet.
+          In the <span class="snippet">editFresh()</span> method we have just written we have the below line:
+        </p>
+        <pre class="code">
+editIcon.addEventListener("click", saveFresh);
+      </pre>
+      <p class="text">
+        Let's add the <span class="snippet">saveFresh()</span> method to fix that. Add it to the <span class="snippet">notes.js</span> file:
+      </p>
+      <pre class="code">
+/*
+ * Save while just adding it (no refresh)
+ */
+const saveFresh = (e) => {
+  let newText;
+  let idToEdit;
+  // let deleteIcon;
+  if (e.target.parentElement.parentElement
+    .childNodes[0] !== undefined) {
+    newText = e.target.parentElement.parentElement
+      .childNodes[0].innerHTML
+      .trim()
+      .replace(/\r?\n/g, "<br />");
+  }
+ 
+  let newDate = new Date()
+    .toString()
+.replace(/\S+\s(\S+)\s(\d+)\s(\d+)\s.*/, "$2-$1-$3");
+  if (e.target.parentElement.parentElement
+       .childNodes[2] !== undefined) {
+              idToEdit = e.target.parentElement
+              .parentElement.childNodes[2].innerHTML
+              .split(":")[1]
+              .trim();
+      }
+  let newResource = {
+    text: newText,
+    date: newDate,
+    id: idToEdit,
+  };
+  notes.map((n, index) => {
+    if (n.id === idToEdit) {
+      notes[index] = newResource;
+    }
+  });
+  localStorage.setItem("notes", JSON.stringify(notes));
+  let cardToEdit = e.target.parentElement.
+              parentElement.childNodes[0];
+  cardToEdit.contentEditable = "false";
+  cardToEdit.style.backgroundColor = "#f0edd9";
+  cardToEdit.style.padding = "0";
+  const editIcon = e.target.parentElement.childNodes[0];
+  editIcon.style.display = "none";
+const deleteIcon = document.querySelector(
+            ".delete-fresh"
+          );
+  deleteIcon.style.display = "block";
+};
+
+editBtns.map((i) => {
+  i.addEventListener("click", editNote);
+});
+      </pre>
    </body>
 
 </html>
