@@ -1252,6 +1252,7 @@ body {
 .save-fresh {
   position: absolute;
   left: 3%;
+  margin-top:0.5rem;
 }
 
 .delete-fresh {
@@ -1699,6 +1700,7 @@ body {
 .save-fresh {
   position: absolute;
   left: 3%;
+  margin-top:0.5rem;
 }
 
 .delete-fresh {
@@ -2740,6 +2742,172 @@ editBtns.map((i) => {
   i.addEventListener("click", editNote);
 });
       </pre>
+      <p class="text">
+        Now we can edit the 'fresh' notes too. Let's implement the <span class="snippet">deleteFresh()</span> method too so that we can have full <span class="snippet">CRUD</span>
+        functionality onto them too. Add the method to <span class="snippet">notes.js</span>:
+      </p>
+      <pre class="code">
+/*
+* Delete a note while just adding it (no refresh)
+*/
+const deleteFresh = (e) => {
+  let idToDelete;
+  if (
+e.target.parentElement.
+childNodes[2] !== undefined) {
+    idToDelete = e.target.parentElement
+      .childNodes[2]
+      .innerText
+      .split(":")[1]
+      .trim();
+  }
+  notes.map((n, index) => {
+    if (n.id === idToDelete) {
+      notes.splice(index, 1);
+    }
+  });
+  localStorage.setItem(
+      "notes", 
+    JSON.stringify(notes));
+
+  let cardToHide = e.target.parentElement;
+  cardToHide.style.display = "none";
+};
+      </pre>
+      <p class="text">
+        Also, don't forget to uncomment the event binding line from the <span class="snippet">grabNote()</span> method.
+        I will paste it here:
+      </p>
+      <pre class="code">
+
+  icon2.addEventListener("click", deleteFresh);
+      </pre>
+      <p class="text">
+        Now, we only need to implement the <span class="snippet">deleteAll()</span> method, as we even bothered to make a nice
+        looking button for it. Add it to <span class="snippet">notes.js</span>:
+      </p>
+      <pre class="code">
+/*
+ * Delete all notes
+ */
+const deleteAllBtn = document
+  .querySelector("#deleteNotes");
+
+const deleteNotes = () => {
+  deleteAllBtn.style.backgroundColor = "red";
+  deleteAllBtn.style.border = "2px solid black";
+  localStorage.removeItem("notes");
+  document.querySelector(".first-card").innerHTML = "";
+  const cardsToDelete = Array
+    .from(document.querySelectorAll(".card"));
+  cardsToDelete.map((i) => (i.style.display = "none"));
+};
+deleteAllBtn.addEventListener("click", deleteNotes);
+      </pre>
+      <p class="text">
+        Now, we have full <span class="snippet">CRUD</span> functionality in our app for both old notes and 'fresh' ones (the ones just added into the DOM,
+        dynamically, by the user  without first refreshing the page). The last functionalities we want to add for our application are the 
+        <span class="snippet">import()</span> and <span class="snippet">export()</span> ones. We want the user to be able to export their notes
+        as a <span class="snippet">.JSON</span> file. Further more, we want them to be able to import notes too. Let's start with the <span class="snippet">export()</span>
+        method. Add it to the <span class="snippet">notes.js</span> file:
+      </p>
+      <pre class="code">
+/*
+ * Export  notes as JSON
+ */
+const exportBTN = document.querySelector("#exportBtn");
+const importBTN = document.querySelector("#importBtn");
+
+const exportNotes = () => {
+  exportBTN.style.backgroundColor = activeColor;
+  importBTN.style.backgroundColor = inactiveColor;
+
+  let notesObj = {
+    notes,
+  };
+let exportDate = new Date()
+  .toString()
+  .replace(/\S+\s(\S+)\s(\d+)\s(\d+)\s.*/, "$2-$1-$3");
+  var a = document.createElement("a");
+  document.body.appendChild(a);
+  a.style = "display: none";
+  var json = JSON.stringify(notesObj),
+    blob = new Blob([json], { type: "octet/stream" }),
+    url = window.URL.createObjectURL(blob);
+  a.href = url;
+  a.download = `myNotes-${exportDate}.json`;
+  a.click();
+  window.URL.revokeObjectURL(url);
+};
+
+exportBtn.addEventListener("click", exportNotes);
+      </pre>
+      <p class="text">
+        Now write some notes, and then test the export functionality. See how the JSON file looks like. Next, let's add the 
+        <span class="snippet">import()</span> method to <span class="snippet">notes.js</span>:
+      </p>
+      <pre class="code">
+/*
+ * Import JSON with  notes 
+ */
+ const importNotes = (e) => {
+  importBTN.style.backgroundColor = activeColor;
+  exportBTN.style.backgroundColor = inactiveColor;
+
+  document.getElementById("file").addEventListener(
+    "change",
+    (evt) => {
+      var files = evt.target.files;
+      var file = files[0];
+      var reader = new FileReader();
+      reader.onload = function (event) {
+        let newNotes = JSON\
+          .parse(event.target.result).notes;
+        newNotes.map((i) => notes.push(i));
+        localStorage.setItem(
+            "notes", 
+            JSON.stringify(notes));
+
+        const alert = document.querySelector(".alert");
+        alert.style.display = "block";
+        alert.className = "alert uiText";
+  alert.innerHTML = "Notes imported Successfully &#x1F609;";
+        setTimeout(() => {
+          alert.innerHTML = "";
+          alert.style.display = "none";
+        }, 2000);
+        displayNotes();
+      };
+      let readValue = reader.readAsText(file);
+    },
+    false
+  );
+};
+importBtn.addEventListener("click", importNotes);
+      </pre>
+      <p class="text">
+        For the import method, we use the <span class="snippet">&lt; input type="file" /&gt;</span>
+        'type' of input. It will allow us to read a file on the user's computer and load it in our application.
+        Try importing the below JSON file in the application:
+        <br>
+
+      <a  id="download_link" download="upload.json" href=”” >Download notes JSON file</a>.
+      </p>
+       
+     <script>
+        // little script to make test file downloadable on clinet side
+        var text = 'Some data I want to export';
+        var data = new Blob([text], {type: 'text/plain'});
+
+        var url = window.URL.createObjectURL(data);
+
+        document.getElementById('download_link').href = url;
+      </script>
+      <p class="text">
+        Now our application is complete. It works just as the initial version you have been testing at the beginning of this article.
+        The next projects we will build will have a real back-end, and not only use files written in <span class="snippet">localStorage</span>.
+        I do hope you have enjoyed working on this little project and thanks a lot for sticking with me until the very end.
+      </p>
    </body>
 
 </html>

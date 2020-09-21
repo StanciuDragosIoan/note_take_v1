@@ -58,7 +58,7 @@ const grabNote = (e) => {
   const icon2 = document.createElement("i");
   icon2.className = "fa fa-times-circle delete-fresh";
   noteDiv.appendChild(icon2);
-  // icon2.addEventListener("click", deleteFresh);
+  icon2.addEventListener("click", deleteFresh);
   const hr = document.createElement("hr");
   noteDiv.appendChild(hr);
   const list = document.querySelector(".first-card");
@@ -232,7 +232,7 @@ const editFresh = (e) => {
   const editIcon = e.target.parentElement.childNodes[5];
   editIcon.style.display = "inline";
   editIcon.addEventListener("click", saveFresh);
-  editIcon.innerHTML = `<i  class="fa fa-check save-fresh" aria-hidden="true"></i>`;
+  editIcon.innerHTML = `<i class="fa fa-check save-fresh" aria-hidden="true"></i>`;
   e.preventDefault();
 };
 
@@ -242,7 +242,6 @@ const editFresh = (e) => {
 const saveFresh = (e) => {
   let newText;
   let idToEdit;
-  // let deleteIcon;
   if (e.target.parentElement.parentElement.childNodes[0] !== undefined) {
     newText = e.target.parentElement.parentElement.childNodes[0].innerHTML
       .trim()
@@ -281,3 +280,103 @@ const saveFresh = (e) => {
 editBtns.map((i) => {
   i.addEventListener("click", editNote);
 });
+
+/*
+ * Delete a note while just adding it (no refresh)
+ */
+const deleteFresh = (e) => {
+  let idToDelete;
+  if (e.target.parentElement.childNodes[2] !== undefined) {
+    idToDelete = e.target.parentElement.childNodes[2].innerText
+      .split(":")[1]
+      .trim();
+  }
+  notes.map((n, index) => {
+    if (n.id === idToDelete) {
+      notes.splice(index, 1);
+    }
+  });
+  localStorage.setItem("notes", JSON.stringify(notes));
+
+  let cardToHide = e.target.parentElement;
+  cardToHide.style.display = "none";
+};
+
+/*
+ * Delete all notes
+ */
+const deleteAllBtn = document.querySelector("#deleteNotes");
+const deleteNotes = () => {
+  deleteAllBtn.style.backgroundColor = "red";
+  deleteAllBtn.style.border = "2px solid black";
+  localStorage.removeItem("notes");
+  document.querySelector(".first-card").innerHTML = "";
+  const cardsToDelete = Array.from(document.querySelectorAll(".card"));
+  cardsToDelete.map((i) => (i.style.display = "none"));
+};
+deleteAllBtn.addEventListener("click", deleteNotes);
+
+/*
+ * Export  notes as JSON
+ */
+const exportBTN = document.querySelector("#exportBtn");
+const importBTN = document.querySelector("#importBtn");
+
+const exportNotes = () => {
+  exportBTN.style.backgroundColor = activeColor;
+  importBTN.style.backgroundColor = inactiveColor;
+
+  let notesObj = {
+    notes,
+  };
+  let exportDate = new Date()
+    .toString()
+    .replace(/\S+\s(\S+)\s(\d+)\s(\d+)\s.*/, "$2-$1-$3");
+  var a = document.createElement("a");
+  document.body.appendChild(a);
+  a.style = "display: none";
+  var json = JSON.stringify(notesObj),
+    blob = new Blob([json], { type: "octet/stream" }),
+    url = window.URL.createObjectURL(blob);
+  a.href = url;
+  a.download = `myNotes-${exportDate}.json`;
+  a.click();
+  window.URL.revokeObjectURL(url);
+};
+
+exportBtn.addEventListener("click", exportNotes);
+
+/*
+ * Import JSON with  notes
+ */
+const importNotes = (e) => {
+  importBTN.style.backgroundColor = activeColor;
+  exportBTN.style.backgroundColor = inactiveColor;
+
+  document.getElementById("file").addEventListener(
+    "change",
+    (evt) => {
+      var files = evt.target.files;
+      var file = files[0];
+      var reader = new FileReader();
+      reader.onload = function (event) {
+        let newNotes = JSON.parse(event.target.result).notes;
+        newNotes.map((i) => notes.push(i));
+        localStorage.setItem("notes", JSON.stringify(notes));
+
+        const alert = document.querySelector(".alert");
+        alert.style.display = "block";
+        alert.className = "alert uiText";
+        alert.innerHTML = "Notes imported Successfully &#x1F609;";
+        setTimeout(() => {
+          alert.innerHTML = "";
+          alert.style.display = "none";
+        }, 2000);
+        displayNotes();
+      };
+      let readValue = reader.readAsText(file);
+    },
+    false
+  );
+};
+importBtn.addEventListener("click", importNotes);

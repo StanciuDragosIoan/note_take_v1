@@ -216,7 +216,7 @@ body {
 }
 
 .fa-save {
-  display: inline !important;
+  /* display: inline !important; */
 }
 
 #saveEdit:hover {
@@ -294,6 +294,7 @@ body {
 .save-fresh {
   position: absolute;
   left: 3%;
+  margin-top: 0.5rem;
 }
 
 .delete-fresh {
@@ -360,10 +361,10 @@ body {
 }
 
 @media (max-width: 590px) {
-  .save-fresh {
+  /* .save-fresh {
     left: 12%;
     top: 67%;
-  }
+  } */
 }
 
 @media (max-width: 500px) {
