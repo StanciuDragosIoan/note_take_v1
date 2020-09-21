@@ -519,7 +519,7 @@
   </p>
   <p class="text">
     Here's a link of a live deployment of the application, so you can see what we will build and what it will look like:
-    <a target="_blank" href="https://silly-mirzakhani-1db863.netlify.app/">Link to app</a>.
+    <a target="_blank" href="https://sleepy-brown-28ba07.netlify.app/">Link to app</a>.
   </p>
   <p class="text">
     Test the application a bit before starting, so you get familiar with how it works and what you will be building. Try adding
@@ -529,6 +529,12 @@
     Try exporting your notes, delete all the notes and import them back. The import functionality is set so that it appends
     the imported notes to the existing ones (so if you import without deleting the current notes, you will simply get the ones imported
     added to your current ones).
+  </p>
+  <p class="text">
+    The most important thing to notice about the application, is that it does not need a refresh of the page. Everything you do instantly
+    updates the screen without the need for a refresh or a redirect (note that the URL never changes either, so you are basically staying
+    on the same page continuously, and dynamically manipulate its contents to suit your needs). This is how modern front-end frameworks like
+    <span class="snippet">React</span> or <span class="snippet">Angular</span> work.
   </p>
   <p class="text">
     Once you get used to the application, we can start building it. It will be a single page application, it will serve all the contents
@@ -545,10 +551,2543 @@
     file and two <span class="snippet">JavaScript</span> files. The two JavaScript files are handling the UI (user interface) and the notes processing.
     So one will do the notes and the other one will do the interface manipulation (and there will be quite a bit of code in there).
   </p>
+  <p class="text center bold">Application start (UI creation)</p>
   <p class="text">
     Start by creating a folder (I named mine project) and create an <span class="snippet">index.html</span> file in it. Inside the .html file, add the below code:
   </p>
+  <pre class="code">
+<!DOCTYPE html>
+<html lang="en">
+  &lt;head&gt;
+    &lt;meta charset="UTF-8" /&gt;
+    &lt;meta 
+      name="viewport" 
+      content="width=device-width, initial-scale=1.0" 
+    /&gt;
+
+  // this link must be on 1 line for it to work 
+&lt;link
+rel="stylesheet"
+href="https://stackpath.bootstrapcdn.com/font-awesome
+/4.7.0/css/font-awesome.min.css"
+/&gt;
+
+    &lt;link rel="stylesheet" href="style.css" /&gt;
+    &lt;title&gt;Diary App&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+    &lt;div class="nav"&gt;
+        &lt;div 
+          id="inputBtn" 
+          class="navItem" 
+          tabindex="1"&gt;
+            Input
+        &lt;/div&gt;
+
+        &lt;div 
+          id="recordsBtn" 
+          class="navItem" 
+          tabindex="1"
+        &gt;
+            Entries
+        &lt;/div&gt;
+
+        &lt;div 
+          id="importExportBtn" 
+          class="navItem" 
+          tabindex="1"
+        &gt;
+            Import/Export
+        &lt;/div&gt;
+
+    &lt;/div&gt;
+
+      &lt;div class="colors"&gt;
+        &lt;div id="c1" class="color"&gt;&lt;/div&gt;
+        &lt;div id="c2" class="color"&gt;&lt;/div&gt;
+        &lt;div id="c3" class="color"&gt;&lt;/div&gt;
+      &lt;/div&gt;
+
+    &lt;div class="alert"&gt;&lt;/div&gt;
+    &lt;script src="notes.js"&gt;&lt;/script&gt;
+    &lt;script src="ui.js"&gt;&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+
+  </pre>
+  <p class="text">
+    *note how the <span class="snippet">ui.js</span> script is under the <span class="snippet">notes.js</span> one. This means
+    that it can use variables and methods declared in <span class="snippet">notes.js</span> as JavaScript 'scripts' apply top to 
+    bottom.
+  </p>
+   <p class="text">
+     This is only a part of our UI, but we will start working on the interface from it.
+   </p>
+  <p class="text">
+    Next, create the 3 files referenced into the HTML, namely the <span class="snippet">style.css</span>, 
+    <span class="snippet">notes.js</span> and <span class="snippet">ui.js</span>. Now, you can open the 
+    <span class="snippet">index.html</span> file in the browser, and you will see some very ugly html
+    code thrown in there. Do not worry, we will right now start styling it and make it look pretty and do awesome
+    things.
+  </p>
+  <p class="text">
+    We will start working on the <span class="snippet">style.css</span> file in order to make the first bit of UI look better.
+    Add the below code to the css file:
+  </p>
+  <pre class="code">
+    /* make text non-selectable */
+* {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, 
+                        currently supported 
+                        by Chrome and Opera */
+}
+
+body {
+  background: rgb(108, 140, 226);
+}
+
+/* navigation */
+.nav {
+  display: block;
+  margin: auto;
+  width: 40vw;
+}
+
+/* navigation item */
+.nav > .navItem {
+  background: rgb(38, 0, 255);
+  display: inline-block;
+  color: #fff;
+  border: 2px solid #ccc;
+  width: 32%;
+  height: 3rem;
+  text-align: center;
+  padding-top: 10px;
+  border-radius: 15px;
+  font-size: 2rem;
+}
+
+.nav > .navItem:hover {
+  cursor: pointer;
+  transition: 1s;
+}
+
+.nav > .navItem:focus {
+  outline: none;
+}
+
+/* colors */
+.colors {
+  background: #fff;
+  width: 10rem;
+  height: 5rem;
+  display: block;
+  margin: auto;
+  margin-top: 2rem;
+  border-radius: 30px;
+}
+
+.color:hover {
+  cursor: pointer;
+}
+
+.color:first-child {
+  background: blue;
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+  margin-top: 15%;
+  margin-left: 8%;
+  border-radius: 50%;
+}
+
+.color:nth-child(2) {
+  background: rgb(255, 239, 19);
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+  margin-top: 15%;
+  margin-left: 8%;
+  border-radius: 50%;
+}
+
+.color:nth-child(3) {
+  background: pink;
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+  margin-top: 15%;
+  margin-left: 8%;
+  border-radius: 50%;
+}
+
+/* media queries for responsiveness */
+@media (max-width: 1500px) {
+  .nav {
+    width: 60vw;
+  }
+}
+
+@media (max-width: 1000px) {
+  .nav {
+    width: 80vw;
+  }
+}
+
+@media (max-width: 750px) {
+  .nav {
+    width: 70vw;
+  }
+  .nav > .navItem {
+    display: block;
+    margin: auto;
+    margin-bottom: 1rem;
+    width: 100%;
+  }
+}
+
+  </pre>
+  <p class="text">
+    Now everything looks much better.
+    We now want to implement an 'active' class on each of the navigation items we have there.
+    And we want to set it up so that whenever we click one of them, it 'activates' and it displays
+    the specific section it is allocated to. For instance, when we click on 'input', we want the input
+    to be displayed, 'entries' should display the diary entries and 'import/export' should display
+    the import and export section.
+  </p>
+  <p class="text">
+    For starters, we will make it so that the input section is displayed when we click on the 'Input'
+    navigation item. 
+  </p>
+  <p class="text">
+    The first thing we need to do is add the input section. As you have seen in the demo project, the input
+    section looks just like a stack of sheets of paper, so let's add that to the UI.
+  </p>
+  <p class="text">
+    Add the below div, right under the one with class 'colors' in index.html
+  </p>
+  <pre class="code">
+    &lt;div id="input"&gt;
+      &lt;div class="paper"&gt;
+        &lt;textarea 
+          name="note" 
+          id="note" 
+          cols="120" 
+          rows="10"
+        &gt;
+        &lt;/textarea&gt;
+        &lt;button class="add-note"&gt;
+          Save Note &lt;i 
+                      class="fa fa-pencil" 
+                      aria-hidden="true"
+                    &gt;&lt;/i&gt;
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  </pre>
+  <p class="text">
+    The input section obviously looks bad so let's add some CSS styling for it first.
+    Replace all the code in style.css with the below:
+  </p>
+   <pre class="code">
+/* make text non-selectable */
+* {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                        supported by Chrome and Opera */
+}
+
+body {
+  background: rgb(108, 140, 226);
+}
+
+/* navigation */
+.nav {
+  display: block;
+  margin: auto;
+  width: 40vw;
+}
+
+/* navigation item */
+.nav > .navItem {
+  background: rgb(38, 0, 255);
+  display: inline-block;
+  color: #fff;
+  border: 2px solid #ccc;
+  width: 32%;
+  height: 3rem;
+  text-align: center;
+  padding-top: 10px;
+  border-radius: 15px;
+  font-size: 1.8rem;
+}
+
+.nav > .navItem:hover {
+  cursor: pointer;
+  transition: 1s;
+}
+
+.nav > .navItem:focus {
+  outline: none;
+}
+
+/* colors */
+.colors {
+  background: #fff;
+  width: 10rem;
+  height: 5rem;
+  display: block;
+  margin: auto;
+  margin-top: 2rem;
+  border-radius: 30px;
+}
+
+.color:hover {
+  cursor: pointer;
+}
+
+.color:first-child {
+  background: blue;
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+  margin-top: 15%;
+  margin-left: 8%;
+  border-radius: 50%;
+}
+
+.color:nth-child(2) {
+  background: rgb(255, 239, 19);
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+  margin-top: 15%;
+  margin-left: 8%;
+  border-radius: 50%;
+}
+
+.color:nth-child(3) {
+  background: pink;
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+  margin-top: 15%;
+  margin-left: 8%;
+  border-radius: 50%;
+}
+
+/*hide paper initially*/
+#input {
+   display:none; 
+}
+
+/* paper styles for the input form */
+.paper {
+  background: #fff;
+  padding: 60px;
+  position: relative;
+  width: 80vw;
+  display: block;
+  margin: auto;
+  margin-top: 3rem;
+  height: 20rem; 
+}
+
+.paper,
+.paper::before,
+.paper::after {
+  /* Styles to distinguish sheets from one another */
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+  border: 1px solid #bbb;
+}
+
+.paper::before,
+.paper::after {
+  content: "";
+  position: absolute;
+  height: 95%;
+  width: 99%;
+  background-color: #eee;
+}
+
+.paper::before {
+  right: 15px;
+  top: 0;
+  transform: rotate(-1deg);
+  z-index: -1;
+}
+
+.paper::after {
+  top: 5px;
+  right: -5px;
+  transform: rotate(1deg);
+  z-index: -2;
+}
+
+.paper > textarea {
+  border: none;
+  overflow: auto;
+  outline: none;
+
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  /*remove the resize handle on the bottom right*/
+  resize: none;
+
+  font-size: 2rem;
+  width: 100%;
+  height: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.add-note {
+  background: rgb(156, 154, 154);
+  color: #fff;
+  outline: none;
+  border: 2px solid #eee;
+  font-size: 2rem;
+  border-radius: 15px;
+}
+
+.add-note:hover {
+  cursor: pointer;
+  background: rgb(39, 37, 37);
+  transition: 1s;
+}
+
+/* media queries for responsiveness */
+@media (max-width: 1500px) {
+  .nav {
+    width: 60vw;
+  }
+}
+
+@media (max-width: 1000px) {
+  .nav {
+    width: 80vw;
+  }
+}
+
+@media (max-width: 750px) {
+  .nav {
+    width: 70vw;
+  }
+  .nav > .navItem {
+    display: block;
+    margin: auto;
+    margin-bottom: 1rem;
+    width: 100%;
+  }
+
+  .add-note {
+    font-size: 1.5rem;
+  }
+}
+    
+   </pre>
+   <p class="text">
+     This is what the input for for our notes will look like. Next, hide it by uncommenting the last line (display:none;) of 
+     CSS from the <span class="snippet">.paper</span> css class. This will hide the input form (as it should be hidden intially and
+     display only once the user clicks on the Input button).
+   </p>
+   <p class="text">
+     Next we will add and style the entries section. This is where the diary notes will be displayed. Start by adding the HTML for it in the
+     index.html right under the div with the 'input' id:
+   </p>
+   <pre class="code">
+     //add this div right under the input one
+     <!-- entries section -->
+    &lt;div class="diaryEntries"&gt;
+      &lt;div 
+        id="deleteNotes" 
+        class="navItem" 
+        tabindex="1"&gt;
+          Delete Notes &lt;i 
+                        class="fa fa-minus-circle" 
+                        aria-hidden="true"
+                      &gt;&lt;/i&gt;
+      &lt;/div&gt;
+      &lt;input
+        oninput="filter()"
+        class="filter uiText"
+        type="text"
+        value="filter notes"
+      /&gt;
+      &lt;div id="records"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+   </pre>
+   <p class="text">
+     Refresh the page, and surprise! You will see some more ugly looking HTML. Actually this time it is 
+     quite less compared to the input section. Anyhow, let's style it and make it pretty. Add the styles 
+     for the diary entries right in the <span class="snippet">style.css</span> file, which upgraded will look
+     like this:
+   </p>
+   <pre class="code">
+/* make text non-selectable */
+* {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                      supported by Chrome and Opera */
+}
+
+body {
+  background: rgb(108, 140, 226);
+}
+
+/* navigation */
+.nav {
+  display: block;
+  margin: auto;
+  width: 40vw;
+}
+
+/* navigation item */
+.nav > .navItem {
+  background: rgb(38, 0, 255);
+  display: inline-block;
+  color: #fff;
+  border: 2px solid #ccc;
+  width: 32%;
+  height: 3rem;
+  text-align: center;
+  padding-top: 10px;
+  border-radius: 15px;
+  font-size: 2rem;
+}
+
+.nav > .navItem:hover {
+  cursor: pointer;
+  transition: 1s;
+}
+
+.nav > .navItem:focus {
+  outline: none;
+}
+
+/* colors */
+.colors {
+  background: #fff;
+  width: 10rem;
+  height: 5rem;
+  display: block;
+  margin: auto;
+  margin-top: 2rem;
+  border-radius: 30px;
+}
+
+.color:hover {
+  cursor: pointer;
+}
+
+.color:first-child {
+  background: blue;
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+  margin-top: 15%;
+  margin-left: 8%;
+  border-radius: 50%;
+}
+
+.color:nth-child(2) {
+  background: rgb(255, 239, 19);
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+  margin-top: 15%;
+  margin-left: 8%;
+  border-radius: 50%;
+}
+
+.color:nth-child(3) {
+  background: pink;
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+  margin-top: 15%;
+  margin-left: 8%;
+  border-radius: 50%;
+}
+
+/* paper styles for the input form */
+.paper {
+  background: #fff;
+  padding: 60px;
+  position: relative;
+  width: 80vw;
+  display: block;
+  margin: auto;
+  margin-top: 3rem;
+  height: 20rem;
+  display: none;
+}
+
+.paper,
+.paper::before,
+.paper::after {
+  /* Styles to distinguish sheets from one another */
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+  border: 1px solid #bbb;
+}
+
+.paper::before,
+.paper::after {
+  content: "";
+  position: absolute;
+  height: 95%;
+  width: 99%;
+  background-color: #eee;
+}
+
+.paper::before {
+  right: 15px;
+  top: 0;
+  transform: rotate(-1deg);
+  z-index: -1;
+}
+
+.paper::after {
+  top: 5px;
+  right: -5px;
+  transform: rotate(1deg);
+  z-index: -2;
+}
+
+.paper > textarea {
+  border: none;
+  overflow: auto;
+  outline: none;
+
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  /*remove the resize handle on the bottom right*/
+  resize: none;
+
+  font-size: 2rem;
+  width: 100%;
+  height: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.add-note {
+  background: rgb(156, 154, 154);
+  color: #fff;
+  outline: none;
+  border: 2px solid #eee;
+  font-size: 2rem;
+  border-radius: 15px;
+}
+
+.add-note:hover {
+  cursor: pointer;
+  background: rgb(39, 37, 37);
+  transition: 1s;
+}
+
+/* notes style */
+.card {
+  display: block;
+  margin: auto;
+  width: 90vw;
+  font-size: 2rem;
+  background: #f0edd9;
+  padding: 1rem;
+}
+
+.card.card-fresh > p.text {
+  /* background: red; */
+  overflow-wrap: break-word !important;
+  word-wrap: break-word !important;
+  hyphens: auto !important;
+  font-family: inherit !important;
+}
+
+.invisible {
+  display: none;
+}
+
+.pencil-note:hover {
+  cursor: pointer;
+}
+
+.fa-save {
+  display: inline !important;
+}
+
+#saveEdit:hover {
+  cursor: pointer;
+}
+
+.fa-times-circle {
+  margin-left: 90%;
+  margin-bottom: 5srem;
+}
+
+.fa-times-circle:hover {
+  cursor: pointer;
+}
+
+.filter {
+  display: none;
+  margin: auto;
+  margin-top: 2rem;
+  width: 20rem;
+  height: 3rem;
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  outline: none;
+  border: 2px solid #000;
+  border-radius: 15px;
+}
+
+::-webkit-input-placeholder {
+  text-align: center;
+}
+
+.save-fresh {
+  position: absolute;
+  left: 3%;
+  margin-top:0.5rem;
+}
+
+.delete-fresh {
+  display: inline-block;
+}
+
+.card-fresh {
+  position: relative;
+}
+
+/* delete Notes Button */
+#deleteNotes {
+  background: rgb(194, 57, 57) !important;
+  display: block;
+  margin: auto;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  color: #fff;
+  border: 2px solid #ccc;
+  width: 20%;
+  height: 3rem;
+  text-align: center;
+  padding-top: 10px;
+  border-radius: 15px;
+  font-size: 2rem;
+  outline: none;
+}
+
+#deleteNotes:hover {
+  cursor: pointer;
+}
+
+/* media queries for responsiveness */
+@media (max-width: 1500px) {
+  .nav {
+    width: 60vw;
+  }
+  .save-fresh {
+    position: absolute;
+    left: 5%;
+  }
+  #deleteNotes {
+    width: 25%;
+  }
+}
+
+@media (max-width: 1000px) {
+  .nav {
+    width: 80vw;
+  }
+  .save-fresh {
+    left: 7%;
+  }
+  #deleteNotes {
+    width: 30%;
+  }
+}
+
+@media (max-width: 750px) {
+  .nav {
+    width: 70vw;
+  }
+  .nav > .navItem {
+    display: block;
+    margin: auto;
+    margin-bottom: 1rem;
+    width: 100%;
+  }
+  .add-note {
+    font-size: 1.5rem;
+  }
+  .card {
+    font-size: 1.5rem;
+    width: 70vw;
+  }
+
+  .save-fresh {
+    left: 9%;
+  }
+  #deleteNotes {
+    width: 45%;
+  }
+}
+
+@media (max-width: 590px) {
+  .save-fresh {
+    left: 12%;
+    top: 67%;
+  }
+  .add-note {
+    display: block;
+    margin: auto;
+  }
+}
+
+@media (max-width: 500px) {
+  .navItem {
+    width: 100% !important;
+  }
+
+  .paper {
+    max-width: 50%;
+  }
+
+  #deleteNotes {
+    width: 75%;
+  }
+}
+
+@media (max-width: 450px) {
+  .save-fresh {
+    left: 15%;
+    top: 67%;
+  }
+}
+    
+   </pre>
+   <p class="text">
+     Now refresh the page, and no new elements at all &#128533;. That is because the notes will be added dynamically 
+     through JavaScript and we have none at the moment. However, if you'd like to see what they will look like, just paste
+     the below code in the index.html, right inside the div with the id <span class="snippet">#records</span>. That's
+     where our little JS script will insert the real notes too:
+   </p>
+   <pre class="code">
+<div class="card">
+  &lt;p class="text"&gt;
+    Lorem ipsum dolor sit amet consectetur 
+    adipisicing elit. Omnis deleniti unde 
+    laudantium nam recusandae eaque perferendis 
+    voluptatem nobis distinctio sunt! Repudiandae, 
+    doloribus unde delectus accusantium aspernatur 
+    dolores cupiditate incidunt autem doloremque
+    deleniti minus optio tenetur dolorum recusandae. 
+    Harum possimus eius magni rem facere! Rerum 
+    quos natus architecto suscipit, quisquam
+    exercitationem!
+  &lt;/p&gt;
+  &lt;p class="text"&gt;Written at: 15-Sep-2020&lt;/p&gt;
+  &lt;p 
+    class="text invisible"
+  &gt;
+    id: 2sweecfuks046mw3k019rx
+  &lt;/p&gt;
+  &lt;i 
+    class="fa fa-pencil pencil-note" 
+    aria-hidden="true"
+  &gt;
+  &lt;/i&gt;
+  &lt;span id="saveEdit"&gt;&lt;/span
+  &gt;&lt;i 
+    class="fa fa-times-circle" 
+    aria-hidden="true"
+  &gt;&lt;/i&gt;
+  &lt;hr /&gt;
+&lt;/div&gt;
+   </pre>
+   <p class="text">
+     Next, delete the note code and hide the <span class="snippet">.diaryEntries</span> div with a new CSS property,
+     add it right above the notes styles:
+   </p>
+   <pre class="code">
+    .diaryEntries {
+      display: none;
+    }
+   </pre>
+   <p class="text">
+     We will now move on to the import/export section. Add the HTML code for it in index.html,
+     right under the entries section:
+   </p>
+   <pre class="code">
+   &lt;div class="importExport"&gt;
+     &lt;div class="nav"&gt;
+       <br />
+       &lt;p class="uiText alert"&gt;
+          Use the buttons below to export your notes as 
+          a JSON file or to import
+          a JSON notes for your notes feed.
+       &lt;/p&gt;
+       &lt;div 
+          id="importBtn" 
+          class="navItem import" 
+          tabindex="1"
+        &gt;
+          Import
+         &lt;input
+            class="import-file"
+            type="file"
+            id="file"
+            name="file"
+            enctype="multipart/form-data"
+          /&gt;
+         &lt;i 
+          class="fa fa-cloud-upload" 
+          aria-hidden="true"
+        &gt;
+        &lt;/i&gt;
+       &lt;/div&gt;
+       &lt;div 
+        id="exportBtn" 
+        class="navItem import" 
+        tabindex="1"
+      &gt;
+          Export
+          &lt;i 
+                class="fa fa-cloud-download" 
+                aria-hidden="true"
+              &gt;&lt;s/i&gt;
+       &lt;/div&gt;
+     &lt;/div&gt;
+   &lt;/div&gt;
+   </pre>
+   <p class="text">
+     Now, when you refresh, you will see that part of the ugly looking HTML is styled already by the classes from our
+     previous styles. Let's style the rest and upgrade style.css again:
+   </p>
+<pre class="code">
+/* make text non-selectable */
+* {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, 
+            currently supported by Chrome and Opera */
+}
+
+body {
+  background: rgb(108, 140, 226);
+}
+
+/* navigation */
+.nav {
+  display: block;
+  margin: auto;
+  width: 40vw;
+}
+
+/* navigation item */
+.nav > .navItem {
+  background: rgb(38, 0, 255);
+  display: inline-block;
+  color: #fff;
+  border: 2px solid #ccc;
+  width: 32%;
+  height: 3rem;
+  text-align: center;
+  padding-top: 10px;
+  border-radius: 15px;
+  font-size: 2rem;
+}
+
+.nav > .navItem:hover {
+  cursor: pointer;
+  transition: 1s;
+}
+
+.nav > .navItem:focus {
+  outline: none;
+}
+
+/* colors */
+.colors {
+  background: #fff;
+  width: 10rem;
+  height: 5rem;
+  display: block;
+  margin: auto;
+  margin-top: 2rem;
+  border-radius: 30px;
+}
+
+.color:hover {
+  cursor: pointer;
+}
+
+.color:first-child {
+  background: blue;
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+  margin-top: 15%;
+  margin-left: 8%;
+  border-radius: 50%;
+}
+
+.color:nth-child(2) {
+  background: rgb(255, 239, 19);
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+  margin-top: 15%;
+  margin-left: 8%;
+  border-radius: 50%;
+}
+
+.color:nth-child(3) {
+  background: pink;
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+  margin-top: 15%;
+  margin-left: 8%;
+  border-radius: 50%;
+}
+
+/* paper styles for the input form */
+.paper {
+  background: #fff;
+  padding: 60px;
+  position: relative;
+  width: 80vw;
+  display: block;
+  margin: auto;
+  margin-top: 3rem;
+  height: 20rem;
+  display: none;
+}
+
+.paper,
+.paper::before,
+.paper::after {
+  /* Styles to distinguish sheets from one another */
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+  border: 1px solid #bbb;
+}
+
+.paper::before,
+.paper::after {
+  content: "";
+  position: absolute;
+  height: 95%;
+  width: 99%;
+  background-color: #eee;
+}
+
+.paper::before {
+  right: 15px;
+  top: 0;
+  transform: rotate(-1deg);
+  z-index: -1;
+}
+
+.paper::after {
+  top: 5px;
+  right: -5px;
+  transform: rotate(1deg);
+  z-index: -2;
+}
+
+.paper > textarea {
+  border: none;
+  overflow: auto;
+  outline: none;
+
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  /*remove the resize handle on the bottom right*/
+  resize: none;
+
+  font-size: 2rem;
+  width: 100%;
+  height: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.add-note {
+  background: rgb(156, 154, 154);
+  color: #fff;
+  outline: none;
+  border: 2px solid #eee;
+  font-size: 2rem;
+  border-radius: 15px;
+}
+
+.add-note:hover {
+  cursor: pointer;
+  background: rgb(39, 37, 37);
+  transition: 1s;
+}
+
+/* notes style */
+
+.diaryEntries {
+  display: none;
+}
+
+.card {
+  display: block;
+  margin: auto;
+  width: 90vw;
+  font-size: 2rem;
+  background: #f0edd9;
+  padding: 1rem;
+}
+
+.card.card-fresh > p.text {
+  /* background: red; */
+  overflow-wrap: break-word !important;
+  word-wrap: break-word !important;
+  hyphens: auto !important;
+  font-family: inherit !important;
+}
+
+.invisible {
+  display: none;
+}
+
+.pencil-note:hover {
+  cursor: pointer;
+}
+
+.fa-save {
+  display: inline !important;
+}
+
+#saveEdit:hover {
+  cursor: pointer;
+}
+
+.fa-times-circle {
+  margin-left: 90%;
+  margin-bottom: 5srem;
+}
+
+.fa-times-circle:hover {
+  cursor: pointer;
+}
+
+.filter {
+  display: none;
+  margin: auto;
+  margin-top: 2rem;
+  width: 20rem;
+  height: 3rem;
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  outline: none;
+  border: 2px solid #000;
+  border-radius: 15px;
+}
+
+::-webkit-input-placeholder {
+  text-align: center;
+}
+
+.save-fresh {
+  position: absolute;
+  left: 3%;
+  margin-top:0.5rem;
+}
+
+.delete-fresh {
+  display: inline-block;
+}
+
+.card-fresh {
+  position: relative;
+}
+
+/* delete Notes Button */
+#deleteNotes {
+  background: rgb(194, 57, 57) !important;
+  display: block;
+  margin: auto;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  color: #fff;
+  border: 2px solid #ccc;
+  width: 20%;
+  height: 3rem;
+  text-align: center;
+  padding-top: 10px;
+  border-radius: 15px;
+  font-size: 2rem;
+  outline: none;
+}
+
+#deleteNotes:hover {
+  cursor: pointer;
+}
+
+/* import export styles */
+.importExport {
+  /* display: none; */
+}
+
+.import {
+  width: 48% !important;
+}
+
+.import-file {
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#importBtn {
+  position: relative;
+}
+
+.uiText {
+  display: block;
+  margin: auto;
+  text-align: center;
+  font-size: 2rem;
+  background: #fff;
+  padding: 1rem;
+  border-radius: 15px;
+  margin-bottom: 2rem;
+  color: #524f4f;
+  border: 2px solid #ccc;
+}
+
+/* alert div styles (used for add and import/export */
+.alert {
+  margin-top: 5rem;
+  max-width: 40rem; 
+}
+
+/* media queries for responsiveness */
+@media (max-width: 1500px) {
+  .nav {
+    width: 60vw;
+  }
+  .save-fresh {
+    position: absolute;
+    left: 5%;
+  }
+  #deleteNotes {
+    width: 25%;
+  }
+}
+
+@media (max-width: 1000px) {
+  .nav {
+    width: 80vw;
+  }
+  .save-fresh {
+    left: 7%;
+  }
+  #deleteNotes {
+    width: 30%;
+  }
+}
+
+@media (max-width: 750px) {
+  .nav {
+    width: 70vw;
+  }
+  .nav > .navItem {
+    display: block;
+    margin: auto;
+    margin-bottom: 1rem;
+    width: 100%;
+  }
+  .add-note {
+    font-size: 1.5rem;
+  }
+  .card {
+    font-size: 1.5rem;
+    width: 70vw;
+  }
+
+  .save-fresh {
+    left: 9%;
+  }
+  #deleteNotes {
+    width: 45%;
+  }
+}
+
+@media (max-width: 590px) {
+  .save-fresh {
+    left: 12%;
+    top: 67%;
+  }
+  .add-note {
+    display: block;
+    margin: auto;
+  }
+}
+
+@media (max-width: 500px) {
+  #deleteNotes {
+    width: 75%;
+  }
+  #importBtn,
+  #exportBtn,
+  .navItem {
+    width: 100% !important;
+  }
+}
+
+@media (max-width: 450px) {
+  .save-fresh {
+    left: 15%;
+    top: 67%;
+  }
+}
+    
+   </pre>
+   <p class="text">
+     Refresh the page again, and you will see the import/export section in all its splendor &#128521;.
+     Now, let's hide it by uncommenting the first and only line from the <span class="snippet">.importExport</span>
+    class in our style.css file and poof it goes. But do not worry, we will now start working on the <span class="snippet">ui.js</span>
+    script to bring it all back.  
+  </p>
+  <p class="text">
+    We will start working on the <span class="snippet">ui.js</span> file. First, let's make a little method that toggles the 3 'tabs' namely:
+    input, diary entries and import/export section. We want each tab to show when we click on the button and we want to color the button that we 
+    click in a different way (so that it has an 'active') class. We will also add an event listener on the 3 main buttons and call the method to 
+    trigger the toggle. Here's the code for that. Add it in <span class="snippet">ui.js</span>:
+   </p>
+   <p class="text">
+     *remember that whenever you see the <span class="snippet">//put this on one line</span> comment in the JavaScript code, it simply means that the next
+     2 lines should actually be on a single line. Your editor's auto formatting might do this by itself. The reason I split the code like this is so that it stays 
+     nicely visible on a mobile device too.
+   </p>
+   <pre class="code">
+//buttons and inputs
+const inputBtn = document.querySelector("#inputBtn");
+const listBtn = document.querySelector("#recordsBtn");
+//put this on one line
+const importExportBtn = document.
+                  querySelector("#importExportBtn");
+const inputDiv = document.querySelector("#input");
+//put this on one line
+const entriesDiv = document
+                    .querySelector(".diaryEntries");
+//put this on one line
+const importExportDiv = document
+                    .querySelector(".importExport");
+
+let activeColor = "#050D31";
+let inactiveColor = "#2600FF";
+
+//put this on one line
+const toggleElement = 
+(toShow, toHide, activeC, inactiveC) => {
+  toShow.map((i) => (i.style.display = "block"));
+  toHide.map((i) => (i.style.display = "none"));
+  //put this on one line
+  activeC.map((i) => 
+    (i.style.backgroundColor = activeColor));
+  //put this on one line
+  inactiveC.map((i) => 
+    (i.style.backgroundColor = inactiveColor));
+};
+
+inputBtn.addEventListener("click", () => {
+  toggleElement(
+    [inputDiv],
+    [entriesDiv, importExportDiv],
+    [inputBtn],
+    [listBtn, importExportBtn]
+  );
+});
+
+listBtn.addEventListener("click", () => {
+  toggleElement(
+    [entriesDiv],
+    [inputDiv, importExportDiv],
+    [listBtn],
+    [inputBtn, importExportBtn]
+  );
+});
+
+importExportBtn.addEventListener("click", () => {
+  toggleElement(
+    [importExportDiv],
+    [inputDiv, entriesDiv],
+    [importExportBtn],
+    [listBtn, inputBtn]
+  );
+});
+   </pre>
+   <p class="text">
+     Let's now implement a little method for the color scheme changing too. Remember that we want that 
+     when we click on one of the 3 coloures circles, to change the color scheme of the app. Here's the code 
+     to add the method and we are also adding 3 event listeners (for the 3 color circles). Add everything to 
+     <span class="snippet">ui.js</span>:
+   </p>
+   <pre class="code">
+//buttons and inputs
+const inputBtn = document.querySelector("#inputBtn");
+const listBtn = document.querySelector("#recordsBtn");
+//put this on one line
+const importExportBtn = document.
+                  querySelector("#importExportBtn");
+const inputDiv = document.querySelector("#input");
+//put this on one line
+const entriesDiv = document
+                    .querySelector(".diaryEntries");
+
+const uiText = document.querySelector(".uiText");
+//put this on one line
+const importExportDiv = document
+                        .querySelector(".importExport");
+//colors for UI customisation
+const c1 = document.getElementById("c1");
+const c2 = document.getElementById("c2");
+const c3 = document.getElementById("c3");
+const bodyBackground = document.querySelector("body");
+
+let activeColor = "#050D31";
+let inactiveColor = "#2600FF";
+
+
+//change pannel/element function
+//put this on one line
+const toggleElement = 
+(toShow, toHide, activeC, inactiveC) => {
+  toShow.map((i) => (i.style.display = "block"));
+  toHide.map((i) => (i.style.display = "none"));
+  //put this on one line
+  activeC.map((i) => 
+    (i.style.backgroundColor = activeColor));
+  //put this on one line
+  inactiveC.map((i) => 
+    (i.style.backgroundColor = inactiveColor));
+};
+
+
+//change color theme function
+const changeTheme = (c1, c2, c3, c4) => {
+bodyBackground.style.backgroundColor = c1;
+activeColor = c2;
+inactiveColor = c3;
+inputBtn.style.backgroundColor = inactiveColor;
+recordsBtn.style.backgroundColor = inactiveColor;
+importExportBtn.style.backgroundColor = inactiveColor;
+importBtn.style.backgroundColor = inactiveColor;
+exportBtn.style.backgroundColor = inactiveColor;
+listBtn.style.border = `2px solid ${activeColor}`;
+inputBtn.style.border = `2px solid ${activeColor}`;
+importBtn.style.border = `2px solid ${activeColor}`;
+exportBtn.style.border = `2px solid ${activeColor}`;
+//put this on one line
+importExportBtn.style.border = 
+  `2px solid ${activeColor}`;
+uiText.style.border = `2px solid ${activeColor}`;
+};
+
+
+//event listener for toggling pannels
+inputBtn.addEventListener("click", () => {
+  toggleElement(
+    [inputDiv],
+    [entriesDiv, importExportDiv],
+    [inputBtn],
+    [listBtn, importExportBtn]
+  );
+});
+
+listBtn.addEventListener("click", () => {
+  toggleElement(
+    [entriesDiv],
+    [inputDiv, importExportDiv],
+    [listBtn],
+    [inputBtn, importExportBtn]
+  );
+});
+
+importExportBtn.addEventListener("click", () => {
+  toggleElement(
+    [importExportDiv],
+    [inputDiv, entriesDiv],
+    [importExportBtn],
+    [listBtn, inputBtn]
+  );
+});
+
+//event listeners for changing theme
+c1.addEventListener("click", () => {
+changeTheme("#6C8CE2", "#050D31", "#2600FF", "blue");
+});
+c2.addEventListener("click", () => {
+changeTheme("#fcce03", "#ad871d", "#ebb852", "yellow");
+});
+c3.addEventListener("click", () => {
+changeTheme("pink", "#97089e", "#f003fc", "pink");
+});
+       </pre>
+       <p class="text">
+         We have implemented the 'themes changing' feature. The <span class="snippet">toggleElement()</span>
+         method hides and shows elements depending on what we need, and the <span class="snippet">changeTheme()</span>
+         method changes the color scheme (borders and  backgrounds) for the app. As a last step before we finish with the 
+         <span class="snippet">ui.js</span> script, we will also make the application 'remember' what was last clicked,
+         what is 'active' and what color was picked by the user. Note that it currently cannot do that, if we refresh
+         the page, it loses all <span class="snippet">state</span> and hides everything. This is how we will manage <span class="snippet">state</span> in our application. <span class="snippet">State</span> is a
+         concept which basically reffers to the data an application has 'in memory' and on which the application's looks
+         and what it can do at a certain point in time are based (for instance if we click the yellow circle, the app turns
+         yellow, this is its <span class="snippet">state</span> at that point in time, and if we refresh the page, we lose that <span class="snippet">state</span> ).
+         It is also fairly hard to manage (for our application it's not such a big deal, given the low level of complexity of our notes app, but 
+         the more complex an application becomes, the harder it gets to keep the state well structured and organised).
+       </p>
+       <p class="text">
+         We will make it so that the applicaiton 'remembers' the last toggled section and the last color theme selected, even after refresh/closing the app.
+         We are going to use the <span class="snippet">localStorage</span> API for this. It will allow us to store data on the client (so on the user's computer)
+         and retrieve it to keep the UI in sync with his options.
+       </p>
+       <p class="text">
+         The methods that we will use with <span class="snippet">localStorage</span> are <span class="snippet">setItem()</span> and <span class="snippet">getItem()</span>. We will also 
+         use <span class="snippet">removeItem()</span>. If our variables change at runtime (so while the script executes, because the user clicks on stuff for instance),
+         and then we refresh the page, we lose what the user did. On the other hand with <span class="snippet">localStorage</span> we can do something like:
+        </p>
+        <pre class="code">
+let user = "user1";
+//user1 makes a purchase in our app and logs out
+//user2 logs in
+user = "user2";
+//if when script starts I need to know 'who' is user
+//I have to use localStorage or some cookie
+//now I 'remember' which user I have
+localStorage.setItem("user", user);
+        </pre>
+        <p class="text">
+          If my example above is not clear about how it works, just copy the below line and paste it in your JS console in the browser
+          and hit enter:
+        </p>
+        <pre class="code">
+localStorage.setItem("testVariable", "some data..");
+        </pre>
+        <p class="text">
+          Next, if you go to the <span class="snippet">Application</span> tab in the console and select the <span class="snippet">Local Storage</span>
+        'Storage' option, you will see:
+        </p>
+        <div class="devPic">
+          <img src="./img/localStorage.png" alt="">
+        </div>
+        <p class="text">
+          So the variable <span class="snippet">testVariable</span> having the value <span class="snippet">"some data.."</span> has been stored onto localStorage
+          and our JS application can retrieve it, modify it, remove it, use it any way we need.
+        </p>
+        <p class="text">
+          Now that you understood a bit how <span class="snippet">localStorage</span> works, we can implement the logic that 'remembers' what tab the user clicked and
+          what colo scheme he chose. Add the below to <span class="snippet">ui.js</span>:
+        </p>
+        <pre class="code">
+//buttons and inputs
+const inputBtn = document.querySelector("#inputBtn");
+const listBtn = document.querySelector("#recordsBtn");
+//put this on one line
+const importExportBtn = document.
+                  querySelector("#importExportBtn");
+const inputDiv = document.querySelector("#input");
+//put this on one line
+const entriesDiv = document
+                    .querySelector(".diaryEntries");
+
+const uiText = document.querySelector(".uiText");
+//put this on one line
+const importExportDiv = document
+                        .querySelector(".importExport");
+//colors for UI customisation
+const c1 = document.getElementById("c1");
+const c2 = document.getElementById("c2");
+const c3 = document.getElementById("c3");
+const bodyBackground = document.querySelector("body");
+
+//grab theme and active btn from localStorage
+let theme = localStorage.getItem("theme");
+let activeBtn = localStorage.getItem("activeBtn");
+
+let activeColor = "#050D31";
+let inactiveColor = "#2600FF";
+
+
+//change pannel/element function
+//put this on one line
+const toggleElement = 
+(toShow, toHide, activeC, inactiveC) => {
+  toShow.map((i) => (i.style.display = "block"));
+  toHide.map((i) => (i.style.display = "none"));
+  //put this on one line
+  activeC.map((i) => 
+    (i.style.backgroundColor = activeColor));
+  //put this on one line
+  inactiveC.map((i) => 
+    (i.style.backgroundColor = inactiveColor));
+};
+
+
+//change color theme function
+const changeTheme = (c1, c2, c3, c4) => {
+bodyBackground.style.backgroundColor = c1;
+activeColor = c2;
+inactiveColor = c3;
+inputBtn.style.backgroundColor = inactiveColor;
+recordsBtn.style.backgroundColor = inactiveColor;
+importExportBtn.style.backgroundColor = inactiveColor;
+importBtn.style.backgroundColor = inactiveColor;
+exportBtn.style.backgroundColor = inactiveColor;
+listBtn.style.border = `2px solid ${activeColor}`;
+inputBtn.style.border = `2px solid ${activeColor}`;
+importBtn.style.border = `2px solid ${activeColor}`;
+exportBtn.style.border = `2px solid ${activeColor}`;
+//put this on one line
+importExportBtn.style.border = 
+  `2px solid ${activeColor}`;
+uiText.style.border = `2px solid ${activeColor}`;
+};
+
+//keep track of UI theme and update
+if (theme === "blue") {
+changeTheme("#6C8CE2", "#050D31", "#2600FF", "blue");
+} else if (theme === "yellow") {
+changeTheme("#fcce03", "#ad871d", "#ebb852", "yellow"); 
+} else if (theme === "pink") {
+changeTheme("pink", "#97089e", "#f003fc", "pink"); 
+}
+
+
+//event listener for toggling pannels
+inputBtn.addEventListener("click", () => {
+  toggleElement(
+    [inputDiv],
+    [entriesDiv, importExportDiv],
+    [inputBtn],
+    [listBtn, importExportBtn]
+  );
+  //set active btn to localStorage so app remembers it
+  localStorage.setItem("activeBtn", "input");
+});
+
+listBtn.addEventListener("click", () => {
+  toggleElement(
+    [entriesDiv],
+    [inputDiv, importExportDiv],
+    [listBtn],
+    [inputBtn, importExportBtn]
+  );
+  //set active btn to localStorage so app remembers it
+  localStorage.setItem("activeBtn", "entries");
+});
+
+importExportBtn.addEventListener("click", () => {
+  toggleElement(
+    [importExportDiv],
+    [inputDiv, entriesDiv],
+    [importExportBtn],
+    [listBtn, inputBtn]
+  );
+  //set active btn to localStorage so app remembers it
+  localStorage.setItem("activeBtn", "importExport");
+});
+
+//event listeners for changing theme
+c1.addEventListener("click", () => {
+changeTheme("#6C8CE2", "#050D31", "#2600FF", "blue");
+//set theme to localStorage so app remembers it
+  localStorage.setItem("theme", "blue");
+});
+c2.addEventListener("click", () => {
+changeTheme("#fcce03", "#ad871d", "#ebb852", "yellow");
+//set theme to localStorage so app remembers it
+  localStorage.setItem("theme", "yellow");
+});
+c3.addEventListener("click", () => {
+changeTheme("pink", "#97089e", "#f003fc", "pink");
+//set theme to localStorage so app remembers it
+  localStorage.setItem("theme", "pink");
+});
+
+
+//keep track of active tab and show the one last clicked
+if (activeBtn === "input") {
+  toggleElement(
+    [inputDiv],
+    [entriesDiv, importExportDiv],
+    [inputBtn],
+    [listBtn, importExportBtn]
+  );
+} else if (activeBtn === "entries") {
+  toggleElement(
+    [entriesDiv],
+    [inputDiv, importExportDiv],
+    [listBtn],
+    [inputBtn, importExportBtn]
+  );
+} else if (activeBtn === "importExport") {
+  toggleElement(
+    [importExportDiv],
+    [inputDiv, entriesDiv],
+    [importExportBtn],
+    [listBtn, inputBtn]
+  );
+}
+
+        </pre>
+        <p class="text">
+          Test the UI thus far. The application now remembers what last tab we clicked and what color scheme we choose. 
+          We are pretty much done with the UI. Next we will work on the second script of our application 
+          <span class="snippet">notes.js</span>, which will perform the 'back-end' logic of storing the notes 
+          (you've guessed it!&#128521; in localStorage), importing and exporting them as a JSON file and it will also perform
+          some UI/DOM manipulation magic, which could not be de-coupled from it (hence I did not put it in the <span class="snippet">ui.js</span> ) script.
+        </p>
+        <p class="text center bold">
+          'back-end' logic with notes.js
+        </p>
+        <p class="text">
+          We will now start working on the <span class="snippet">notes.js</span> script which will perform our 'back-end' logic. The script is not a real 
+          back-end but you will see that it mimmicks one very well (well enough so you get familiar with how real back-end scripts work). 
+          I consider this approach to be ideal as a transition towards more advanced, full-stack applications with a 'real' backend.
+        </p>
+        <p class="text">
+          Either way, enough with the talk. Let's start by implementing a method to add a note in the <span class="snippet">notes.js</span> file:
+        </p>
+        <pre class="code">
+let notes;
+
+if (localStorage.getItem("notes") === null) {
+  notes = [];
+} else {
+  notes = JSON.parse(localStorage.getItem("notes"));
+}
+
+/*
+  * Grabs user note and saves to localStorage API
+  */
+const grabNote = (e) => {
+  const note = {};
+  //regexp to 'know' how to put linebreaks
+  let noteText = document.querySelector("#note").value;
+  note.text = noteText.replace(/\r?\n/g, "<br />");
+  const noteDate = new Date()
+    .toString()
+  .replace(/\S+\s(\S+)\s(\d+)\s(\d+)\s.*/, "$2-$1-$3");
+  note.date = noteDate;
+  let id =
+    Math.random().toString(36).substring(2, 15) +
+    Math.random().toString(36).substring(2, 15);
+  note.id = id;
+  notes.push(note);
+  localStorage.setItem("notes", JSON.stringify(notes));
+  document.querySelector("#note").value = "";
+
+  //alert functionality
+  const alert = document.querySelector(".alert");
+  alert.style.display = "block";
+  alert.className = "alert uiText";
+  alert.innerHTML = "Note Saved &#x1F609;";
+  setTimeout(() => {
+    alert.innerHTML = "";
+    alert.style.display = "none";
+  }, 2000);
+};
+
+let saveBtn = document.querySelector(".add-note");
+saveBtn.addEventListener("click", grabNote);
+
+        </pre>
+        <p class="text">
+          Now if we add a note, we cannot see it yet (we will add this functionality right now) but if we go to the Application tab, to LocalStorage we can see that we have it:
+        </p>
+        <div class="devPic">
+          <img src="./img/notesLocalStorage.png" alt="">
+        </div>
+        <p class="text">
+          Let's now add the logic that displays the notes that we already have in local storage.Add the below code to <span class="snippet">notes.js</span>
+          at the very end:
+        </p>
+        <pre class="code">
+/*
+ * Grabs notes from localStorage API and displays to UI
+ */
+const displayNotes = () => {
+  let records = document.querySelector("#records");
+  let output = "<div class='first-card'></div>";
+  notes.reverse().map((n) => {
+    output += `
+        &lt;div class="card"&gt;
+            &lt;p class="text"&gt;
+                ${n.text}
+            &lt;/p&gt;
+            &lt;p class="text"&gt;
+                Written at: ${n.date}
+            &lt;/p&gt;
+            &lt;p class="text invisible"&gt;
+                id: ${n.id}
+            &lt;/p&gt;
+            &lt;i 
+              class="fa fa-pencil pencil-note" 
+              aria-hidden="true"&gt;&lt;/i&gt;
+            &lt;span 
+              id="saveEdit"&gt;&lt;/span&gt;
+                &lt;i 
+                    class="fa fa-times-circle" 
+                    aria-hidden="true"
+                &gt;&lt;/i&gt;
+            &lt;hr&gt;
+        &lt;/div&gt;
+      `;
+  });
+  records.innerHTML = output;
+};
+//call display notes to see the notes
+displayNotes();
+        </pre>
+        <p class="text">
+          Now, we can add notes and we can see them. The downside is that we cannot see them immediately, we have to refresh the page first.
+          That is bad, for the UX, the user will want to see his/her note right when they type it. Let's modify the <span class="snippet">grabNote()</span>
+          method in the <span class="snippet">notes.js</span> script a bit. However, before we do that, I will explain a bit how JS builds stuff into the DOM.
+        </p>
+        <p class="text">
+          JavaScript has this nice method called <span class="snippet">createElement()</span> which allows us to create DOM elements (like divs, paragraphs, etc...).
+          Once an element created, we need to create a text node (you've guessed right, there is a <span class="snippet">createTextNode()</span> method too) and to append
+          it to the created element (using of course, an <span class="snippet">appendChild()</span> method). A simple snippet would look like this:
+        </p>
+        <pre class="code">
+const domElement = document.createElement("p"); 
+//put this on one line
+domElement.style = 
+        "background:red; color:green; font-size:5rem;";
+//put this on one line
+const text = document
+              .createTextNode("paragraph text here");
+domElement.appendChild(text);
+document.querySelector("body").appendChild(domElement);
+        </pre>
+        <p class="text">
+          Paste the snippet above in the console in your browser and hit enter. It will create a big ugly green paragraph with red background.
+        </p>
+        <p class="text">
+          Now that you have some idea about how the dom element creation works with JavaScript, let's change the <span class="snippet">grabNote()</span> method from <span class="snippet">notes.js</span>. 
+          Just replace it with the below code. Leave the commented lines commented out, as they reference events which bind calls to methods that we have not yet created.
+        </p>
+        <pre class="code">
+          /*
+ * Grabs user note and saves to localStorage API
+ */
+const grabNote = (e) => {
+const note = {};
+//regexp to 'know' how to put linebreaks
+let noteText = document.querySelector("#note").value;
+note.text = noteText.replace(/\r?\n/g, "<br />");
+const noteDate = new Date()
+  .toString()
+  .replace(/\S+\s(\S+)\s(\d+)\s(\d+)\s.*/, "$2-$1-$3");
+note.date = noteDate;
+let id =
+  Math.random().toString(36).substring(2, 15) +
+  Math.random().toString(36).substring(2, 15);
+note.id = id;
+notes.push(note);
+localStorage.setItem("notes", JSON.stringify(notes));
+document.querySelector("#note").value = "";
+
+//build the new note in the DOM so it is
+//seemlessly added and the UI flow is not broken
+const noteDiv = document.createElement("div");
+noteDiv.className = "card card-fresh";
+const pText = document.createElement("p");
+pText.className = "text";
+//pre tag allows for text to be 
+//displayed on multiple lines
+const preTag = document.createElement("pre");
+preTag.style = "white-space: normal;";
+pText.appendChild(preTag);
+const text = document.createTextNode(`${noteText}`);
+preTag.appendChild(text);
+noteDiv.appendChild(pText);
+const pDate = document.createElement("p");
+pDate.className = "text";
+//put this on one line
+const dateText = document
+          .createTextNode(`Written at: ${noteDate}`);
+pDate.appendChild(dateText);
+noteDiv.appendChild(pDate);
+const pId = document.createElement("p");
+pId.className = "text invisible";
+const idText = document.createTextNode(`id: ${id}`);
+pId.appendChild(idText);
+noteDiv.appendChild(pId);
+const icon1 = document.createElement("i");
+icon1.className = "fa fa-pencil pencil-note";
+noteDiv.appendChild(icon1);
+const span = document.createElement("span");
+span.id = "saveEdit";
+noteDiv.appendChild(span);
+// icon1.addEventListener("click", editFresh);
+const icon2 = document.createElement("i");
+icon2.className = "fa fa-times-circle delete-fresh";
+noteDiv.appendChild(icon2);
+// icon2.addEventListener("click", deleteFresh);
+const hr = document.createElement("hr");
+noteDiv.appendChild(hr);
+const list = document.querySelector(".first-card");
+list.insertBefore(noteDiv, list.childNodes[0]);
+
+//alert functionality
+const alert = document.querySelector(".alert");
+alert.style.display = "block";
+alert.className = "alert uiText";
+alert.innerHTML = "Note Saved &#x1F609;";
+setTimeout(() => {
+  alert.innerHTML = "";
+  alert.style.display = "none";
+}, 2000);
+};
+        </pre>
+        <p class="text">
+          Now, when we add a note, it shows into the DOM immediately. The code should be self explanatory. The <span class="snippet">pre</span> tag and the <span class="snippet">regexp</span>
+          make sure that we can add notes on multiple lines too. If we remove them, the note will split on multiple lines only when it fills the full row of its container (in this case, the 
+          'note' sheet).
+        </p>
+        <p class="text">
+          Now that we can add notes to the DOM and we can see them displayed, let's add the filter functionality quickly. Note that the input
+          with the class <span class="snippet">.filter</span> already has an <span class="snippet">oninput</span> attribute which calls the <span class="snippet">filter()</span> 
+          method. However, it currently throws an error in the console if we type something in it. As it should since the 
+          filter method does not exist. Let's add it in the <span class="snippet">notes.js</span> file. Add the below code at the end of the file:
+        </p>
+        <pre class="code">
+const filterField = document.querySelector(".filter");
+//put this on one line
+filterField.addEventListener("click", 
+  () => (filterField.value = ""));
+
+const filter = () => {
+  //filter by title,  date
+document.querySelectorAll(".card").forEach((item) => {
+  let value = document.querySelector(".filter")
+                          .value.toLowerCase();
+
+  const note = item.children[0].innerText;
+  const date = item.children[1].innerText;
+
+  if (
+    note.toLowerCase().indexOf(value) != -1 ||
+    date.toLowerCase().indexOf(value) != -1
+  ) {
+    item.style.display = "block";
+  } else {
+    item.style.display = "none";
+  }
+});
+};
+        </pre>
+        <p class="text">
+          We now have filter functionality too. Test it out to see how it works. Next, let's add the edit and delete methods.
+          We will start with the edit. Note that each note has a little pencil icon. That's what we'll use to hook our little function
+          that will allow us to edit the note. As for 'knowing' which note to edit in the localStorage array of notes, also do note
+          (if you haven't already) that each note has a hidden paragraph in it, with the class <span class="snippet">.invisible</span>
+          added to the <span class="snippet">.text</span> one, which holds an ID. That's what we'll use to search for the specific note 
+          to edit in memory and in localStorage too. Go to the <span class="snippet">notes.js</span> file and add the edit functionality:
+        </p>
+        <pre class="code">
+
+//select 'all' edit buttons (not just 1)
+//put this on one line
+const editBtns = Array.from(document
+              .querySelectorAll(".pencil-note"));
+
+/*
+ * Allows note editing
+ */
+const editNote = (e) => {
+  let idToEdit = e.target.parentElement.childNodes[5]
+    .innerText
+    .trim()
+    .split(":")[1]
+    .trim();
+  let cardToEdit = e.target.parentElement.childNodes[1];
+  cardToEdit.contentEditable = "true";
+  cardToEdit.style.backgroundColor = "#fff";
+  cardToEdit.style.padding = "1.5rem";
+  const editIcon = e.target.parentElement.childNodes[9];
+  editIcon.style.display = "inline-block";
+  editIcon.innerHTML = `<i class="fa fa-check" aria-hidden="true"></i>`;
+  e.preventDefault();
+};
+
+//bind the event to all edit buttons
+editBtns.map((i) => {
+  i.addEventListener("click", editNote);
+});
+        </pre>
+        <p class="text">
+          Now, if we click on the pen icon (do hit refresh after adding a new note, I will come back to this 'bug' a bit later), the edit interface pops up and  the <span class="snippet">contentEditable</span> property of the paragraph becomes true
+          (so the user can 'edit' the note). Please note how we used the <span class="snippet">querySelectorAll()</span>
+          method to select all the pen icons and how we have turned the <span class="snippet">NodeList</span> object that it returns into an
+          array. We did that so we can use the nice <span class="snippet">map()</span> higher order function to bind the event on all pen buttons.
+          However, we need to be able to save the note too. So let's just add that functionality. Add the below to <span class="snippet">notes.js</span>:
+        </p>
+        <pre class="code">
+/*
+ * saves note after edit
+ */
+const saveNote = (e) => {
+  let newText = e.target.parentElement.parentElement
+    .childNodes[1].innerText
+    .trim()
+    .replace(/\r?\n/g, "<br />");
+  let newDate = new Date()
+    .toString()
+  .replace(/\S+\s(\S+)\s(\d+)\s(\d+)\s.*/, "$2-$1-$3");
+  let idToEdit = e.target.parentElement.parentElement
+    .childNodes[5].innerText
+    .trim()
+    .split(":")[1]
+    .trim();
+
+  let newResource = {
+    text: newText,
+    date: newDate,
+    id: idToEdit,
+  };
+
+  notes.map((n, index) => {
+    if (n.id === idToEdit) {
+      notes[index] = newResource;
+    }
+  });
+
+  localStorage.setItem("notes", 
+        JSON.stringify(notes.reverse())
+      );
+
+  let cardToEdit = e.target.parentElement.parentElement
+                  .childNodes[1];
+  cardToEdit.contentEditable = "false";
+  cardToEdit.style.backgroundColor = "#f0edd9";
+  cardToEdit.style.padding = "0";
+  const editIcon = e.target.parentElement.parentElement
+                  .childNodes[9];
+  editIcon.style.display = "none";
+};
+
+const saveIcon = Array.from(document
+        .querySelectorAll("#saveEdit"));
+
+saveIcon.map((i) => {
+  i.addEventListener("click", saveNote);
+});
+        </pre>
+        <p class="text">
+          For the save method, we use the same tricks as for the edit one. We select all the save icons (the little tick icon), we convert the <span class="snippet">NodeList</span>
+          into an array and map through it to attach the event to each button. Inside the save function we basically make the <span class="snippet">contentEditable</span> property 
+          back to false, so the user can't edit the note anymore, we set the new date and the new text to the note, we keep the ID, and we save the note.
+          In the <span class="snippet">save()</span> method we use the nice <span class="snippet">map()</span> method to also loop quick through all
+          notes and find ours to save after edit. As you will work with JavaScript more, you will come to better understand how useful <span class="snippet">higher order functions</span>
+          such as <span class="snippet">map()</span> are. The last 'new trick' we used in the save method (we use it in edit too but I am explaining it now for the first time), is selecting
+          <span class="snippet">DOM</span> (remember what that was right?) nodes using the <span class="snippet">.childNodes</span> property (and we also used <span class="snippet">.children</span> 
+          for the <span class="snippet">filter()</span> method).
+        </p> 
+        <p class="text">
+          Finally, let's go on to implement the <span class="snippet">delete()</span> method. It will not have anything special (nothing different from what we 
+          have been using so far for the <span class="snippet">edit()</span> and <span class="snippet">save()</span> methods). Add it to the <span class="snippet">notes.js</span>:
+        </p>
+        <pre class="code">
+/*
+ * Deletes a note
+ */
+const deleteNote = (e) => {
+  let idToDelete = e.target.parentElement.childNodes[5]
+    .innerText
+    .split(":")[1]
+    .trim();
+  notes.map((n, index) => {
+    if (n.id === idToDelete) {
+      notes.splice(index, 1);
+    }
+  });
+  localStorage.setItem("notes", JSON.stringify(notes));
+  e.target.parentElement.style.display = "none";
+};
+let deleteBtns = Array.from(document.
+    querySelectorAll(".fa-times-circle"));
+deleteBtns.map((b) => {
+  b.addEventListener("click", deleteNote);
+});
+        </pre>
+        <p class="text">
+          Note that now, we have delete functionality too. If we click on the little X icon, the note disappears. Also, do note that our 
+          previous 'bug' from the edit note pops up here too. We cannot delete a note right after we have added it, without first refreshing 
+          the page. If we try to do that, nothing happens. The cause for this is pretty simple but may not be intuitive at first sight. When we set up
+          our <span class="snippet">edit()</span> and <span class="snippet">delete()</span> methods, onto all the pencil and X icons from the DOM,
+          this only included the notes currently on the page (and loaded in the DOM). You might be wondering, why not simply make the binding of the event,
+          inside the <span class="snippet">grabNote()</span> method too (just duplicate that little bit of code, as you still want the binding outside the
+          grab method so users can edit notes that are already on the page too). It is a good idea at first sight but, there is an issue with that. Due to how the
+          'freshly added' note to the DOM is constructed (so the note that 'shows up') in the UI right when we input the note text, without a page refresh, 
+          the DOM nodes are different. Remember the <span class="snippet">childNodes[5]</span> property, well this time the childNodes array might have only 2 elements,
+          so most you can get is choldNodes[3]. Due to that fact, the edit icon or the save/delete one, might have to be defined differently.
+        </p>
+        <p class="text">
+          My approach may not be ideal, feel free to twean it if you want to dive deeper into this issue, but it works and it suits our need. We will simply create a second set 
+          of edit and delete methods and we will hook them onto the icons of the freshly added notes to the dom. In order to distinguish between the methods,
+          we will call them <span class="snippet">editFresh()</span>, <span class="snippet">deleteFresh()</span> and so on... Let's start with <span class="snippet">editFresh()</span>. Note
+          that we already have a binding for it inside the <span class="snippet">grabNote()</span> method, but it is commented out for now (as the method does not exist):
+        </p>
+        <pre class="code">
+icon1.addEventListener("click", editFresh);
+        </pre>
+        <p class="text">
+          Uncomment the line and add the <span class="snippet">editFresh()</span> method to the <span class="snippet">notes.js</span> file:
+        </p>
+        <pre class="code">
+/*
+ * Edit note while just adding it (without refresh)
+ */
+const editFresh = (e) => {
+  let idToEdit = e.target.parentElement.childNodes[2]
+    .innerText
+    .split(":")[1]
+    .trim();
+  let cardToEdit = e.target.parentElement.childNodes[0];
+  cardToEdit.contentEditable = "true";
+  cardToEdit.style.backgroundColor = "#fff";
+  cardToEdit.style.padding = "1.5rem";
+  const editIcon = e.target.parentElement.childNodes[5];
+  editIcon.style.display = "inline";
+  editIcon.addEventListener("click", saveFresh);
+  editIcon.innerHTML = `&lt;i  
+                      class="fa fa-check save-fresh" 
+                          aria-hidden="true"
+                        &gt;
+                        &lt;/i&gt;`;
+  e.preventDefault();
+};
+
+        </pre>
+        <p class="text">
+          Now, if you click on the pen icon right after editing a note, the edit method works, however, you do get a little error in the console:
+        </p>
+        <div class="devPic">
+          <img src="./img/editErrFresh.png" alt="">
+        </div>
+        <p class="text">
+          <span class="snippet">saveFresh is not defined</span> this happens because we have an event binding onto this method which does not exist yet.
+          In the <span class="snippet">editFresh()</span> method we have just written we have the below line:
+        </p>
+        <pre class="code">
+editIcon.addEventListener("click", saveFresh);
+      </pre>
+      <p class="text">
+        Let's add the <span class="snippet">saveFresh()</span> method to fix that. Add it to the <span class="snippet">notes.js</span> file:
+      </p>
+      <pre class="code">
+/*
+ * Save while just adding it (no refresh)
+ */
+const saveFresh = (e) => {
+  let newText;
+  let idToEdit;
+  // let deleteIcon;
+  if (e.target.parentElement.parentElement
+    .childNodes[0] !== undefined) {
+    newText = e.target.parentElement.parentElement
+      .childNodes[0].innerHTML
+      .trim()
+      .replace(/\r?\n/g, "<br />");
+  }
  
-  </body>
+  let newDate = new Date()
+    .toString()
+.replace(/\S+\s(\S+)\s(\d+)\s(\d+)\s.*/, "$2-$1-$3");
+  if (e.target.parentElement.parentElement
+       .childNodes[2] !== undefined) {
+              idToEdit = e.target.parentElement
+              .parentElement.childNodes[2].innerHTML
+              .split(":")[1]
+              .trim();
+      }
+  let newResource = {
+    text: newText,
+    date: newDate,
+    id: idToEdit,
+  };
+  notes.map((n, index) => {
+    if (n.id === idToEdit) {
+      notes[index] = newResource;
+    }
+  });
+  localStorage.setItem("notes", JSON.stringify(notes));
+  let cardToEdit = e.target.parentElement.
+              parentElement.childNodes[0];
+  cardToEdit.contentEditable = "false";
+  cardToEdit.style.backgroundColor = "#f0edd9";
+  cardToEdit.style.padding = "0";
+  const editIcon = e.target.parentElement.childNodes[0];
+  editIcon.style.display = "none";
+const deleteIcon = document.querySelector(
+            ".delete-fresh"
+          );
+  deleteIcon.style.display = "block";
+};
+
+editBtns.map((i) => {
+  i.addEventListener("click", editNote);
+});
+      </pre>
+      <p class="text">
+        Now we can edit the 'fresh' notes too. Let's implement the <span class="snippet">deleteFresh()</span> method too so that we can have full <span class="snippet">CRUD</span>
+        functionality onto them too. Add the method to <span class="snippet">notes.js</span>:
+      </p>
+      <pre class="code">
+/*
+* Delete a note while just adding it (no refresh)
+*/
+const deleteFresh = (e) => {
+  let idToDelete;
+  if (
+e.target.parentElement.
+childNodes[2] !== undefined) {
+    idToDelete = e.target.parentElement
+      .childNodes[2]
+      .innerText
+      .split(":")[1]
+      .trim();
+  }
+  notes.map((n, index) => {
+    if (n.id === idToDelete) {
+      notes.splice(index, 1);
+    }
+  });
+  localStorage.setItem(
+      "notes", 
+    JSON.stringify(notes));
+
+  let cardToHide = e.target.parentElement;
+  cardToHide.style.display = "none";
+};
+      </pre>
+      <p class="text">
+        Also, don't forget to uncomment the event binding line from the <span class="snippet">grabNote()</span> method.
+        I will paste it here:
+      </p>
+      <pre class="code">
+
+  icon2.addEventListener("click", deleteFresh);
+      </pre>
+      <p class="text">
+        Now, we only need to implement the <span class="snippet">deleteAll()</span> method, as we even bothered to make a nice
+        looking button for it. Add it to <span class="snippet">notes.js</span>:
+      </p>
+      <pre class="code">
+/*
+ * Delete all notes
+ */
+const deleteAllBtn = document
+  .querySelector("#deleteNotes");
+
+const deleteNotes = () => {
+  deleteAllBtn.style.backgroundColor = "red";
+  deleteAllBtn.style.border = "2px solid black";
+  localStorage.removeItem("notes");
+  document.querySelector(".first-card").innerHTML = "";
+  const cardsToDelete = Array
+    .from(document.querySelectorAll(".card"));
+  cardsToDelete.map((i) => (i.style.display = "none"));
+};
+deleteAllBtn.addEventListener("click", deleteNotes);
+      </pre>
+      <p class="text">
+        Now, we have full <span class="snippet">CRUD</span> functionality in our app for both old notes and 'fresh' ones (the ones just added into the DOM,
+        dynamically, by the user  without first refreshing the page). The last functionalities we want to add for our application are the 
+        <span class="snippet">import()</span> and <span class="snippet">export()</span> ones. We want the user to be able to export their notes
+        as a <span class="snippet">.JSON</span> file. Further more, we want them to be able to import notes too. Let's start with the <span class="snippet">export()</span>
+        method. Add it to the <span class="snippet">notes.js</span> file:
+      </p>
+      <pre class="code">
+/*
+ * Export  notes as JSON
+ */
+const exportBTN = document.querySelector("#exportBtn");
+const importBTN = document.querySelector("#importBtn");
+
+const exportNotes = () => {
+  exportBTN.style.backgroundColor = activeColor;
+  importBTN.style.backgroundColor = inactiveColor;
+
+  let notesObj = {
+    notes,
+  };
+let exportDate = new Date()
+  .toString()
+  .replace(/\S+\s(\S+)\s(\d+)\s(\d+)\s.*/, "$2-$1-$3");
+  var a = document.createElement("a");
+  document.body.appendChild(a);
+  a.style = "display: none";
+  var json = JSON.stringify(notesObj),
+    blob = new Blob([json], { type: "octet/stream" }),
+    url = window.URL.createObjectURL(blob);
+  a.href = url;
+  a.download = `myNotes-${exportDate}.json`;
+  a.click();
+  window.URL.revokeObjectURL(url);
+};
+
+exportBtn.addEventListener("click", exportNotes);
+      </pre>
+      <p class="text">
+        Now write some notes, and then test the export functionality. See how the JSON file looks like. Next, let's add the 
+        <span class="snippet">import()</span> method to <span class="snippet">notes.js</span>:
+      </p>
+      <pre class="code">
+/*
+ * Import JSON with  notes 
+ */
+ const importNotes = (e) => {
+  importBTN.style.backgroundColor = activeColor;
+  exportBTN.style.backgroundColor = inactiveColor;
+
+  document.getElementById("file").addEventListener(
+    "change",
+    (evt) => {
+      var files = evt.target.files;
+      var file = files[0];
+      var reader = new FileReader();
+      reader.onload = function (event) {
+        let newNotes = JSON\
+          .parse(event.target.result).notes;
+        newNotes.map((i) => notes.push(i));
+        localStorage.setItem(
+            "notes", 
+            JSON.stringify(notes));
+
+        const alert = document.querySelector(".alert");
+        alert.style.display = "block";
+        alert.className = "alert uiText";
+  alert.innerHTML = "Notes imported Successfully &#x1F609;";
+        setTimeout(() => {
+          alert.innerHTML = "";
+          alert.style.display = "none";
+        }, 2000);
+        displayNotes();
+      };
+      let readValue = reader.readAsText(file);
+    },
+    false
+  );
+};
+importBtn.addEventListener("click", importNotes);
+      </pre>
+      <p class="text">
+        For the import method, we use the <span class="snippet">&lt; input type="file" /&gt;</span>
+        'type' of input. It will allow us to read a file on the user's computer and load it in our application.
+        Try importing the below JSON file in the application:
+        <br>
+
+      <a  id="download_link" download="upload.json" href=”” >Download notes JSON file</a>.
+      </p>
+       
+     <script>
+        // little script to make test file downloadable on clinet side
+        var text = 'Some data I want to export';
+        var data = new Blob([text], {type: 'text/plain'});
+
+        var url = window.URL.createObjectURL(data);
+
+        document.getElementById('download_link').href = url;
+      </script>
+      <p class="text">
+        Now our application is complete. It works just as the initial version you have been testing at the beginning of this article.
+        The next projects we will build will have a real back-end, and not only use files written in <span class="snippet">localStorage</span>.
+        I do hope you have enjoyed working on this little project and thanks a lot for sticking with me until the very end.
+      </p>
+   </body>
 
 </html>
+
+<!--  <pre class="code">
+<!DOCTYPE html>
+<html lang="en">
+  &lt;head&gt;
+    &lt;meta charset="UTF-8" /&gt;
+    &lt;meta 
+      name="viewport" 
+      content="width=device-width, initial-scale=1.0" 
+    /&gt;
+
+  // this link must be on 1 line for it to work 
+&lt;link
+rel="stylesheet"
+href="https://stackpath.bootstrapcdn.com/font-awesome
+/4.7.0/css/font-awesome.min.css"
+/&gt;
+
+    &lt;link rel="stylesheet" href="style.css" /&gt;
+    &lt;title&gt;Diary App&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+    &lt;div class="nav"&gt;
+        &lt;div 
+          id="inputBtn" 
+          class="navItem" 
+          tabindex="1"&gt;
+            Input
+        &lt;/div&gt;
+
+        &lt;div 
+          id="recordsBtn" 
+          class="navItem" 
+          tabindex="1"
+        &gt;
+            Entries
+        &lt;/div&gt;
+
+        &lt;div 
+          id="importExportBtn" 
+          class="navItem" 
+          tabindex="1"
+        &gt;
+            Import/Export
+        &lt;/div&gt;
+
+    &lt;/div&gt;
+
+      &lt;div class="colors"&gt;
+        &lt;div id="c1" class="color"&gt;&lt;/div&gt;
+        &lt;div id="c2" class="color"&gt;&lt;/div&gt;
+        &lt;div id="c3" class="color"&gt;&lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div id="input"&gt;
+
+        &lt;div class="paper"&gt;
+
+          &lt;textarea 
+            name="note" 
+            id="note" 
+            cols="120" 
+            rows="10"
+          &gt;
+          &lt;/textarea&gt;
+            
+            &lt;button class="add-note"&gt;
+              Save Note &lt;i 
+                          class="fa fa-pencil" 
+                          aria-hidden="true"
+                        &gt;
+                        &lt;/i&gt;
+            &lt;/button&gt;
+        
+          &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;br /&gt;
+      
+        &lt;div
+           id="deleteNotes" 
+           class="navItem" 
+           tabindex="1"
+        &gt;
+          Delete Notes 
+          &lt;i 
+            class="fa fa-minus-circle" 
+            aria-hidden="true"
+          &gt;
+          &lt;/i&gt;
+          
+        &lt;/div&gt; 
+        
+
+      &lt;input 
+        oninput="filter()" 
+        class="filter uiText" 
+        type="text" 
+        value="filter notes" /&gt;
+        
+      &lt;div id="records"&gt;&lt;/div&gt;
+
+      &lt;div class="importExport"&gt;
+        &lt;div class="nav"&gt;
+          &lt;p class="uiText"&gt;
+            Use the buttons below to export your 
+            notes as a JSON file or to import 
+            a JSON notes for your notes feed.
+          &lt;/p&gt;
+
+          &lt;div 
+            id="importBtn" 
+            class="navItem import" 
+            tabindex="1"&gt;
+              Import
+            &lt;input 
+              class="import-file" 
+              type="file" 
+              id="file" 
+              name="file" 
+              enctype="multipart/form-data" 
+            /&gt; 
+            
+            &lt;i 
+              class="fa fa-cloud-upload" 
+              aria-hidden="true"
+            &gt;
+            &lt;/i&gt;
+          &lt;/div&gt;
+            
+
+          
+          &lt;div 
+            id="exportBtn" 
+            class="navItem import" 
+            tabindex="1"
+          &gt;
+            Export 
+          &lt;i 
+            class="fa fa-cloud-download" 
+            aria-hidden="true"
+          &gt;
+          
+          &lt;/i&gt;
+        &lt;/div&gt; 
+            
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+      &lt;p class="uiText alert"&gt;
+          &lt;i 
+            class="fa fa-smile-o" 
+            aria-hidden="true"
+          &gt;&lt;/i&gt;
+      &lt;/p&gt;
+    &lt;script src="notes.js"&gt;&lt;/script&gt;
+    &lt;script src="ui.js"&gt;&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+
+  </pre> -->
