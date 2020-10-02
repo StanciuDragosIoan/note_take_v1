@@ -2,6 +2,6 @@
 
 This is a note taking application
 
-In the howTo directory you find a howTo.html which shows you how to actually build the application.
+In the howTo directory you find an index.html which shows you how to actually build the application.
 
 This is one of the articles for my blog
