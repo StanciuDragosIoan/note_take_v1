@@ -1,127 +1,126 @@
-//buttons & inputs
+//buttons and inputs
 const inputBtn = document.querySelector("#inputBtn");
-const input = document.querySelector("#input");
-const list = document.querySelector("#records");
 const listBtn = document.querySelector("#recordsBtn");
-const recordsBtn = document.querySelector("#recordsBtn");
-let importExportBtn = document.querySelector("#importExportBtn");
+const importExportBtn = document.querySelector("#importExportBtn");
+const inputDiv = document.querySelector("#input");
+const entriesDiv = document.querySelector(".diaryEntries");
 const importExportDiv = document.querySelector(".importExport");
-const importBtn = document.querySelector("#importBtn");
-const exportBtn = document.querySelector("#exportBtn");
-let text = document.querySelector(".text");
+const uiText = document.querySelector(".uiText");
 //colors for UI customisation
 const c1 = document.getElementById("c1");
 const c2 = document.getElementById("c2");
 const c3 = document.getElementById("c3");
-//colors for customize
 const bodyBackground = document.querySelector("body");
 
-let btn1Color = "#050D31";
-let btn2Color = "#2600FF";
+//grab theme and active btn from localStorage
+let theme = localStorage.getItem("theme");
+let activeBtn = localStorage.getItem("activeBtn");
 
-//methods
-const toggleInput = () => {
-  input.style.display = "block";
-  list.style.display = "none";
-  inputBtn.style.backgroundColor = btn1Color;
-  listBtn.style.backgroundColor = btn2Color;
-  importBtn.style.backgroundColor = btn2Color;
-  exportBtn.style.backgroundColor = btn2Color;
-  importExportBtn.style.backgroundColor = btn2Color;
-  importExportDiv.style.display = "none";
-  document.querySelector(".paper").style.display = "block";
-  document.querySelector(".filter").style.display = "none";
+let activeColor = "#050D31";
+let inactiveColor = "#2600FF";
+
+const toggleElement = (toShow, toHide, activeC, inactiveC) => {
+  toShow.map((i) => (i.style.display = "block"));
+  toHide.map((i) => (i.style.display = "none"));
+  activeC.map((i) => (i.style.backgroundColor = activeColor));
+  inactiveC.map((i) => (i.style.backgroundColor = inactiveColor));
 };
 
-const toggleRecords = () => {
-  list.style.display = "block";
-  input.style.display = "none";
-  listBtn.style.backgroundColor = btn1Color;
-  inputBtn.style.backgroundColor = btn2Color;
-  importBtn.style.backgroundColor = btn2Color;
-  exportBtn.style.backgroundColor = btn2Color;
-  importExportBtn.style.backgroundColor = btn2Color;
-  document.querySelector(".filter").style.display = "block";
-  importExportDiv.style.display = "none";
+const changeTheme = (c1, c2, c3, c4) => {
+  bodyBackground.style.backgroundColor = c1;
+  activeColor = c2;
+  inactiveColor = c3;
+  inputBtn.style.backgroundColor = inactiveColor;
+  recordsBtn.style.backgroundColor = inactiveColor;
+  importExportBtn.style.backgroundColor = inactiveColor;
+  importBtn.style.backgroundColor = inactiveColor;
+  exportBtn.style.backgroundColor = inactiveColor;
+  listBtn.style.border = `2px solid ${activeColor}`;
+  inputBtn.style.border = `2px solid ${activeColor}`;
+  importBtn.style.border = `2px solid ${activeColor}`;
+  exportBtn.style.border = `2px solid ${activeColor}`;
+  importExportBtn.style.border = `2px solid ${activeColor}`;
+  uiText.style.border = `2px solid ${activeColor}`;
 };
 
-const toggleImportExport = () => {
-  importExportBtn.style.backgroundColor = btn1Color;
-  inputBtn.style.backgroundColor = btn2Color;
-  listBtn.style.backgroundColor = btn2Color;
-  importBtn.style.backgroundColor = btn2Color;
-  exportBtn.style.backgroundColor = btn2Color;
-  importExportDiv.style.display = "block";
-  document.querySelector(".filter").style.display = "none";
-  list.style.display = "none";
-  input.style.display = "none";
-};
+//keep track of UI theme and update
+if (theme === "blue") {
+  changeTheme("#6C8CE2", "#050D31", "#2600FF", "blue");
+} else if (theme === "yellow") {
+  changeTheme("#fcce03", "#ad871d", "#ebb852", "yellow");
+} else if (theme === "pink") {
+  changeTheme("pink", "#97089e", "#f003fc", "pink");
+}
 
-// swap themes for colors
-const swapToBlue = () => {
-  // console.log("blue theme here");
-  bodyBackground.style.backgroundColor = "#6C8CE2";
-  btn1Color = "#050D31";
-  btn2Color = "#2600FF";
-  inputBtn.style.backgroundColor = btn2Color;
-  recordsBtn.style.backgroundColor = btn2Color;
-  importExportBtn.style.backgroundColor = btn2Color;
-  importBtn.style.backgroundColor = btn2Color;
-  exportBtn.style.backgroundColor = btn2Color;
-  listBtn.style.border = "none";
-  inputBtn.style.border = "none";
-  listBtn.style.border = `2px solid ${btn1Color}`;
-  inputBtn.style.border = `2px solid ${btn1Color}`;
-  importBtn.style.border = `2px solid ${btn1Color}`;
-  exportBtn.style.border = `2px solid ${btn1Color}`;
-  importExportBtn.style.border = `2px solid ${btn1Color}`;
-  text.style.border = `2px solid ${btn1Color}`;
-};
+inputBtn.addEventListener("click", () => {
+  toggleElement(
+    [inputDiv],
+    [entriesDiv, importExportDiv],
+    [inputBtn],
+    [listBtn, importExportBtn]
+  );
+  //set active btn to localStorage so app remembers it
+  localStorage.setItem("activeBtn", "input");
+});
 
-const swapToYellow = () => {
-  // console.log("yellow theme here");
-  bodyBackground.style.backgroundColor = "#fcce03";
-  btn1Color = "#ad871d";
-  btn2Color = "#ebb852";
-  inputBtn.style.backgroundColor = btn2Color;
-  recordsBtn.style.backgroundColor = btn2Color;
-  importExportBtn.style.backgroundColor = btn2Color;
-  importBtn.style.backgroundColor = btn2Color;
-  exportBtn.style.backgroundColor = btn2Color;
-  listBtn.style.border = "none";
-  inputBtn.style.border = "none";
-  listBtn.style.border = `2px solid ${btn1Color}`;
-  inputBtn.style.border = `2px solid ${btn1Color}`;
-  importBtn.style.border = `2px solid ${btn1Color}`;
-  exportBtn.style.border = `2px solid ${btn1Color}`;
-  importExportBtn.style.border = `2px solid ${btn1Color}`;
-  text.style.border = `2px solid ${btn1Color}`;
-};
+listBtn.addEventListener("click", () => {
+  toggleElement(
+    [entriesDiv],
+    [inputDiv, importExportDiv],
+    [listBtn],
+    [inputBtn, importExportBtn]
+  );
+  //set active btn to localStorage so app remembers it
+  localStorage.setItem("activeBtn", "entries");
+});
 
-const swapToPink = () => {
-  // console.log("pink theme here");
-  bodyBackground.style.backgroundColor = "pink";
-  btn1Color = "#97089e";
-  btn2Color = "#f003fc";
-  inputBtn.style.backgroundColor = btn2Color;
-  recordsBtn.style.backgroundColor = btn2Color;
-  importExportBtn.style.backgroundColor = btn2Color;
-  importBtn.style.backgroundColor = btn2Color;
-  exportBtn.style.backgroundColor = btn2Color;
-  listBtn.style.border = "none";
-  inputBtn.style.border = "none";
-  listBtn.style.border = `2px solid ${btn1Color}`;
-  inputBtn.style.border = `2px solid ${btn1Color}`;
-  importBtn.style.border = `2px solid ${btn1Color}`;
-  exportBtn.style.border = `2px solid ${btn1Color}`;
-  importExportBtn.style.border = `2px solid ${btn1Color}`;
-  text.style.border = `2px solid ${btn1Color}`;
-};
+importExportBtn.addEventListener("click", () => {
+  toggleElement(
+    [importExportDiv],
+    [inputDiv, entriesDiv],
+    [importExportBtn],
+    [listBtn, inputBtn]
+  );
+  //set active btn to localStorage so app remembers it
+  localStorage.setItem("activeBtn", "importExport");
+});
 
-//event listeners
-inputBtn.addEventListener("click", toggleInput);
-listBtn.addEventListener("click", toggleRecords);
-importExportBtn.addEventListener("click", toggleImportExport);
-c1.addEventListener("click", swapToBlue);
-c2.addEventListener("click", swapToYellow);
-c3.addEventListener("click", swapToPink);
+c1.addEventListener("click", () => {
+  changeTheme("#6C8CE2", "#050D31", "#2600FF", "blue");
+  //set theme to localStorage so app remembers it
+  localStorage.setItem("theme", "blue");
+});
+c2.addEventListener("click", () => {
+  changeTheme("#fcce03", "#ad871d", "#ebb852", "yellow");
+  //set theme to localStorage so app remembers it
+  localStorage.setItem("theme", "yellow");
+});
+c3.addEventListener("click", () => {
+  changeTheme("pink", "#97089e", "#f003fc", "pink");
+  //set theme to localStorage so app remembers it
+  localStorage.setItem("theme", "pink");
+});
+
+//keep track of active page
+if (activeBtn === "input") {
+  toggleElement(
+    [inputDiv],
+    [entriesDiv, importExportDiv],
+    [inputBtn],
+    [listBtn, importExportBtn]
+  );
+} else if (activeBtn === "entries") {
+  toggleElement(
+    [entriesDiv],
+    [inputDiv, importExportDiv],
+    [listBtn],
+    [inputBtn, importExportBtn]
+  );
+} else if (activeBtn === "importExport") {
+  toggleElement(
+    [importExportDiv],
+    [inputDiv, entriesDiv],
+    [importExportBtn],
+    [listBtn, inputBtn]
+  );
+}

@@ -1,4 +1,3 @@
-/* make text non-selectable */
 * {
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none; /* Safari */
@@ -6,7 +5,7 @@
   -moz-user-select: none; /* Firefox */
   -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none; /* Non-prefixed version, currently
-                          supported by Chrome and Opera */
+                                    supported by Chrome and Opera */
 }
 
 body {
@@ -20,7 +19,6 @@ body {
   width: 40vw;
 }
 
-/* navigation item */
 .nav > .navItem {
   background: rgb(38, 0, 255);
   display: inline-block;
@@ -31,7 +29,7 @@ body {
   text-align: center;
   padding-top: 10px;
   border-radius: 15px;
-  font-size: 1.8rem;
+  font-size: 2rem;
 }
 
 .nav > .navItem:hover {
@@ -43,7 +41,89 @@ body {
   outline: none;
 }
 
-/* colors */
+/* hide records initially */
+#records {
+  display: none;
+  word-wrap: break-word;
+  font-family: Arial, Helvetica, sans-serif !important;
+}
+
+/* paper input */
+.paper {
+  background: #fff;
+  padding: 60px;
+  position: relative;
+  width: 80vw;
+  display: block;
+  margin: auto;
+  margin-top: 3rem;
+  height: 20rem;
+  display: none;
+}
+
+.paper,
+.paper::before,
+.paper::after {
+  /* Styles to distinguish sheets from one another */
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+  border: 1px solid #bbb;
+}
+
+.paper::before,
+.paper::after {
+  content: "";
+  position: absolute;
+  height: 95%;
+  width: 99%;
+  background-color: #eee;
+}
+
+.paper::before {
+  right: 15px;
+  top: 0;
+  transform: rotate(-1deg);
+  z-index: -1;
+}
+
+.paper::after {
+  top: 5px;
+  right: -5px;
+  transform: rotate(1deg);
+  z-index: -2;
+}
+
+.paper > textarea {
+  border: none;
+  overflow: auto;
+  outline: none;
+
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+
+  resize: none; /*remove the resize handle on the bottom right*/
+
+  font-size: 2rem;
+  width: 100%;
+  height: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.add-note {
+  background: rgb(156, 154, 154);
+  color: #fff;
+  outline: none;
+  border: 2px solid #eee;
+  font-size: 2rem;
+  border-radius: 15px;
+}
+
+.add-note:hover {
+  cursor: pointer;
+  background: rgb(39, 37, 37);
+  transition: 1s;
+}
+
 .colors {
   background: #fff;
   width: 10rem;
@@ -88,90 +168,28 @@ body {
   border-radius: 50%;
 }
 
-/* hide paper initially */
-#input {
-  display: none;
-}
-/* paper styles for the input form */
-.paper {
-  background: #fff;
-  padding: 60px;
-  position: relative;
-  width: 80vw;
+#deleteNotes {
+  background: rgb(194, 57, 57) !important;
   display: block;
   margin: auto;
-  margin-top: 3rem;
-  height: 20rem;
-}
-
-.paper,
-.paper::before,
-.paper::after {
-  /* Styles to distinguish sheets from one another */
-  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
-  border: 1px solid #bbb;
-}
-
-.paper::before,
-.paper::after {
-  content: "";
-  position: absolute;
-  height: 95%;
-  width: 99%;
-  background-color: #eee;
-}
-
-.paper::before {
-  right: 15px;
-  top: 0;
-  transform: rotate(-1deg);
-  z-index: -1;
-}
-
-.paper::after {
-  top: 5px;
-  right: -5px;
-  transform: rotate(1deg);
-  z-index: -2;
-}
-
-.paper > textarea {
-  border: none;
-  overflow: auto;
-  outline: none;
-
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
-  /*remove the resize handle on the bottom right*/
-  resize: none;
-
-  font-size: 2rem;
-  width: 100%;
-  height: 100%;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-.add-note {
-  background: rgb(156, 154, 154);
+  margin-top: 1rem;
+  margin-bottom: 1rem;
   color: #fff;
-  outline: none;
-  border: 2px solid #eee;
-  font-size: 2rem;
+  border: 2px solid #ccc;
+  width: 20%;
+  height: 3rem;
+  text-align: center;
+  padding-top: 10px;
   border-radius: 15px;
+  font-size: 2rem;
+  outline: none;
 }
 
-.add-note:hover {
+#deleteNotes:hover {
   cursor: pointer;
-  background: rgb(39, 37, 37);
-  transition: 1s;
 }
 
 /* notes style */
-.diaryEntries {
-  display: none;
-}
-
 .card {
   display: block;
   margin: auto;
@@ -182,16 +200,11 @@ body {
 }
 
 .card.card-fresh > p.text {
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  hyphens: auto;
-  font-family: inherit;
-}
-
-.card-fresh > p > pre {
-  white-space: normal;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
+  /* background: red; */
+  overflow-wrap: break-word !important;
+  word-wrap: break-word !important;
+  hyphens: auto !important;
+  font-family: inherit !important;
 }
 
 .invisible {
@@ -202,8 +215,8 @@ body {
   cursor: pointer;
 }
 
-.save-fresh {
-  display: inline !important;
+.fa-save {
+  /* display: inline !important; */
 }
 
 #saveEdit:hover {
@@ -237,43 +250,6 @@ body {
   text-align: center;
 }
 
-.save-fresh {
-  position: absolute !important;
-  left: 5% !important;
-  margin-top: 0.5rem !important;
-}
-
-.delete-fresh {
-  display: inline-block;
-}
-
-.card-fresh {
-  position: relative;
-}
-
-/* delete Notes Button */
-#deleteNotes {
-  background: rgb(194, 57, 57) !important;
-  display: block;
-  margin: auto;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  color: #fff;
-  border: 2px solid #ccc;
-  width: 20%;
-  height: 3rem;
-  text-align: center;
-  padding-top: 10px;
-  border-radius: 15px;
-  font-size: 2rem;
-  outline: none;
-}
-
-#deleteNotes:hover {
-  cursor: pointer;
-}
-
-/* import export styles */
 .importExport {
   display: none;
 }
@@ -283,6 +259,7 @@ body {
 }
 
 .import-file {
+  /* background: red; */
   opacity: 0;
   width: 100%;
   height: 100%;
@@ -308,20 +285,34 @@ body {
   border: 2px solid #ccc;
 }
 
-/* alert div styles (used for add and import/export */
 .alert {
-  margin-top: 5rem;
-  max-width: 40rem;
+  margin-top: 10rem;
+  width: 40rem;
+  display: none;
 }
 
-/* media queries for responsiveness */
+.save-fresh {
+  position: absolute;
+  left: 3%;
+  margin-top: 0.5rem;
+}
+
+.delete-fresh {
+  display: inline-block;
+}
+
+.card-fresh {
+  position: relative;
+}
+
+/* media queries */
 @media (max-width: 1500px) {
   .nav {
     width: 60vw;
   }
   .save-fresh {
     position: absolute;
-    left: 5% !important;
+    left: 5%;
   }
   #deleteNotes {
     width: 25%;
@@ -332,8 +323,9 @@ body {
   .nav {
     width: 80vw;
   }
+
   .save-fresh {
-    left: 7% !important;
+    left: 7%;
   }
   #deleteNotes {
     width: 30%;
@@ -350,16 +342,18 @@ body {
     margin-bottom: 1rem;
     width: 100%;
   }
+
   .add-note {
     font-size: 1.5rem;
   }
+
   .card {
     font-size: 1.5rem;
     width: 70vw;
   }
 
   .save-fresh {
-    left: 9% !important;
+    left: 9%;
   }
   #deleteNotes {
     width: 45%;
@@ -367,35 +361,25 @@ body {
 }
 
 @media (max-width: 590px) {
-  .save-fresh {
-    left: 12% !important;
-    top: 67% !important;
-  }
-
-  .add-note {
-    display: block;
-    margin: auto;
-  }
+  /* .save-fresh {
+    left: 12%;
+    top: 67%;
+  } */
 }
 
 @media (max-width: 500px) {
-  #deleteNotes {
-    width: 75%;
-  }
   #importBtn,
-  #exportBtn,
-  .navItem {
+  #exportBtn {
     width: 100% !important;
   }
-
-  .paper {
-    max-width: 50%;
+  #deleteNotes {
+    width: 75%;
   }
 }
 
 @media (max-width: 450px) {
   .save-fresh {
-    left: 15%!;
-    top: 67% !important;
+    left: 15%;
+    top: 67%;
   }
 }
