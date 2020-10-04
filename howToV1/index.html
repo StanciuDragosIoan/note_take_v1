@@ -1908,8 +1908,8 @@ body {
    </p>
    <p class="text">
      *remember that whenever you see the <span class="snippet">//put this on one line</span> comment in the JavaScript code, it simply means that the next
-     2 lines should actually be on a single line. Your editor's auto formatting might do this by itself. The reason I split the code like this is so that it stays 
-     nicely visible on a mobile device too.
+     2 lines should actually be on a single line. Your editor's auto formatting might do this by itself. The reason I split the code like this in the article snippets
+     is so that it stays nicely visible on a mobile device too.
    </p>
    <pre class="code">
 //buttons and inputs
@@ -2287,8 +2287,7 @@ if (activeBtn === "input") {
           Test the UI thus far. The application now remembers what last tab we clicked and what color scheme we choose. 
           We are pretty much done with the UI. Next we will work on the second script of our application 
           <span class="snippet">notes.js</span>, which will perform the 'back-end' logic of storing the notes 
-          (you've guessed it!&#128521; in localStorage), importing and exporting them as a JSON file and it will also perform
-          some UI/DOM manipulation magic, which could not be de-coupled from it (hence I did not put it in the <span class="snippet">ui.js</span> ) script.
+          (you've guessed it!&#128521; in localStorage), importing and exporting them as a JSON file.
         </p>
         <p class="text center bold">
           'back-end' logic with notes.js
@@ -2353,7 +2352,7 @@ saveBtn.addEventListener("click", grabNote);
         </div>
         <p class="text">
           Let's now add the logic that displays the notes that we already have in local storage.Add the below code to <span class="snippet">notes.js</span>
-          at the very end:
+          right above the <span class="snippet">grabNote()</span> method:
         </p>
         <pre class="code">
 /*
@@ -2397,6 +2396,7 @@ displayNotes();
           That is bad, for the UX, the user will want to see his/her note right when they type it. Let's modify the <span class="snippet">grabNote()</span>
           method in the <span class="snippet">notes.js</span> script a bit. However, before we do that, I will explain a bit how JS builds stuff into the DOM.
         </p>
+        <h1 style="background:pink; color:red;">LEFT HERE KEEP MODIFY</h1>
         <p class="text">
           JavaScript has this nice method called <span class="snippet">createElement()</span> which allows us to create DOM elements (like divs, paragraphs, etc...).
           Once an element created, we need to create a text node (you've guessed right, there is a <span class="snippet">createTextNode()</span> method too) and to append
