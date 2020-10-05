@@ -12,7 +12,8 @@ if (localStorage.getItem("notes") === null) {
 const displayNotes = () => {
   let records = document.querySelector("#records");
   let output = "<div class='first-card'></div>";
-  notes.reverse().map((n) => {
+
+  notes.map((n) => {
     output += `
         <div class="card">
             <p class="text">
@@ -30,6 +31,7 @@ const displayNotes = () => {
         </div>
       `;
   });
+
   records.innerHTML = output;
 
   //atach event listeners for edit/delete notes
@@ -162,6 +164,7 @@ const deleteNotes = () => {
   document.querySelector(".first-card").innerHTML = "";
   const cardsToDelete = Array.from(document.querySelectorAll(".card"));
   cardsToDelete.map((i) => (i.style.display = "none"));
+  showAlert("Notes deleted Successfully &#x1F609;");
 };
 deleteAllBtn.addEventListener("click", deleteNotes);
 
@@ -178,25 +181,17 @@ const grabNote = (e) => {
     .replace(/\S+\s(\S+)\s(\d+)\s(\d+)\s.*/, "$2-$1-$3");
   note.date = noteDate;
   let id =
-    Math.random().toString(36).substring(2, 15) +
-    Math.random().toString(36).substring(2, 15);
+    Math.random().toString(12).substring(2, 17) +
+    Math.random().toString(12).substring(2, 17);
   note.id = id;
-  notes.push(note);
+  notes.unshift(note);
   localStorage.setItem("notes", JSON.stringify(notes));
   document.querySelector("#note").value = "";
 
   displayNotes();
 
   //alert functionality
-  const alert = document.querySelector(".alert");
-  alert.style.display = "block";
-  alert.className = "alert uiText";
-  alert.innerHTML = "Note Saved &#x1F609;";
-
-  setTimeout(() => {
-    alert.innerHTML = "";
-    alert.style.display = "none";
-  }, 2000);
+  showAlert("Note Saved &#x1F609;");
 };
 
 let saveBtn = document.querySelector(".add-note");
@@ -250,14 +245,7 @@ const importNotes = (e) => {
         newNotes.map((i) => notes.push(i));
         localStorage.setItem("notes", JSON.stringify(notes));
 
-        const alert = document.querySelector(".alert");
-        alert.style.display = "block";
-        alert.className = "alert uiText";
-        alert.innerHTML = "Notes imported Successfully &#x1F609;";
-        setTimeout(() => {
-          alert.innerHTML = "";
-          alert.style.display = "none";
-        }, 2000);
+        showAlert("Notes imported Successfully &#x1F609;");
         displayNotes();
       };
       let readValue = reader.readAsText(file);

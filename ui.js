@@ -124,3 +124,19 @@ if (activeBtn === "input") {
     [listBtn, inputBtn]
   );
 }
+
+/*
+ * Alert Functionality
+ */
+const showAlert = (msg) => {
+  //alert functionality
+  const alert = document.querySelector(".alert");
+  alert.style.display = "block";
+  alert.className = "alert uiText";
+  alert.innerHTML = msg;
+
+  setTimeout(() => {
+    alert.innerHTML = "";
+    alert.style.display = "none";
+  }, 2000);
+};
