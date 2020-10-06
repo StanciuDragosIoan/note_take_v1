@@ -11,7 +11,7 @@ if (localStorage.getItem("notes") === null) {
  */
 const displayNotes = () => {
   let records = document.querySelector("#records");
-  let output = "<div class='first-card'></div>";
+  let output = "";
 
   notes.map((n) => {
     output += `
@@ -160,10 +160,10 @@ const deleteAllBtn = document.querySelector("#deleteNotes");
 const deleteNotes = () => {
   deleteAllBtn.style.backgroundColor = "red";
   deleteAllBtn.style.border = "2px solid black";
+  notes = [];
   localStorage.removeItem("notes");
-  document.querySelector(".first-card").innerHTML = "";
-  const cardsToDelete = Array.from(document.querySelectorAll(".card"));
-  cardsToDelete.map((i) => (i.style.display = "none"));
+  // console.log(notes);
+  document.querySelector("#records").innerHTML = "";
   showAlert("Notes deleted Successfully &#x1F609;");
 };
 deleteAllBtn.addEventListener("click", deleteNotes);
@@ -242,7 +242,7 @@ const importNotes = (e) => {
       var reader = new FileReader();
       reader.onload = function (event) {
         let newNotes = JSON.parse(event.target.result).notes;
-        newNotes.map((i) => notes.push(i));
+        newNotes.map((i) => notes.unshift(i));
         localStorage.setItem("notes", JSON.stringify(notes));
 
         showAlert("Notes imported Successfully &#x1F609;");

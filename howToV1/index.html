@@ -522,16 +522,16 @@
   </p>
   <p class="text">
     Here's a link of a live deployment of the application, so you can see what we will build and what it will look like:
-    <a target="_blank" href="https://diary-app-refactored.netlify.app/">Link to app</a>.
+    <a target="_blank" href="https://note-take-app.netlify.app/">Link to app</a>.
   </p>
   <p class="text">
     Test the application a bit before starting, so you get familiar with how it works and what you will be building. Try adding
     some notes, edit them, delete some and add them back, etc...
   </p>
   <p class="text">
-    Try exporting your notes, delete all the notes and import them back. The import functionality is set so that it appends
+    Try exporting your notes, delete all the notes and import them back. The import functionality is set so that it prepends
     the imported notes to the existing ones (so if you import without deleting the current notes, you will simply get the ones imported
-    added to your current ones).
+    added to the top of the list of your current ones).
   </p>
   <p class="text">
     The most important thing to notice about the application, is that it does not need a refresh of the page. Everything you do instantly
@@ -549,6 +549,10 @@
   <div class="devPic"> 
     <img src="./img/dom.jpg" alt="DOM tree representation" />
   </div>
+  <p class="text">
+    *note that the reaason why the CSS selectors above are similar to the JS ones is because they actually reference the very same 'branches' from the
+    DOM tree.
+  </p>
   <p class="text">
     So as for the structure of our application, we will have an <span class="snippet">index.html</span> file, a <span class="snippet">css</span>
     file and two <span class="snippet">JavaScript</span> files. The two JavaScript files are handling the UI (user interface) and the notes processing.
@@ -803,205 +807,207 @@ body {
     Replace all the code in style.css with the below:
   </p>
    <pre class="code">
-/* make text non-selectable */
-* {
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-  -khtml-user-select: none; /* Konqueror HTML */
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
-  user-select: none; /* Non-prefixed version, currently
-                        supported by Chrome and Opera */
-}
-
-body {
-  background: rgb(108, 140, 226);
-}
-
-/* navigation */
-.nav {
-  display: block;
-  margin: auto;
-  width: 40vw;
-}
-
-/* navigation item */
-.nav > .navItem {
-  background: rgb(38, 0, 255);
-  display: inline-block;
-  color: #fff;
-  border: 2px solid #ccc;
-  width: 32%;
-  height: 3rem;
-  text-align: center;
-  padding-top: 10px;
-  border-radius: 15px;
-  font-size: 1.8rem;
-}
-
-.nav > .navItem:hover {
-  cursor: pointer;
-  transition: 1s;
-}
-
-.nav > .navItem:focus {
-  outline: none;
-}
-
-/* colors */
-.colors {
-  background: #fff;
-  width: 10rem;
-  height: 5rem;
-  display: block;
-  margin: auto;
-  margin-top: 2rem;
-  border-radius: 30px;
-}
-
-.color:hover {
-  cursor: pointer;
-}
-
-.color:first-child {
-  background: blue;
-  width: 2rem;
-  height: 2rem;
-  display: inline-block;
-  margin-top: 15%;
-  margin-left: 8%;
-  border-radius: 50%;
-}
-
-.color:nth-child(2) {
-  background: rgb(255, 239, 19);
-  width: 2rem;
-  height: 2rem;
-  display: inline-block;
-  margin-top: 15%;
-  margin-left: 8%;
-  border-radius: 50%;
-}
-
-.color:nth-child(3) {
-  background: pink;
-  width: 2rem;
-  height: 2rem;
-  display: inline-block;
-  margin-top: 15%;
-  margin-left: 8%;
-  border-radius: 50%;
-}
-
-/*hide paper initially*/
-#input {
-   display:none; 
-}
-
-/* paper styles for the input form */
-.paper {
-  background: #fff;
-  padding: 60px;
-  position: relative;
-  width: 80vw;
-  display: block;
-  margin: auto;
-  margin-top: 3rem;
-  height: 20rem; 
-}
-
-.paper,
-.paper::before,
-.paper::after {
-  /* Styles to distinguish sheets from one another */
-  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
-  border: 1px solid #bbb;
-}
-
-.paper::before,
-.paper::after {
-  content: "";
-  position: absolute;
-  height: 95%;
-  width: 99%;
-  background-color: #eee;
-}
-
-.paper::before {
-  right: 15px;
-  top: 0;
-  transform: rotate(-1deg);
-  z-index: -1;
-}
-
-.paper::after {
-  top: 5px;
-  right: -5px;
-  transform: rotate(1deg);
-  z-index: -2;
-}
-
-.paper > textarea {
-  border: none;
-  overflow: auto;
-  outline: none;
-
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
-  /*remove the resize handle on the bottom right*/
-  resize: none;
-
-  font-size: 2rem;
-  width: 100%;
-  height: 100%;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-.add-note {
-  background: rgb(156, 154, 154);
-  color: #fff;
-  outline: none;
-  border: 2px solid #eee;
-  font-size: 2rem;
-  border-radius: 15px;
-}
-
-.add-note:hover {
-  cursor: pointer;
-  background: rgb(39, 37, 37);
-  transition: 1s;
-}
-
-/* media queries for responsiveness */
-@media (max-width: 1500px) {
-  .nav {
-    width: 60vw;
-  }
-}
-
-@media (max-width: 1000px) {
-  .nav {
-    width: 80vw;
-  }
-}
-
-@media (max-width: 750px) {
-  .nav {
-    width: 70vw;
-  }
-  .nav > .navItem {
-    display: block;
-    margin: auto;
-    margin-bottom: 1rem;
-    width: 100%;
-  }
-
-  .add-note {
-    font-size: 1.5rem;
-  }
-}
+    /* make text non-selectable */
+    * {
+      -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+      -khtml-user-select: none; /* Konqueror HTML */
+      -moz-user-select: none; /* Firefox */
+      -ms-user-select: none; /* Internet Explorer/Edge */
+      user-select: none; /* Non-prefixed version, currently
+                            supported by Chrome and Opera */
+    }
     
+    body {
+      background: rgb(108, 140, 226);
+    }
+    
+    /* navigation */
+    .nav {
+      display: block;
+      margin: auto;
+      width: 40vw;
+    }
+    
+    /* navigation item */
+    .nav > .navItem {
+      background: rgb(38, 0, 255);
+      display: inline-block;
+      color: #fff;
+      border: 2px solid #ccc;
+      width: 32%;
+      height: 3rem;
+      text-align: center;
+      padding-top: 10px;
+      border-radius: 15px;
+      font-size: 1.8rem;
+    }
+    
+    .nav > .navItem:hover {
+      cursor: pointer;
+      transition: 1s;
+    }
+    
+    .nav > .navItem:focus {
+      outline: none;
+    }
+    
+    /* colors */
+    .colors {
+      background: #fff;
+      width: 10rem;
+      height: 5rem;
+      display: block;
+      margin: auto;
+      margin-top: 2rem;
+      border-radius: 30px;
+    }
+    
+    .color:hover {
+      cursor: pointer;
+    }
+    
+    .color:first-child {
+      background: blue;
+      width: 2rem;
+      height: 2rem;
+      display: inline-block;
+      margin-top: 15%;
+      margin-left: 8%;
+      border-radius: 50%;
+    }
+    
+    .color:nth-child(2) {
+      background: rgb(255, 239, 19);
+      width: 2rem;
+      height: 2rem;
+      display: inline-block;
+      margin-top: 15%;
+      margin-left: 8%;
+      border-radius: 50%;
+    }
+    
+    .color:nth-child(3) {
+      background: pink;
+      width: 2rem;
+      height: 2rem;
+      display: inline-block;
+      margin-top: 15%;
+      margin-left: 8%;
+      border-radius: 50%;
+    }
+    
+    /*hide paper initially*/
+    #input {
+      display: none;
+    }
+    
+    /* paper styles for the input form */ 
+    .paper {
+      background: radial-gradient(rgb(248, 246, 246), #ebebe9);
+      padding: 60px;
+      position: relative;
+      width: 80vw;
+      display: block;
+      margin: auto;
+      margin-top: 3rem;
+      height: 20rem;
+    }
+    
+    .paper,
+    .paper::before,
+    .paper::after {
+      /* Styles to distinguish sheets from one another */
+      box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+      border: 1px solid rgb(199, 198, 198);
+    }
+    
+    .paper::before,
+    .paper::after {
+      content: "";
+      position: absolute;
+      background-color: #e5e2e2;
+    }
+    
+    .paper::before {
+      right: 15px;
+      top: 0;
+      transform: rotate(-2deg);
+      z-index: -1;
+      width: 100%;
+      height: 103%;
+      margin-top: -1rem;
+    }
+    
+    .paper::after {
+      top: 5px;
+      right: -5px;
+      transform: rotate(2deg);
+      z-index: -2;
+      width: 98%;
+      height: 97%;
+    }
+    
+    .paper > textarea {
+      border: none;
+      overflow: auto;
+      outline: none;
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+      box-shadow: none;
+      font-size: 2rem;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(#fff, #ebebe9);
+      color: black;
+      resize: none;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    
+    .add-note {
+      background: rgb(156, 154, 154);
+      color: #fff;
+      outline: none;
+      border: 2px solid #eee;
+      font-size: 2rem;
+      border-radius: 15px;
+    }
+    
+    .add-note:hover {
+      cursor: pointer;
+      background: rgb(39, 37, 37);
+      transition: 1s;
+    }
+    
+    /* media queries for responsiveness */
+    @media (max-width: 1500px) {
+      .nav {
+        width: 60vw;
+      }
+    }
+    
+    @media (max-width: 1000px) {
+      .nav {
+        width: 80vw;
+      }
+    }
+    
+    @media (max-width: 750px) {
+      .nav {
+        width: 70vw;
+      }
+      .nav > .navItem {
+        display: block;
+        margin: auto;
+        margin-bottom: 1rem;
+        width: 100%;
+      }
+    
+      .add-note {
+        font-size: 1.5rem;
+      }
+    }
+      
    </pre>
    <p class="text">
     Before being able to see the input section, just comment out the rule from the <span class="snippet">#input</span> id selector that hides it.
@@ -1014,9 +1020,15 @@ body {
     }
    </pre>
    <p class="text">
-     This is what the input for for our notes will look like. Next, hide it by uncommenting the very same line you just
-     commented in. This will hide the input form (as it should be hidden intially and
-     display only once the user clicks on the Input button).
+     This is what the input for for our notes will look like. Note how the paper sheets are built with CSS around the <span class="snippet">.paper</span> class. Also, note how 
+     we made use of the <span class="snippet">::before</span> and <span class="snippet">::after</span> pseudo-elements to style the other 'sheets' of paper, the ones on top of which
+     the first one sits. For them, we manipulated properties such as rotation angle or border to give the 'sheets' of paper a 
+     realistic appearance.
+   </p>
+   <p class="text">
+    Hide the input section by uncommenting the very same line you just
+    commented in. This will hide the input form (as it should be hidden intially and
+    display only once the user clicks on the Input button).
    </p>
    <p class="text">
      Next we will add and style the entries section. This is where the diary notes will be displayed. Start by adding the HTML for it in the
@@ -1050,356 +1062,328 @@ body {
      like this:
    </p>
    <pre class="code">
-/* make text non-selectable */
-* {
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-  -khtml-user-select: none; /* Konqueror HTML */
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
-  user-select: none; /* Non-prefixed version, currently
-                      supported by Chrome and Opera */
-}
-
-body {
-  background: rgb(108, 140, 226);
-}
-
-/* navigation */
-.nav {
-  display: block;
-  margin: auto;
-  width: 40vw;
-}
-
-/* navigation item */
-.nav > .navItem {
-  background: rgb(38, 0, 255);
-  display: inline-block;
-  color: #fff;
-  border: 2px solid #ccc;
-  width: 32%;
-  height: 3rem;
-  text-align: center;
-  padding-top: 10px;
-  border-radius: 15px;
-  font-size: 2rem;
-}
-
-.nav > .navItem:hover {
-  cursor: pointer;
-  transition: 1s;
-}
-
-.nav > .navItem:focus {
-  outline: none;
-}
-
-/* colors */
-.colors {
-  background: #fff;
-  width: 10rem;
-  height: 5rem;
-  display: block;
-  margin: auto;
-  margin-top: 2rem;
-  border-radius: 30px;
-}
-
-.color:hover {
-  cursor: pointer;
-}
-
-.color:first-child {
-  background: blue;
-  width: 2rem;
-  height: 2rem;
-  display: inline-block;
-  margin-top: 15%;
-  margin-left: 8%;
-  border-radius: 50%;
-}
-
-.color:nth-child(2) {
-  background: rgb(255, 239, 19);
-  width: 2rem;
-  height: 2rem;
-  display: inline-block;
-  margin-top: 15%;
-  margin-left: 8%;
-  border-radius: 50%;
-}
-
-.color:nth-child(3) {
-  background: pink;
-  width: 2rem;
-  height: 2rem;
-  display: inline-block;
-  margin-top: 15%;
-  margin-left: 8%;
-  border-radius: 50%;
-}
-
-/*hide paper initially*/
-#input {
-  display: none;
-}
-
-/* paper styles for the input form */
-.paper {
-  background: #fff;
-  padding: 60px;
-  position: relative;
-  width: 80vw;
-  display: block;
-  margin: auto;
-  margin-top: 3rem;
-  height: 20rem; 
-}
-
-.paper,
-.paper::before,
-.paper::after {
-  /* Styles to distinguish sheets from one another */
-  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
-  border: 1px solid #bbb;
-}
-
-.paper::before,
-.paper::after {
-  content: "";
-  position: absolute;
-  height: 95%;
-  width: 99%;
-  background-color: #eee;
-}
-
-.paper::before {
-  right: 15px;
-  top: 0;
-  transform: rotate(-1deg);
-  z-index: -1;
-}
-
-.paper::after {
-  top: 5px;
-  right: -5px;
-  transform: rotate(1deg);
-  z-index: -2;
-}
-
-.paper > textarea {
-  border: none;
-  overflow: auto;
-  outline: none;
-
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
-  /*remove the resize handle on the bottom right*/
-  resize: none;
-
-  font-size: 2rem;
-  width: 100%;
-  height: 100%;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-.add-note {
-  background: rgb(156, 154, 154);
-  color: #fff;
-  outline: none;
-  border: 2px solid #eee;
-  font-size: 2rem;
-  border-radius: 15px;
-}
-
-.add-note:hover {
-  cursor: pointer;
-  background: rgb(39, 37, 37);
-  transition: 1s;
-}
-
-/* notes style */
-.card {
-  display: block;
-  margin: auto;
-  width: 90vw;
-  font-size: 2rem;
-  background: #f0edd9;
-  padding: 1rem;
-}
-
-.card.card-fresh > p.text {
-  /* background: red; */
-  overflow-wrap: break-word !important;
-  word-wrap: break-word !important;
-  hyphens: auto !important;
-  font-family: inherit !important;
-}
-
-.invisible {
-  display: none;
-}
-
-.pencil-note:hover {
-  cursor: pointer;
-}
-
-.fa-save {
-  display: inline !important;
-}
-
-#saveEdit:hover {
-  cursor: pointer;
-}
-
-.fa-times-circle {
-  margin-left: 90%;
-  margin-bottom: 5srem;
-}
-
-.fa-times-circle:hover {
-  cursor: pointer;
-}
-
-.filter {
-  display: none;
-  margin: auto;
-  margin-top: 2rem;
-  width: 20rem;
-  height: 3rem;
-  font-size: 2rem;
-  text-align: center;
-  margin-bottom: 1rem;
-  outline: none;
-  border: 2px solid #000;
-  border-radius: 15px;
-}
-
-::-webkit-input-placeholder {
-  text-align: center;
-}
-
-.save-fresh {
-  position: absolute;
-  left: 3%;
-  margin-top:0.5rem;
-}
-
-.delete-fresh {
-  display: inline-block;
-}
-
-.card-fresh {
-  position: relative;
-}
-
-/* delete Notes Button */
-#deleteNotes {
-  background: rgb(194, 57, 57) !important;
-  display: block;
-  margin: auto;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  color: #fff;
-  border: 2px solid #ccc;
-  width: 20%;
-  height: 3rem;
-  text-align: center;
-  padding-top: 10px;
-  border-radius: 15px;
-  font-size: 2rem;
-  outline: none;
-}
-
-#deleteNotes:hover {
-  cursor: pointer;
-}
-
-/* media queries for responsiveness */
-@media (max-width: 1500px) {
-  .nav {
-    width: 60vw;
-  }
-  .save-fresh {
-    position: absolute;
-    left: 5%;
-  }
-  #deleteNotes {
-    width: 25%;
-  }
-}
-
-@media (max-width: 1000px) {
-  .nav {
-    width: 80vw;
-  }
-  .save-fresh {
-    left: 7%;
-  }
-  #deleteNotes {
-    width: 30%;
-  }
-}
-
-@media (max-width: 750px) {
-  .nav {
-    width: 70vw;
-  }
-  .nav > .navItem {
-    display: block;
-    margin: auto;
-    margin-bottom: 1rem;
-    width: 100%;
-  }
-  .add-note {
-    font-size: 1.5rem;
-  }
-  .card {
-    font-size: 1.5rem;
-    width: 70vw;
-  }
-
-  .save-fresh {
-    left: 9%;
-  }
-  #deleteNotes {
-    width: 45%;
-  }
-}
-
-@media (max-width: 590px) {
-  .save-fresh {
-    left: 12%;
-    top: 67%;
-  }
-  .add-note {
-    display: block;
-    margin: auto;
-  }
-}
-
-@media (max-width: 500px) {
-  .navItem {
-    width: 100% !important;
-  }
-
-  .paper {
-    max-width: 50%;
-  }
-
-  #deleteNotes {
-    width: 75%;
-  }
-}
-
-@media (max-width: 450px) {
-  .save-fresh {
-    left: 15%;
-    top: 67%;
-  }
-}
+    /* make text non-selectable */
+    * {
+      -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+      -khtml-user-select: none; /* Konqueror HTML */
+      -moz-user-select: none; /* Firefox */
+      -ms-user-select: none; /* Internet Explorer/Edge */
+      user-select: none; /* Non-prefixed version, currently
+                            supported by Chrome and Opera */
+    }
+    
+    body {
+      background: rgb(108, 140, 226);
+    }
+    
+    /* navigation */
+    .nav {
+      display: block;
+      margin: auto;
+      width: 40vw;
+    }
+    
+    /* navigation item */
+    .nav > .navItem {
+      background: rgb(38, 0, 255);
+      display: inline-block;
+      color: #fff;
+      border: 2px solid #ccc;
+      width: 32%;
+      height: 3rem;
+      text-align: center;
+      padding-top: 10px;
+      border-radius: 15px;
+      font-size: 1.8rem;
+    }
+    
+    .nav > .navItem:hover {
+      cursor: pointer;
+      transition: 1s;
+    }
+    
+    .nav > .navItem:focus {
+      outline: none;
+    }
+    
+    /* colors */
+    .colors {
+      background: #fff;
+      width: 10rem;
+      height: 5rem;
+      display: block;
+      margin: auto;
+      margin-top: 2rem;
+      border-radius: 30px;
+    }
+    
+    .color:hover {
+      cursor: pointer;
+    }
+    
+    .color:first-child {
+      background: blue;
+      width: 2rem;
+      height: 2rem;
+      display: inline-block;
+      margin-top: 15%;
+      margin-left: 8%;
+      border-radius: 50%;
+    }
+    
+    .color:nth-child(2) {
+      background: rgb(255, 239, 19);
+      width: 2rem;
+      height: 2rem;
+      display: inline-block;
+      margin-top: 15%;
+      margin-left: 8%;
+      border-radius: 50%;
+    }
+    
+    .color:nth-child(3) {
+      background: pink;
+      width: 2rem;
+      height: 2rem;
+      display: inline-block;
+      margin-top: 15%;
+      margin-left: 8%;
+      border-radius: 50%;
+    }
+    
+    /*hide paper initially*/
+    #input {
+      display: none;
+    }
+    
+    /* paper styles for the input form */
+    /* paper styles for the input form */
+    .paper {
+      background: radial-gradient(rgb(248, 246, 246), #ebebe9);
+      padding: 60px;
+      position: relative;
+      width: 80vw;
+      display: block;
+      margin: auto;
+      margin-top: 3rem;
+      height: 20rem;
+    }
+    
+    .paper,
+    .paper::before,
+    .paper::after {
+      /* Styles to distinguish sheets from one another */
+      box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+      border: 1px solid rgb(199, 198, 198);
+    }
+    
+    .paper::before,
+    .paper::after {
+      content: "";
+      position: absolute;
+      background-color: #e5e2e2;
+    }
+    
+    .paper::before {
+      right: 15px;
+      top: 0;
+      transform: rotate(-2deg);
+      z-index: -1;
+      width: 100%;
+      height: 103%;
+      margin-top: -1rem;
+    }
+    
+    .paper::after {
+      top: 5px;
+      right: -5px;
+      transform: rotate(2deg);
+      z-index: -2;
+      width: 98%;
+      height: 97%;
+    }
+    
+    .paper > textarea {
+      border: none;
+      overflow: auto;
+      outline: none;
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+      box-shadow: none;
+      font-size: 2rem;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(#fff, #ebebe9);
+      color: black;
+      resize: none;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    
+    .add-note {
+      background: rgb(156, 154, 154);
+      color: #fff;
+      outline: none;
+      border: 2px solid #eee;
+      font-size: 2rem;
+      border-radius: 15px;
+    }
+    
+    .add-note:hover {
+      cursor: pointer;
+      background: rgb(39, 37, 37);
+      transition: 1s;
+    }
+    
+    /* notes style */
+    .card {
+      display: block;
+      margin: auto;
+      width: 90vw;
+      font-size: 2rem;
+      background: #f0edd9;
+      padding: 1rem;
+    }
+    
+    .card.card-fresh > p.text {
+      /* background: red; */
+      overflow-wrap: break-word !important;
+      word-wrap: break-word !important;
+      hyphens: auto !important;
+      font-family: inherit !important;
+    }
+    
+    .invisible {
+      display: none;
+    }
+    
+    .pencil-note:hover {
+      cursor: pointer;
+    }
+    
+    .fa-save {
+      display: inline !important;
+    }
+    
+    #saveEdit:hover {
+      cursor: pointer;
+    }
+    
+    .fa-times-circle {
+      margin-left: 90%;
+      margin-bottom: 5srem;
+    }
+    
+    .fa-times-circle:hover {
+      cursor: pointer;
+    }
+    
+    .filter {
+      display: none;
+      margin: auto;
+      margin-top: 2rem;
+      width: 20rem;
+      height: 3rem;
+      font-size: 2rem;
+      text-align: center;
+      margin-bottom: 1rem;
+      outline: none;
+      border: 2px solid #000;
+      border-radius: 15px;
+    }
+    
+    ::-webkit-input-placeholder {
+      text-align: center;
+    }
+    
+    /* delete Notes Button */
+    #deleteNotes {
+      background: rgb(194, 57, 57) !important;
+      display: block;
+      margin: auto;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      color: #fff;
+      border: 2px solid #ccc;
+      width: 20%;
+      height: 3rem;
+      text-align: center;
+      padding-top: 10px;
+      border-radius: 15px;
+      font-size: 2rem;
+      outline: none;
+    }
+    
+    #deleteNotes:hover {
+      cursor: pointer;
+    }
+    
+    /* media queries for responsiveness */
+    @media (max-width: 1500px) {
+      .nav {
+        width: 60vw;
+      }
+    
+      #deleteNotes {
+        width: 25%;
+      }
+    }
+    
+    @media (max-width: 1000px) {
+      .nav {
+        width: 80vw;
+      }
+      #deleteNotes {
+        width: 30%;
+      }
+    }
+    
+    @media (max-width: 750px) {
+      .nav {
+        width: 70vw;
+      }
+      .nav > .navItem {
+        display: block;
+        margin: auto;
+        margin-bottom: 1rem;
+        width: 100%;
+      }
+    
+      .add-note {
+        font-size: 1.5rem;
+      }
+    
+      .card {
+        font-size: 1.5rem;
+        width: 70vw;
+      }
+    
+      #deleteNotes {
+        width: 45%;
+      }
+    }
+    
+    @media (max-width: 590px) {
+      .add-note {
+        display: block;
+        margin: auto;
+      }
+    }
+    
+    @media (max-width: 500px) {
+      .navItem {
+        width: 100% !important;
+      }
+    
+      .paper {
+        max-width: 50%;
+      }
+    
+      #deleteNotes {
+        width: 75%;
+      }
+    }
+    
     
    </pre>
    <p class="text">
@@ -1494,405 +1478,374 @@ body {
      Let's style the rest and upgrade style.css again:
    </p>
 <pre class="code">
-/* make text non-selectable */
-* {
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-  -khtml-user-select: none; /* Konqueror HTML */
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
-  user-select: none; /* Non-prefixed version, 
-            currently supported by Chrome and Opera */
-}
-
-body {
-  background: rgb(108, 140, 226);
-}
-
-/* navigation */
-.nav {
-  display: block;
-  margin: auto;
-  width: 40vw;
-}
-
-/* navigation item */
-.nav > .navItem {
-  background: rgb(38, 0, 255);
-  display: inline-block;
-  color: #fff;
-  border: 2px solid #ccc;
-  width: 32%;
-  height: 3rem;
-  text-align: center;
-  padding-top: 10px;
-  border-radius: 15px;
-  font-size: 2rem;
-}
-
-.nav > .navItem:hover {
-  cursor: pointer;
-  transition: 1s;
-}
-
-.nav > .navItem:focus {
-  outline: none;
-}
-
-/* colors */
-.colors {
-  background: #fff;
-  width: 10rem;
-  height: 5rem;
-  display: block;
-  margin: auto;
-  margin-top: 2rem;
-  border-radius: 30px;
-}
-
-.color:hover {
-  cursor: pointer;
-}
-
-.color:first-child {
-  background: blue;
-  width: 2rem;
-  height: 2rem;
-  display: inline-block;
-  margin-top: 15%;
-  margin-left: 8%;
-  border-radius: 50%;
-}
-
-.color:nth-child(2) {
-  background: rgb(255, 239, 19);
-  width: 2rem;
-  height: 2rem;
-  display: inline-block;
-  margin-top: 15%;
-  margin-left: 8%;
-  border-radius: 50%;
-}
-
-.color:nth-child(3) {
-  background: pink;
-  width: 2rem;
-  height: 2rem;
-  display: inline-block;
-  margin-top: 15%;
-  margin-left: 8%;
-  border-radius: 50%;
-}
-
-/*hide paper initially*/
-#input {
-  display: none;
-}
-
-/* paper styles for the input form */
-.paper {
-  background: #fff;
-  padding: 60px;
-  position: relative;
-  width: 80vw;
-  display: block;
-  margin: auto;
-  margin-top: 3rem;
-  height: 20rem; 
-}
-
-.paper,
-.paper::before,
-.paper::after {
-  /* Styles to distinguish sheets from one another */
-  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
-  border: 1px solid #bbb;
-}
-
-.paper::before,
-.paper::after {
-  content: "";
-  position: absolute;
-  height: 95%;
-  width: 99%;
-  background-color: #eee;
-}
-
-.paper::before {
-  right: 15px;
-  top: 0;
-  transform: rotate(-1deg);
-  z-index: -1;
-}
-
-.paper::after {
-  top: 5px;
-  right: -5px;
-  transform: rotate(1deg);
-  z-index: -2;
-}
-
-.paper > textarea {
-  border: none;
-  overflow: auto;
-  outline: none;
-
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
-  /*remove the resize handle on the bottom right*/
-  resize: none;
-
-  font-size: 2rem;
-  width: 100%;
-  height: 100%;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-/*hide entries initially*/
-.diaryEntries {
-  display: none;
-}
-
-.add-note {
-  background: rgb(156, 154, 154);
-  color: #fff;
-  outline: none;
-  border: 2px solid #eee;
-  font-size: 2rem;
-  border-radius: 15px;
-}
-
-.add-note:hover {
-  cursor: pointer;
-  background: rgb(39, 37, 37);
-  transition: 1s;
-}
-
-/* notes style */
-
-.diaryEntries {
-  display: none;
-}
-
-.card {
-  display: block;
-  margin: auto;
-  width: 90vw;
-  font-size: 2rem;
-  background: #f0edd9;
-  padding: 1rem;
-}
-
-.card.card-fresh > p.text {
-  /* background: red; */
-  overflow-wrap: break-word !important;
-  word-wrap: break-word !important;
-  hyphens: auto !important;
-  font-family: inherit !important;
-}
-
-.invisible {
-  display: none;
-}
-
-.pencil-note:hover {
-  cursor: pointer;
-}
-
-.fa-save {
-  display: inline !important;
-}
-
-#saveEdit:hover {
-  cursor: pointer;
-}
-
-.fa-times-circle {
-  margin-left: 90%;
-  margin-bottom: 5srem;
-}
-
-.fa-times-circle:hover {
-  cursor: pointer;
-}
-
-.filter {
-  display: none;
-  margin: auto;
-  margin-top: 2rem;
-  width: 20rem;
-  height: 3rem;
-  font-size: 2rem;
-  text-align: center;
-  margin-bottom: 1rem;
-  outline: none;
-  border: 2px solid #000;
-  border-radius: 15px;
-}
-
-::-webkit-input-placeholder {
-  text-align: center;
-}
-
-.save-fresh {
-  position: absolute;
-  left: 3%;
-  margin-top:0.5rem;
-}
-
-.delete-fresh {
-  display: inline-block;
-}
-
-.card-fresh {
-  position: relative;
-}
-
-/* delete Notes Button */
-#deleteNotes {
-  background: rgb(194, 57, 57) !important;
-  display: block;
-  margin: auto;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  color: #fff;
-  border: 2px solid #ccc;
-  width: 20%;
-  height: 3rem;
-  text-align: center;
-  padding-top: 10px;
-  border-radius: 15px;
-  font-size: 2rem;
-  outline: none;
-}
-
-#deleteNotes:hover {
-  cursor: pointer;
-}
-
-/* import export styles */
-.importExport {
-  /* display: none; */
-}
-
-.import {
-  width: 48% !important;
-}
-
-.import-file {
-  opacity: 0;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-#importBtn {
-  position: relative;
-}
-
-.uiText {
-  display: block;
-  margin: auto;
-  text-align: center;
-  font-size: 2rem;
-  background: #fff;
-  padding: 1rem;
-  border-radius: 15px;
-  margin-bottom: 2rem;
-  color: #524f4f;
-  border: 2px solid #ccc;
-}
-
-/* alert div styles (used for add and import/export */
-.alert {
-  margin-top: 5rem;
-  max-width: 40rem; 
-}
-
-/* media queries for responsiveness */
-@media (max-width: 1500px) {
+  /* make text non-selectable */
+  * {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                          supported by Chrome and Opera */
+  }
+  
+  body {
+    background: rgb(108, 140, 226);
+  }
+  
+  /* navigation */
   .nav {
-    width: 60vw;
+    display: block;
+    margin: auto;
+    width: 40vw;
   }
-  .save-fresh {
-    position: absolute;
-    left: 5%;
-  }
-  #deleteNotes {
-    width: 25%;
-  }
-}
-
-@media (max-width: 1000px) {
-  .nav {
-    width: 80vw;
-  }
-  .save-fresh {
-    left: 7%;
-  }
-  #deleteNotes {
-    width: 30%;
-  }
-}
-
-@media (max-width: 750px) {
-  .nav {
-    width: 70vw;
-  }
+  
+  /* navigation item */
   .nav > .navItem {
+    background: rgb(38, 0, 255);
+    display: inline-block;
+    color: #fff;
+    border: 2px solid #ccc;
+    width: 32%;
+    height: 3rem;
+    text-align: center;
+    padding-top: 10px;
+    border-radius: 15px;
+    font-size: 1.8rem;
+  }
+  
+  .nav > .navItem:hover {
+    cursor: pointer;
+    transition: 1s;
+  }
+  
+  .nav > .navItem:focus {
+    outline: none;
+  }
+  
+  /* colors */
+  .colors {
+    background: #fff;
+    width: 10rem;
+    height: 5rem;
     display: block;
     margin: auto;
-    margin-bottom: 1rem;
+    margin-top: 2rem;
+    border-radius: 30px;
+  }
+  
+  .color:hover {
+    cursor: pointer;
+  }
+  
+  .color:first-child {
+    background: blue;
+    width: 2rem;
+    height: 2rem;
+    display: inline-block;
+    margin-top: 15%;
+    margin-left: 8%;
+    border-radius: 50%;
+  }
+  
+  .color:nth-child(2) {
+    background: rgb(255, 239, 19);
+    width: 2rem;
+    height: 2rem;
+    display: inline-block;
+    margin-top: 15%;
+    margin-left: 8%;
+    border-radius: 50%;
+  }
+  
+  .color:nth-child(3) {
+    background: pink;
+    width: 2rem;
+    height: 2rem;
+    display: inline-block;
+    margin-top: 15%;
+    margin-left: 8%;
+    border-radius: 50%;
+  }
+  
+  /*hide paper initially*/
+  #input {
+    display: none;
+  }
+  
+  /* paper styles for the input form */
+  .paper {
+    background: radial-gradient(rgb(248, 246, 246), #ebebe9);
+    padding: 60px;
+    position: relative;
+    width: 80vw;
+    display: block;
+    margin: auto;
+    margin-top: 3rem;
+    height: 20rem;
+  }
+  
+  .paper,
+  .paper::before,
+  .paper::after {
+    /* Styles to distinguish sheets from one another */
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgb(199, 198, 198);
+  }
+  
+  .paper::before,
+  .paper::after {
+    content: "";
+    position: absolute;
+    background-color: #e5e2e2;
+  }
+  
+  .paper::before {
+    right: 15px;
+    top: 0;
+    transform: rotate(-2deg);
+    z-index: -1;
     width: 100%;
+    height: 103%;
+    margin-top: -1rem;
   }
+  
+  .paper::after {
+    top: 5px;
+    right: -5px;
+    transform: rotate(2deg);
+    z-index: -2;
+    width: 98%;
+    height: 97%;
+  }
+  
+  .paper > textarea {
+    border: none;
+    overflow: auto;
+    outline: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    font-size: 2rem;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(#fff, #ebebe9);
+    color: black;
+    resize: none;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  /*hide entries initially*/
+  .diaryEntries {
+    display: none;
+  }
+  
   .add-note {
-    font-size: 1.5rem;
+    background: rgb(156, 154, 154);
+    color: #fff;
+    outline: none;
+    border: 2px solid #eee;
+    font-size: 2rem;
+    border-radius: 15px;
   }
+  
+  .add-note:hover {
+    cursor: pointer;
+    background: rgb(39, 37, 37);
+    transition: 1s;
+  }
+  
+  /* notes style */
   .card {
-    font-size: 1.5rem;
-    width: 70vw;
-  }
-
-  .save-fresh {
-    left: 9%;
-  }
-  #deleteNotes {
-    width: 45%;
-  }
-}
-
-@media (max-width: 590px) {
-  .save-fresh {
-    left: 12%;
-    top: 67%;
-  }
-  .add-note {
     display: block;
     margin: auto;
+    width: 90vw;
+    font-size: 2rem;
+    background: #f0edd9;
+    padding: 1rem;
   }
-}
-
-@media (max-width: 500px) {
+  
+  .card.card-fresh > p.text {
+    /* background: red; */
+    overflow-wrap: break-word !important;
+    word-wrap: break-word !important;
+    hyphens: auto !important;
+    font-family: inherit !important;
+  }
+  
+  .invisible {
+    display: none;
+  }
+  
+  .pencil-note:hover {
+    cursor: pointer;
+  }
+  
+  .fa-save {
+    display: inline !important;
+  }
+  
+  #saveEdit:hover {
+    cursor: pointer;
+  }
+  
+  .fa-times-circle {
+    margin-left: 90%;
+    margin-bottom: 5srem;
+  }
+  
+  .fa-times-circle:hover {
+    cursor: pointer;
+  }
+  
+  .filter {
+    display: none;
+    margin: auto;
+    margin-top: 2rem;
+    width: 20rem;
+    height: 3rem;
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    outline: none;
+    border: 2px solid #000;
+    border-radius: 15px;
+  }
+  
+  ::-webkit-input-placeholder {
+    text-align: center;
+  }
+  
+  /* delete Notes Button */
   #deleteNotes {
-    width: 75%;
+    background: rgb(194, 57, 57) !important;
+    display: block;
+    margin: auto;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    color: #fff;
+    border: 2px solid #ccc;
+    width: 20%;
+    height: 3rem;
+    text-align: center;
+    padding-top: 10px;
+    border-radius: 15px;
+    font-size: 2rem;
+    outline: none;
   }
-  #importBtn,
-  #exportBtn,
-  .navItem {
-    width: 100% !important;
+  
+  #deleteNotes:hover {
+    cursor: pointer;
   }
-}
-
-@media (max-width: 450px) {
-  .save-fresh {
-    left: 15%;
-    top: 67%;
+  
+  /* import export styles */
+  .importExport {
+    /* display: none; */
   }
-}
-    
+  
+  .import {
+    width: 48% !important;
+  }
+  
+  .import-file {
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  
+  #importBtn {
+    position: relative;
+  }
+  
+  .uiText {
+    display: block;
+    margin: auto;
+    text-align: center;
+    font-size: 2rem;
+    background: #fff;
+    padding: 1rem;
+    border-radius: 15px;
+    margin-bottom: 2rem;
+    color: #524f4f;
+    border: 2px solid #ccc;
+  }
+  
+  /* alert div styles (used for add and import/export */
+  .alert {
+    margin-top: 5rem;
+    max-width: 40rem;
+  }
+  
+  /* media queries for responsiveness */
+  @media (max-width: 1500px) {
+    .nav {
+      width: 60vw;
+    }
+  
+    #deleteNotes {
+      width: 25%;
+    }
+  }
+  
+  @media (max-width: 1000px) {
+    .nav {
+      width: 80vw;
+    }
+    #deleteNotes {
+      width: 30%;
+    }
+  }
+  
+  @media (max-width: 750px) {
+    .nav {
+      width: 70vw;
+    }
+    .nav > .navItem {
+      display: block;
+      margin: auto;
+      margin-bottom: 1rem;
+      width: 100%;
+    }
+  
+    .add-note {
+      font-size: 1.5rem;
+    }
+  
+    .card {
+      font-size: 1.5rem;
+      width: 70vw;
+    }
+  
+    #deleteNotes {
+      width: 45%;
+    }
+  }
+  
+  @media (max-width: 590px) {
+    .add-note {
+      display: block;
+      margin: auto;
+    }
+  }
+  
+  @media (max-width: 500px) {
+    #importBtn,
+    #exportBtn,
+    .navItem {
+      width: 100% !important;
+    }
+  
+    .paper {
+      max-width: 50%;
+    }
+  
+    #deleteNotes {
+      width: 75%;
+    }
+  }    
    </pre>
    <p class="text">
      Refresh the page again, and you will see the import/export section in all its splendor &#128521;.
@@ -2194,6 +2147,20 @@ exportBtn.style.border = `2px solid ${activeColor}`;
 importExportBtn.style.border = 
   `2px solid ${activeColor}`;
 uiText.style.border = `2px solid ${activeColor}`;
+
+let activeBtn = localStorage.getItem("activeBtn");
+//apply active class on button while changing color
+switch (activeBtn) {
+  case "entries":
+    listBtn.style.backgroundColor = activeColor;
+    break;
+  case "importExport":
+    importExportBtn.style.backgroundColor = activeColor;
+    break;
+  case "input":
+    inputBtn.style.backgroundColor = activeColor;
+    break;
+}
 };
 
 //keep track of UI theme and update
@@ -2285,7 +2252,29 @@ if (activeBtn === "input") {
         </pre>
         <p class="text">
           Test the UI thus far. The application now remembers what last tab we clicked and what color scheme we choose. 
-          We are pretty much done with the UI. Next we will work on the second script of our application 
+          We are pretty much done with the UI.We will only add one more method
+          into the <span class="snippet">ui.js</span> script for the alert functionality (we want our app to display fancy alerts when
+          stuff happens). Just paste it at the end of the file:
+        </p>
+        <pre class="code">
+          /*
+ * Alert Functionality
+ */
+const showAlert = (msg) => {
+  //alert functionality
+  const alert = document.querySelector(".alert");
+  alert.style.display = "block";
+  alert.className = "alert uiText";
+  alert.innerHTML = msg;
+
+  setTimeout(() => {
+    alert.innerHTML = "";
+    alert.style.display = "none";
+  }, 2000);
+};
+        </pre>
+        <p class="text">
+          Next we will work on the second script of our application 
           <span class="snippet">notes.js</span>, which will perform the 'back-end' logic of storing the notes 
           (you've guessed it!&#128521; in localStorage), importing and exporting them as a JSON file.
         </p>
@@ -2322,22 +2311,15 @@ const grabNote = (e) => {
   .replace(/\S+\s(\S+)\s(\d+)\s(\d+)\s.*/, "$2-$1-$3");
   note.date = noteDate;
   let id =
-    Math.random().toString(36).substring(2, 15) +
-    Math.random().toString(36).substring(2, 15);
+    Math.random().toString(12).substring(2, 17) +
+    Math.random().toString(12).substring(2, 17);
   note.id = id;
   notes.unshift(note);
   localStorage.setItem("notes", JSON.stringify(notes));
   document.querySelector("#note").value = "";
 
   //alert functionality
-  const alert = document.querySelector(".alert");
-  alert.style.display = "block";
-  alert.className = "alert uiText";
-  alert.innerHTML = "Note Saved &#x1F609;";
-  setTimeout(() => {
-    alert.innerHTML = "";
-    alert.style.display = "none";
-  }, 2000);
+  showAlert("Note Saved &#x1F609;");
 };
 
 let saveBtn = document.querySelector(".add-note");
@@ -2426,14 +2408,7 @@ document.querySelector("#note").value = "";
 displayNotes();
 
 //alert functionality
-const alert = document.querySelector(".alert");
-alert.style.display = "block";
-alert.className = "alert uiText";
-alert.innerHTML = "Note Saved &#x1F609;";
-setTimeout(() => {
-  alert.innerHTML = "";
-  alert.style.display = "none";
-}, 2000);
+showAlert("Note Saved &#x1F609;");
 };
         </pre>
          <p class="text">
@@ -2493,7 +2468,7 @@ document.querySelectorAll(".card").forEach((item) => {
 const displayNotes = () => {
   let records = document.querySelector("#records");
   let output = "";
-  notes.reverse().map((n) => {
+  notes.map((n) => {
     output += `
         &lt;div class="card"&gt;
             &lt;p class="text"&gt;
@@ -2595,8 +2570,8 @@ const saveNote = (e) => {
   });
 
   localStorage.setItem("notes", 
-        JSON.stringify(notes.reverse())
-      );
+        JSON.stringify(notes
+      ));
 
   let cardToEdit = e.target.parentElement.parentElement
                   .childNodes[1];
@@ -2627,10 +2602,128 @@ saveIcon.map((i) => {
         </p> 
         <p class="text">
           Finally, let's go on to implement the <span class="snippet">delete()</span> method. It will not have anything special (nothing different from what we 
-          have been using so far for the <span class="snippet">edit()</span> and <span class="snippet">save()</span> methods). Add it to the <span class="snippet">notes.js</span>:
+          have been using so far for the <span class="snippet">edit()</span> and <span class="snippet">save()</span> methods). Add it to the <span class="snippet">notes.js</span> inside the <span class="snippet">displayNotes()</span>
+          method just as you did for the edit and save methods. Now the display method looks like this:
         </p>
         <pre class="code">
 /*
+* Grabs notes from localStorage API and displays to UI
+*/
+const displayNotes = () => {
+  let records = document.querySelector("#records");
+  let output = "";
+  notes.map((n) => {
+    output += `
+          &lt;div class="card"&gt;
+              &lt;p class="text"&gt;
+                  ${n.text}
+              &lt;/p&gt;
+              &lt;p class="text"&gt;
+                  Written at: ${n.date}
+              &lt;/p&gt;
+              &lt;p class="text invisible"&gt;
+                  id: ${n.id}
+              &lt;/p&gt;
+              &lt;i 
+                class="fa fa-pencil pencil-note" 
+                aria-hidden="true"&gt;&lt;/i&gt;
+              &lt;span 
+                id="saveEdit"&gt;&lt;/span&gt;
+                  &lt;i 
+                      class="fa fa-times-circle" 
+                      aria-hidden="true"
+                  &gt;&lt;/i&gt;
+              &lt;hr&gt;
+          &lt;/div&gt;
+        `;
+  });
+  records.innerHTML = output;
+
+  //select 'all' edit buttons (not just 1)
+  //put this on one line
+  const editBtns = Array
+        .from(document.querySelectorAll(".pencil-note"));
+
+  /*
+  * Allows note editing
+  */
+  const editNote = (e) =&gt; {
+    let idToEdit = e.target.parentElement.childNodes[5]
+      .innerText
+      .trim()
+      .split(":")[1]
+      .trim();
+    let cardToEdit = e.target.parentElement.childNodes[1];
+    cardToEdit.contentEditable = "true";
+    cardToEdit.style.backgroundColor = "#fff";
+    cardToEdit.style.padding = "1.5rem";
+    const editIcon = e.target.parentElement.childNodes[9];
+    editIcon.style.display = "inline-block";
+    editIcon.innerHTML = `
+        &lt;i class="fa fa-check" aria-hidden="true"&gt;&lt;/i&gt;`;
+    e.preventDefault();
+  };
+
+  //bind the event to all edit buttons
+  editBtns.map((i) =&gt; {
+    i.addEventListener("click", editNote);
+  });
+
+  /*
+  * saves note after edit
+  */
+  const saveNote = (e) =&gt; {
+    let newText = e.target
+      .parentElement
+      .parentElement
+      .childNodes[1]
+      .innerText
+      .trim()
+      .replace(/\r?\n/g, "&lt;br /&gt;");
+    let newDate = new Date()
+      .toString()
+      .replace(/\S+\s(\S+)\s(\d+)\s(\d+)\s.*/, "$2-$1-$3");
+    let idToEdit = e.target
+      .parentElement
+      .parentElement
+      .childNodes[5]
+      .innerText
+      .trim()
+      .split(":")[1]
+      .trim();
+
+    let newResource = {
+      text: newText,
+      date: newDate,
+      id: idToEdit,
+    };
+
+    notes.map((n, index) => {
+      if (n.id === idToEdit) {
+        notes[index] = newResource;
+      }
+    });
+
+    localStorage.setItem("notes", JSON.stringify(notes));
+
+    let cardToEdit = e.target.parentElement
+         .parentElement.childNodes[1];
+    cardToEdit.contentEditable = "false";
+    cardToEdit.style.backgroundColor = "#f0edd9";
+    cardToEdit.style.padding = "0";
+    const editIcon = e.target
+      .parentElement.parentElement.childNodes[9];
+    editIcon.style.display = "none";
+  };
+
+  const saveIcon = Array
+   .from(document.querySelectorAll("#saveEdit"));
+
+  saveIcon.map((i) => {
+    i.addEventListener("click", saveNote);
+  });
+  
+  /*
  * Deletes a note
  */
 const deleteNote = (e) => {
@@ -2646,175 +2739,24 @@ const deleteNote = (e) => {
   localStorage.setItem("notes", JSON.stringify(notes));
   e.target.parentElement.style.display = "none";
 };
+//event listener for delete
 let deleteBtns = Array.from(document.
     querySelectorAll(".fa-times-circle"));
 deleteBtns.map((b) => {
   b.addEventListener("click", deleteNote);
 });
-        </pre>
-        <p class="text">
-          Note that now, we have delete functionality too. If we click on the little X icon, the note disappears. Also, do note that our 
-          previous 'bug' from the edit note pops up here too. We cannot delete a note right after we have added it, without first refreshing 
-          the page. If we try to do that, nothing happens. The cause for this is pretty simple but may not be intuitive at first sight. When we set up
-          our <span class="snippet">edit()</span> and <span class="snippet">delete()</span> methods, onto all the pencil and X icons from the DOM,
-          this only included the notes currently on the page (and loaded in the DOM). You might be wondering, why not simply make the binding of the event,
-          inside the <span class="snippet">grabNote()</span> method too (just duplicate that little bit of code, as you still want the binding outside the
-          grab method so users can edit notes that are already on the page too). It is a good idea at first sight but, there is an issue with that. Due to how the
-          'freshly added' note to the DOM is constructed (so the note that 'shows up') in the UI right when we input the note text, without a page refresh, 
-          the DOM nodes are different. Remember the <span class="snippet">childNodes[5]</span> property, well this time the childNodes array might have only 2 elements,
-          so most you can get is choldNodes[3]. Due to that fact, the edit icon or the save/delete one, might have to be defined differently.
-        </p>
-        <p class="text">
-          My approach may not be ideal, feel free to tweak/improve it if you want to dive deeper into this issue, but it works and it suits our need. We will simply create a second set 
-          of edit and delete methods and we will hook them onto the icons of the freshly added notes to the dom. In order to distinguish between the methods,
-          we will call them <span class="snippet">editFresh()</span>, <span class="snippet">deleteFresh()</span> and so on... Let's start with <span class="snippet">editFresh()</span>. Note
-          that we already have a binding for it inside the <span class="snippet">grabNote()</span> method, but it is commented out for now (as the method does not exist):
-        </p>
-        <pre class="code">
-icon1.addEventListener("click", editFresh);
-        </pre>
-        <p class="text">
-          Uncomment the line and add the <span class="snippet">editFresh()</span> method to the <span class="snippet">notes.js</span> file:
-        </p>
-        <pre class="code">
-/*
- * Edit note while just adding it (without refresh)
- */
-const editFresh = (e) => {
-  let idToEdit = e.target.parentElement.childNodes[2]
-    .innerText
-    .split(":")[1]
-    .trim();
-  let cardToEdit = e.target.parentElement.childNodes[0];
-  cardToEdit.contentEditable = "true";
-  cardToEdit.style.backgroundColor = "#fff";
-  cardToEdit.style.padding = "1.5rem";
-  const editIcon = e.target.parentElement.childNodes[5];
-  editIcon.style.display = "inline";
-  editIcon.addEventListener("click", saveFresh);
-  editIcon.innerHTML = `&lt;i  
-                      class="fa fa-check save-fresh" 
-                          aria-hidden="true"
-                        &gt;
-                        &lt;/i&gt;`;
-  e.preventDefault();
 };
 
         </pre>
         <p class="text">
-          Now, if you click on the pen icon right after editing a note, the edit method works, however, you do get a little error in the console:
-        </p>
-        <div class="devPic">
-          <img src="./img/editErrFresh.png" alt="">
-        </div>
-        <p class="text">
-          <span class="snippet">saveFresh is not defined</span> this happens because we have an event binding onto this method which does not exist yet.
-          In the <span class="snippet">editFresh()</span> method we have just written we have the below line:
-        </p>
-        <pre class="code">
-editIcon.addEventListener("click", saveFresh);
-      </pre>
-      <p class="text">
-        Let's add the <span class="snippet">saveFresh()</span> method to fix that. Add it to the <span class="snippet">notes.js</span> file:
-      </p>
-      <pre class="code">
-/*
- * Save while just adding it (no refresh)
- */
-const saveFresh = (e) => {
-  let newText;
-  let idToEdit;
-  // let deleteIcon;
-  if (e.target.parentElement.parentElement
-    .childNodes[0] !== undefined) {
-    newText = e.target.parentElement.parentElement
-      .childNodes[0].innerHTML
-      .trim()
-      .replace(/\r?\n/g, "&lt;br /&gt;");
-  }
- 
-  let newDate = new Date()
-    .toString()
-.replace(/\S+\s(\S+)\s(\d+)\s(\d+)\s.*/, "$2-$1-$3");
-  if (e.target.parentElement.parentElement
-       .childNodes[2] !== undefined) {
-              idToEdit = e.target.parentElement
-              .parentElement.childNodes[2].innerHTML
-              .split(":")[1]
-              .trim();
-      }
-  let newResource = {
-    text: newText,
-    date: newDate,
-    id: idToEdit,
-  };
-  notes.map((n, index) => {
-    if (n.id === idToEdit) {
-      notes[index] = newResource;
-    }
-  });
-  localStorage.setItem("notes", JSON.stringify(notes));
-  let cardToEdit = e.target.parentElement.
-              parentElement.childNodes[0];
-  cardToEdit.contentEditable = "false";
-  cardToEdit.style.backgroundColor = "#f0edd9";
-  cardToEdit.style.padding = "0";
-  const editIcon = e.target.parentElement.childNodes[0];
-  editIcon.style.display = "none";
-const deleteIcon = document.querySelector(
-            ".delete-fresh"
-          );
-  deleteIcon.style.display = "block";
-};
-
-editBtns.map((i) => {
-  i.addEventListener("click", editNote);
-});
-      </pre>
-      <p class="text">
-        Now we can edit the 'fresh' notes too. Let's implement the <span class="snippet">deleteFresh()</span> method too so that we can have full <span class="snippet">CRUD</span>
-        functionality onto them too. Add the method to <span class="snippet">notes.js</span>:
-      </p>
-      <pre class="code">
-/*
-* Delete a note while just adding it (no refresh)
-*/
-const deleteFresh = (e) => {
-  let idToDelete;
-  if (
-e.target.parentElement.
-childNodes[2] !== undefined) {
-    idToDelete = e.target.parentElement
-      .childNodes[2]
-      .innerText
-      .split(":")[1]
-      .trim();
-  }
-  notes.map((n, index) => {
-    if (n.id === idToDelete) {
-      notes.splice(index, 1);
-    }
-  });
-  localStorage.setItem(
-      "notes", 
-    JSON.stringify(notes));
-
-  let cardToHide = e.target.parentElement;
-  cardToHide.style.display = "none";
-};
-      </pre>
-      <p class="text">
-        Also, don't forget to uncomment the event binding line from the <span class="snippet">grabNote()</span> method.
-        I will paste it here:
-      </p>
-      <pre class="code">
-
-  icon2.addEventListener("click", deleteFresh);
-      </pre>
-      <p class="text">
-        Now we can delete notes immediately after adding them without a refresh first, so we only need to implement the <span class="snippet">deleteAll()</span> method, as we even bothered to make a nice
-        looking button for it. Add it to <span class="snippet">notes.js</span>:
-      </p>
+          The reason we have put the  edit and delete methods inside <span class="snippet">displayNotes()</span> and their event bindings, is because we are
+          calling it multiple times (more precisely each time we add a new note). This means that we need to attach an event listener for edit/save/delete for the new notes
+          but to re-attach the ones for the existing notes. This happens because <span class="snippet">displayNotes()</span> simply 'rebuilds' the notes into the DOM so the original
+          event listeners are lost.
+          Note that now, we have delete functionality too. So we have full CRUD functionality for our notes. The only method left to
+          implement is  <span class="snippet">deleteNotes()</span> which will delete all the notes at once. Add it to the <span class="snippet">notes.js</span> file right at the end:
+         
+     
       <pre class="code">
 /*
  * Delete all notes
@@ -2825,17 +2767,18 @@ const deleteAllBtn = document
 const deleteNotes = () => {
   deleteAllBtn.style.backgroundColor = "red";
   deleteAllBtn.style.border = "2px solid black";
+  //empty notes array
+  notes = [];
   localStorage.removeItem("notes");
-  document.querySelector(".first-card").innerHTML = "";
+  document.querySelector("#records").innerHTML = "";
   const cardsToDelete = Array
-    .from(document.querySelectorAll(".card"));
+  .from(document.querySelectorAll(".card"));
   cardsToDelete.map((i) => (i.style.display = "none"));
 };
 deleteAllBtn.addEventListener("click", deleteNotes);
       </pre>
       <p class="text">
-        Now, we have full <span class="snippet">CRUD</span> functionality in our app for both old notes and 'fresh' ones (the ones just added into the DOM,
-        dynamically, by the user  without first refreshing the page). The last functionalities we want to add for our application are the 
+       The last functionalities we want to add for our application are the 
         <span class="snippet">import()</span> and <span class="snippet">export()</span> ones. We want the user to be able to export their notes
         as a <span class="snippet">.JSON</span> file. Further more, we want them to be able to import notes too. Let's start with the <span class="snippet">export()</span>
         method. Add it to the <span class="snippet">notes.js</span> file:
@@ -2892,7 +2835,7 @@ exportBtn.addEventListener("click", exportNotes);
       reader.onload = function (event) {
         let newNotes = JSON
           .parse(event.target.result).notes;
-        newNotes.map((i) => notes.push(i));
+        newNotes.map((i) => notes.unshift(i));
         localStorage.setItem(
             "notes", 
             JSON.stringify(notes));

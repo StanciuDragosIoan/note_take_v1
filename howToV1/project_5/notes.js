@@ -7,59 +7,62 @@ if (localStorage.getItem("notes") === null) {
 }
 
 /*
- * Grabs notes from localStorage API and displays them to UI
+ * Grabs notes from localStorage API and displays to UI
  */
 const displayNotes = () => {
   let records = document.querySelector("#records");
   let output = "";
-
   notes.map((n) => {
     output += `
-        <div class="card">
-            <p class="text">
-                ${n.text}
-            </p>
-            <p class="text">
-                Written at: ${n.date}
-            </p>
-            <p class="text invisible">
-                id: ${n.id}
-            </p>
-            <i class="fa fa-pencil pencil-note" aria-hidden="true"></i>
-            <span id="saveEdit"></span><i class="fa fa-times-circle" aria-hidden="true"></i>
-            <hr>
-        </div>
-      `;
+            <div class="card">
+                <p class="text">
+                    ${n.text}
+                </p>
+                <p class="text">
+                    Written at: ${n.date}
+                </p>
+                <p class="text invisible">
+                    id: ${n.id}
+                </p>
+                <i 
+                  class="fa fa-pencil pencil-note" 
+                  aria-hidden="true"></i>
+                <span 
+                  id="saveEdit"></span>
+                    <i 
+                        class="fa fa-times-circle" 
+                        aria-hidden="true"
+                    ></i>
+                <hr>
+            </div>
+          `;
   });
-
   records.innerHTML = output;
 
-  //atach event listeners for edit/delete notes
+  //select 'all' edit buttons (not just 1)
+  //put this on one line
   const editBtns = Array.from(document.querySelectorAll(".pencil-note"));
 
   /*
    * Allows note editing
    */
   const editNote = (e) => {
-    let idToEdit;
-
-    if (e.target.parentElement.childNodes[5].innerText !== undefined) {
-      idToEdit = e.target.parentElement.childNodes[5].innerText
-        .trim()
-        .split(":")[1]
-        .trim();
-    }
-
+    let idToEdit = e.target.parentElement.childNodes[5].innerText
+      .trim()
+      .split(":")[1]
+      .trim();
     let cardToEdit = e.target.parentElement.childNodes[1];
     cardToEdit.contentEditable = "true";
     cardToEdit.style.backgroundColor = "#fff";
     cardToEdit.style.padding = "1.5rem";
     const editIcon = e.target.parentElement.childNodes[9];
     editIcon.style.display = "inline-block";
-    editIcon.innerHTML = `<i class="fa fa-check" aria-hidden="true"></i>`;
+    editIcon.innerHTML = `
+          <i class="fa fa-check" aria-hidden="true"></i>`;
     e.preventDefault();
   };
 
+  //bind the event to all edit buttons
   editBtns.map((i) => {
     i.addEventListener("click", editNote);
   });
@@ -91,7 +94,7 @@ const displayNotes = () => {
       }
     });
 
-    localStorage.setItem("notes", JSON.stringify(notes.reverse()));
+    localStorage.setItem("notes", JSON.stringify(notes));
 
     let cardToEdit = e.target.parentElement.parentElement.childNodes[1];
     cardToEdit.contentEditable = "false";
@@ -122,16 +125,50 @@ const displayNotes = () => {
     localStorage.setItem("notes", JSON.stringify(notes));
     e.target.parentElement.style.display = "none";
   };
+  //event listener for delete
   let deleteBtns = Array.from(document.querySelectorAll(".fa-times-circle"));
   deleteBtns.map((b) => {
     b.addEventListener("click", deleteNote);
   });
 };
-
-//call display notes to see the notes and attach event listeners for edit/delete
+//call display notes to see the notes
 displayNotes();
 
+/*
+ * Grabs note and saves to localStorage API
+ */
+const grabNote = (e) => {
+  const note = {};
+  //regexp to 'know' how to put linebreaks
+  let noteText = document.querySelector("#note").value;
+  note.text = noteText.replace(/\r?\n/g, "<br />");
+  const noteDate = new Date()
+    .toString()
+    .replace(/\S+\s(\S+)\s(\d+)\s(\d+)\s.*/, "$2-$1-$3");
+  note.date = noteDate;
+  let id =
+    Math.random().toString(36).substring(2, 15) +
+    Math.random().toString(36).substring(2, 15);
+  note.id = id;
+  notes.unshift(note);
+  localStorage.setItem("notes", JSON.stringify(notes));
+  document.querySelector("#note").value = "";
+
+  //call displayNotes & 'refresh' the notes after each add
+  displayNotes();
+
+  //alert functionality
+  showAlert("Note Saved 😉");
+};
+
+let saveBtn = document.querySelector(".add-note");
+saveBtn.addEventListener("click", grabNote);
+
+/*
+ * filter notes functionality
+ */
 const filterField = document.querySelector(".filter");
+//put this on one line
 filterField.addEventListener("click", () => (filterField.value = ""));
 
 const filter = () => {
@@ -157,45 +194,18 @@ const filter = () => {
  * Delete all notes
  */
 const deleteAllBtn = document.querySelector("#deleteNotes");
+
 const deleteNotes = () => {
   deleteAllBtn.style.backgroundColor = "red";
   deleteAllBtn.style.border = "2px solid black";
+  //empty notes array
   notes = [];
   localStorage.removeItem("notes");
-  console.log(notes);
   document.querySelector("#records").innerHTML = "";
-  showAlert("Notes deleted Successfully &#x1F609;");
+  const cardsToDelete = Array.from(document.querySelectorAll(".card"));
+  cardsToDelete.map((i) => (i.style.display = "none"));
 };
 deleteAllBtn.addEventListener("click", deleteNotes);
-
-/*
- * Grabs user note and saves to localStorage API
- */
-const grabNote = (e) => {
-  const note = {};
-  //regexp to 'know' how to put linebreaks
-  let noteText = document.querySelector("#note").value;
-  note.text = noteText.replace(/\r?\n/g, "<br />");
-  const noteDate = new Date()
-    .toString()
-    .replace(/\S+\s(\S+)\s(\d+)\s(\d+)\s.*/, "$2-$1-$3");
-  note.date = noteDate;
-  let id =
-    Math.random().toString(12).substring(2, 17) +
-    Math.random().toString(12).substring(2, 17);
-  note.id = id;
-  notes.unshift(note);
-  localStorage.setItem("notes", JSON.stringify(notes));
-  document.querySelector("#note").value = "";
-
-  displayNotes();
-
-  //alert functionality
-  showAlert("Note Saved &#x1F609;");
-};
-
-let saveBtn = document.querySelector(".add-note");
-saveBtn.addEventListener("click", grabNote);
 
 /*
  * Export  notes as JSON
@@ -245,7 +255,14 @@ const importNotes = (e) => {
         newNotes.map((i) => notes.unshift(i));
         localStorage.setItem("notes", JSON.stringify(notes));
 
-        showAlert("Notes imported Successfully &#x1F609;");
+        const alert = document.querySelector(".alert");
+        alert.style.display = "block";
+        alert.className = "alert uiText";
+        alert.innerHTML = "Notes imported Successfully 😉";
+        setTimeout(() => {
+          alert.innerHTML = "";
+          alert.style.display = "none";
+        }, 2000);
         displayNotes();
       };
       let readValue = reader.readAsText(file);
