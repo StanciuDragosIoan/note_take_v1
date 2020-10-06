@@ -131,7 +131,6 @@ const displayNotes = () => {
     b.addEventListener("click", deleteNote);
   });
 };
-
 //call display notes to see the notes
 displayNotes();
 
@@ -159,14 +158,7 @@ const grabNote = (e) => {
   displayNotes();
 
   //alert functionality
-  const alert = document.querySelector(".alert");
-  alert.style.display = "block";
-  alert.className = "alert uiText";
-  alert.innerHTML = "Note Saved 😉";
-  setTimeout(() => {
-    alert.innerHTML = "";
-    alert.style.display = "none";
-  }, 2000);
+  showAlert("Note Saved 😉");
 };
 
 let saveBtn = document.querySelector(".add-note");
