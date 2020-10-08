@@ -784,229 +784,229 @@ body {
     Add the below div, right under the <span class="snippet">&lt;!-- input section --&gt;</span> comment in index.html
   </p>
   <pre class="code">
-    &lt;div id="input"&gt;
-      &lt;div class="paper"&gt;
-        &lt;textarea 
-          name="note" 
-          id="note" 
-          cols="120" 
-          rows="10"
-        &gt;
-        &lt;/textarea&gt;
-        &lt;button class="add-note"&gt;
-          Save Note &lt;i 
-                      class="fa fa-pencil" 
-                      aria-hidden="true"
-                    &gt;&lt;/i&gt;
-        &lt;/button&gt;
-      &lt;/div&gt;
-    &lt;/div&gt;
+&lt;div id="input"&gt;
+  &lt;div class="paper"&gt;
+    &lt;textarea 
+      name="note" 
+      id="note" 
+      cols="120" 
+      rows="10"
+    &gt;
+    &lt;/textarea&gt;
+    &lt;button class="add-note"&gt;
+      Save Note &lt;i 
+                  class="fa fa-pencil" 
+                  aria-hidden="true"
+                &gt;&lt;/i&gt;
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
   </pre>
   <p class="text">
     The input section obviously looks bad so let's add some CSS styling for it first.
     Replace all the code in style.css with the below:
   </p>
    <pre class="code">
-    /* make text non-selectable */
-    * {
-      -webkit-touch-callout: none; /* iOS Safari */
-      -webkit-user-select: none; /* Safari */
-      -khtml-user-select: none; /* Konqueror HTML */
-      -moz-user-select: none; /* Firefox */
-      -ms-user-select: none; /* Internet Explorer/Edge */
-      user-select: none; /* Non-prefixed version, currently
-                            supported by Chrome and Opera */
-    }
-    
-    body {
-      background: rgb(108, 140, 226);
-    }
-    
-    /* navigation */
-    .nav {
-      display: block;
-      margin: auto;
-      width: 40vw;
-    }
-    
-    /* navigation item */
-    .nav > .navItem {
-      background: rgb(38, 0, 255);
-      display: inline-block;
-      color: #fff;
-      border: 2px solid #ccc;
-      width: 32%;
-      height: 3rem;
-      text-align: center;
-      padding-top: 10px;
-      border-radius: 15px;
-      font-size: 1.8rem;
-    }
-    
-    .nav > .navItem:hover {
-      cursor: pointer;
-      transition: 1s;
-    }
-    
-    .nav > .navItem:focus {
-      outline: none;
-    }
-    
-    /* colors */
-    .colors {
-      background: #fff;
-      width: 10rem;
-      height: 5rem;
-      display: block;
-      margin: auto;
-      margin-top: 2rem;
-      border-radius: 30px;
-    }
-    
-    .color:hover {
-      cursor: pointer;
-    }
-    
-    .color:first-child {
-      background: blue;
-      width: 2rem;
-      height: 2rem;
-      display: inline-block;
-      margin-top: 15%;
-      margin-left: 8%;
-      border-radius: 50%;
-    }
-    
-    .color:nth-child(2) {
-      background: rgb(255, 239, 19);
-      width: 2rem;
-      height: 2rem;
-      display: inline-block;
-      margin-top: 15%;
-      margin-left: 8%;
-      border-radius: 50%;
-    }
-    
-    .color:nth-child(3) {
-      background: pink;
-      width: 2rem;
-      height: 2rem;
-      display: inline-block;
-      margin-top: 15%;
-      margin-left: 8%;
-      border-radius: 50%;
-    }
-    
-    /*hide paper initially*/
-    #input {
-      display: none;
-    }
-    
-    /* paper styles for the input form */ 
-    .paper {
-      background: radial-gradient(rgb(248, 246, 246), #ebebe9);
-      padding: 60px;
-      position: relative;
-      width: 80vw;
-      display: block;
-      margin: auto;
-      margin-top: 3rem;
-      height: 20rem;
-    }
-    
-    .paper,
-    .paper::before,
-    .paper::after {
-      /* Styles to distinguish sheets from one another */
-      box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
-      border: 1px solid rgb(199, 198, 198);
-    }
-    
-    .paper::before,
-    .paper::after {
-      content: "";
-      position: absolute;
-      background-color: #e5e2e2;
-    }
-    
-    .paper::before {
-      right: 15px;
-      top: 0;
-      transform: rotate(-2deg);
-      z-index: -1;
-      width: 100%;
-      height: 103%;
-      margin-top: -1rem;
-    }
-    
-    .paper::after {
-      top: 5px;
-      right: -5px;
-      transform: rotate(2deg);
-      z-index: -2;
-      width: 98%;
-      height: 97%;
-    }
-    
-    .paper > textarea {
-      border: none;
-      overflow: auto;
-      outline: none;
-      -webkit-box-shadow: none;
-      -moz-box-shadow: none;
-      box-shadow: none;
-      font-size: 2rem;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(#fff, #ebebe9);
-      color: black;
-      resize: none;
-      font-family: Arial, Helvetica, sans-serif;
-    }
-    
-    .add-note {
-      background: rgb(156, 154, 154);
-      color: #fff;
-      outline: none;
-      border: 2px solid #eee;
-      font-size: 2rem;
-      border-radius: 15px;
-    }
-    
-    .add-note:hover {
-      cursor: pointer;
-      background: rgb(39, 37, 37);
-      transition: 1s;
-    }
-    
-    /* media queries for responsiveness */
-    @media (max-width: 1500px) {
-      .nav {
-        width: 60vw;
-      }
-    }
-    
-    @media (max-width: 1000px) {
-      .nav {
-        width: 80vw;
-      }
-    }
-    
-    @media (max-width: 750px) {
-      .nav {
-        width: 70vw;
-      }
-      .nav > .navItem {
-        display: block;
-        margin: auto;
-        margin-bottom: 1rem;
-        width: 100%;
-      }
-    
-      .add-note {
-        font-size: 1.5rem;
-      }
-    }
+/* make text non-selectable */
+* {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                        supported by Chrome and Opera */
+}
+
+body {
+  background: rgb(108, 140, 226);
+}
+
+/* navigation */
+.nav {
+  display: block;
+  margin: auto;
+  width: 40vw;
+}
+
+/* navigation item */
+.nav > .navItem {
+  background: rgb(38, 0, 255);
+  display: inline-block;
+  color: #fff;
+  border: 2px solid #ccc;
+  width: 32%;
+  height: 3rem;
+  text-align: center;
+  padding-top: 10px;
+  border-radius: 15px;
+  font-size: 1.8rem;
+}
+
+.nav > .navItem:hover {
+  cursor: pointer;
+  transition: 1s;
+}
+
+.nav > .navItem:focus {
+  outline: none;
+}
+
+/* colors */
+.colors {
+  background: #fff;
+  width: 10rem;
+  height: 5rem;
+  display: block;
+  margin: auto;
+  margin-top: 2rem;
+  border-radius: 30px;
+}
+
+.color:hover {
+  cursor: pointer;
+}
+
+.color:first-child {
+  background: blue;
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+  margin-top: 15%;
+  margin-left: 8%;
+  border-radius: 50%;
+}
+
+.color:nth-child(2) {
+  background: rgb(255, 239, 19);
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+  margin-top: 15%;
+  margin-left: 8%;
+  border-radius: 50%;
+}
+
+.color:nth-child(3) {
+  background: pink;
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+  margin-top: 15%;
+  margin-left: 8%;
+  border-radius: 50%;
+}
+
+/*hide paper initially*/
+#input {
+  display: none;
+}
+
+/* paper styles for the input form */ 
+.paper {
+  background: radial-gradient(rgb(248, 246, 246), #ebebe9);
+  padding: 60px;
+  position: relative;
+  width: 80vw;
+  display: block;
+  margin: auto;
+  margin-top: 3rem;
+  height: 20rem;
+}
+
+.paper,
+.paper::before,
+.paper::after {
+  /* Styles to distinguish sheets from one another */
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgb(199, 198, 198);
+}
+
+.paper::before,
+.paper::after {
+  content: "";
+  position: absolute;
+  background-color: #e5e2e2;
+}
+
+.paper::before {
+  right: 15px;
+  top: 0;
+  transform: rotate(-2deg);
+  z-index: -1;
+  width: 100%;
+  height: 103%;
+  margin-top: -1rem;
+}
+
+.paper::after {
+  top: 5px;
+  right: -5px;
+  transform: rotate(2deg);
+  z-index: -2;
+  width: 98%;
+  height: 97%;
+}
+
+.paper > textarea {
+  border: none;
+  overflow: auto;
+  outline: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  font-size: 2rem;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(#fff, #ebebe9);
+  color: black;
+  resize: none;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.add-note {
+  background: rgb(156, 154, 154);
+  color: #fff;
+  outline: none;
+  border: 2px solid #eee;
+  font-size: 2rem;
+  border-radius: 15px;
+}
+
+.add-note:hover {
+  cursor: pointer;
+  background: rgb(39, 37, 37);
+  transition: 1s;
+}
+
+/* media queries for responsiveness */
+@media (max-width: 1500px) {
+  .nav {
+    width: 60vw;
+  }
+}
+
+@media (max-width: 1000px) {
+  .nav {
+    width: 80vw;
+  }
+}
+
+@media (max-width: 750px) {
+  .nav {
+    width: 70vw;
+  }
+  .nav > .navItem {
+    display: block;
+    margin: auto;
+    margin-bottom: 1rem;
+    width: 100%;
+  }
+
+  .add-note {
+    font-size: 1.5rem;
+  }
+}
       
    </pre>
    <p class="text">
@@ -1014,10 +1014,10 @@ body {
     I will paste the commented rule here:
    </p>
    <pre class="code">
-    /*hide paper initially*/
-    #input {
-      /*display: none;*/
-    }
+/*hide paper initially*/
+#input {
+  /*display: none;*/
+}
    </pre>
    <p class="text">
      This is what the input for for our notes will look like. Note how the paper sheets are built with CSS around the <span class="snippet">.paper</span> class. Also, note how 
@@ -1035,25 +1035,25 @@ body {
      index.html right under the <span class="snippet"> &lt;!-- entries section --&gt;</span> comment in index.html:
    </p>
    <pre class="code">
-     <!-- entries section -->
-    &lt;div class="diaryEntries"&gt;
-      &lt;div 
-        id="deleteNotes" 
-        class="navItem" 
-        tabindex="1"&gt;
-          Delete Notes &lt;i 
-                        class="fa fa-minus-circle" 
-                        aria-hidden="true"
-                      &gt;&lt;/i&gt;
-      &lt;/div&gt;
-      &lt;input
-        oninput="filter()"
-        class="filter uiText"
-        type="text"
-        value="filter notes"
-      /&gt;
-      &lt;div id="records"&gt;&lt;/div&gt;
-    &lt;/div&gt;
+  <!-- entries section -->
+&lt;div class="diaryEntries"&gt;
+  &lt;div 
+    id="deleteNotes" 
+    class="navItem" 
+    tabindex="1"&gt;
+      Delete Notes &lt;i 
+                    class="fa fa-minus-circle" 
+                    aria-hidden="true"
+                  &gt;&lt;/i&gt;
+  &lt;/div&gt;
+  &lt;input
+    oninput="filter()"
+    class="filter uiText"
+    type="text"
+    value="filter notes"
+  /&gt;
+  &lt;div id="records"&gt;&lt;/div&gt;
+&lt;/div&gt;
    </pre>
    <p class="text">
      Refresh the page, and surprise! You will see some more ugly looking HTML. Actually this time it is 
@@ -1062,329 +1062,329 @@ body {
      like this:
    </p>
    <pre class="code">
-    /* make text non-selectable */
-    * {
-      -webkit-touch-callout: none; /* iOS Safari */
-      -webkit-user-select: none; /* Safari */
-      -khtml-user-select: none; /* Konqueror HTML */
-      -moz-user-select: none; /* Firefox */
-      -ms-user-select: none; /* Internet Explorer/Edge */
-      user-select: none; /* Non-prefixed version, currently
-                            supported by Chrome and Opera */
-    }
-    
-    body {
-      background: rgb(108, 140, 226);
-    }
-    
-    /* navigation */
-    .nav {
-      display: block;
-      margin: auto;
-      width: 40vw;
-    }
-    
-    /* navigation item */
-    .nav > .navItem {
-      background: rgb(38, 0, 255);
-      display: inline-block;
-      color: #fff;
-      border: 2px solid #ccc;
-      width: 32%;
-      height: 3rem;
-      text-align: center;
-      padding-top: 10px;
-      border-radius: 15px;
-      font-size: 1.8rem;
-    }
-    
-    .nav > .navItem:hover {
-      cursor: pointer;
-      transition: 1s;
-    }
-    
-    .nav > .navItem:focus {
-      outline: none;
-    }
-    
-    /* colors */
-    .colors {
-      background: #fff;
-      width: 10rem;
-      height: 5rem;
-      display: block;
-      margin: auto;
-      margin-top: 2rem;
-      border-radius: 30px;
-    }
-    
-    .color:hover {
-      cursor: pointer;
-    }
-    
-    .color:first-child {
-      background: blue;
-      width: 2rem;
-      height: 2rem;
-      display: inline-block;
-      margin-top: 15%;
-      margin-left: 8%;
-      border-radius: 50%;
-    }
-    
-    .color:nth-child(2) {
-      background: rgb(255, 239, 19);
-      width: 2rem;
-      height: 2rem;
-      display: inline-block;
-      margin-top: 15%;
-      margin-left: 8%;
-      border-radius: 50%;
-    }
-    
-    .color:nth-child(3) {
-      background: pink;
-      width: 2rem;
-      height: 2rem;
-      display: inline-block;
-      margin-top: 15%;
-      margin-left: 8%;
-      border-radius: 50%;
-    }
-    
-    /*hide paper initially*/
-    #input {
-      display: none;
-    }
-    
-    /* paper styles for the input form */
-    /* paper styles for the input form */
-    .paper {
-      background: radial-gradient(rgb(248, 246, 246), #ebebe9);
-      padding: 60px;
-      position: relative;
-      width: 80vw;
-      display: block;
-      margin: auto;
-      margin-top: 3rem;
-      height: 20rem;
-    }
-    
-    .paper,
-    .paper::before,
-    .paper::after {
-      /* Styles to distinguish sheets from one another */
-      box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
-      border: 1px solid rgb(199, 198, 198);
-    }
-    
-    .paper::before,
-    .paper::after {
-      content: "";
-      position: absolute;
-      background-color: #e5e2e2;
-    }
-    
-    .paper::before {
-      right: 15px;
-      top: 0;
-      transform: rotate(-2deg);
-      z-index: -1;
-      width: 100%;
-      height: 103%;
-      margin-top: -1rem;
-    }
-    
-    .paper::after {
-      top: 5px;
-      right: -5px;
-      transform: rotate(2deg);
-      z-index: -2;
-      width: 98%;
-      height: 97%;
-    }
-    
-    .paper > textarea {
-      border: none;
-      overflow: auto;
-      outline: none;
-      -webkit-box-shadow: none;
-      -moz-box-shadow: none;
-      box-shadow: none;
-      font-size: 2rem;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(#fff, #ebebe9);
-      color: black;
-      resize: none;
-      font-family: Arial, Helvetica, sans-serif;
-    }
-    
-    .add-note {
-      background: rgb(156, 154, 154);
-      color: #fff;
-      outline: none;
-      border: 2px solid #eee;
-      font-size: 2rem;
-      border-radius: 15px;
-    }
-    
-    .add-note:hover {
-      cursor: pointer;
-      background: rgb(39, 37, 37);
-      transition: 1s;
-    }
-    
-    /* notes style */
-    .card {
-      display: block;
-      margin: auto;
-      width: 90vw;
-      font-size: 2rem;
-      background: #f0edd9;
-      padding: 1rem;
-    }
-    
-    .card.card-fresh > p.text {
-      /* background: red; */
-      overflow-wrap: break-word !important;
-      word-wrap: break-word !important;
-      hyphens: auto !important;
-      font-family: inherit !important;
-    }
-    
-    .invisible {
-      display: none;
-    }
-    
-    .pencil-note:hover {
-      cursor: pointer;
-    }
-    
-    .fa-save {
-      display: inline !important;
-    }
-    
-    #saveEdit:hover {
-      cursor: pointer;
-    }
-    
-    .fa-times-circle {
-      margin-left: 90%;
-      margin-bottom: 5srem;
-    }
-    
-    .fa-times-circle:hover {
-      cursor: pointer;
-    }
-    
-    .filter {
-      display: none;
-      margin: auto;
-      margin-top: 2rem;
-      width: 20rem;
-      height: 3rem;
-      font-size: 2rem;
-      text-align: center;
-      margin-bottom: 1rem;
-      outline: none;
-      border: 2px solid #000;
-      border-radius: 15px;
-    }
-    
-    ::-webkit-input-placeholder {
-      text-align: center;
-    }
-    
-    /* delete Notes Button */
-    #deleteNotes {
-      background: rgb(194, 57, 57) !important;
-      display: block;
-      margin: auto;
-      margin-top: 1rem;
-      margin-bottom: 1rem;
-      color: #fff;
-      border: 2px solid #ccc;
-      width: 20%;
-      height: 3rem;
-      text-align: center;
-      padding-top: 10px;
-      border-radius: 15px;
-      font-size: 2rem;
-      outline: none;
-    }
-    
-    #deleteNotes:hover {
-      cursor: pointer;
-    }
-    
-    /* media queries for responsiveness */
-    @media (max-width: 1500px) {
-      .nav {
-        width: 60vw;
-      }
-    
-      #deleteNotes {
-        width: 25%;
-      }
-    }
-    
-    @media (max-width: 1000px) {
-      .nav {
-        width: 80vw;
-      }
-      #deleteNotes {
-        width: 30%;
-      }
-    }
-    
-    @media (max-width: 750px) {
-      .nav {
-        width: 70vw;
-      }
-      .nav > .navItem {
-        display: block;
-        margin: auto;
-        margin-bottom: 1rem;
-        width: 100%;
-      }
-    
-      .add-note {
-        font-size: 1.5rem;
-      }
-    
-      .card {
-        font-size: 1.5rem;
-        width: 70vw;
-      }
-    
-      #deleteNotes {
-        width: 45%;
-      }
-    }
-    
-    @media (max-width: 590px) {
-      .add-note {
-        display: block;
-        margin: auto;
-      }
-    }
-    
-    @media (max-width: 500px) {
-      .navItem {
-        width: 100% !important;
-      }
-    
-      .paper {
-        max-width: 50%;
-      }
-    
-      #deleteNotes {
-        width: 75%;
-      }
-    }
-    
-    
+/* make text non-selectable */
+* {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                        supported by Chrome and Opera */
+}
+
+body {
+  background: rgb(108, 140, 226);
+}
+
+/* navigation */
+.nav {
+  display: block;
+  margin: auto;
+  width: 40vw;
+}
+
+/* navigation item */
+.nav > .navItem {
+  background: rgb(38, 0, 255);
+  display: inline-block;
+  color: #fff;
+  border: 2px solid #ccc;
+  width: 32%;
+  height: 3rem;
+  text-align: center;
+  padding-top: 10px;
+  border-radius: 15px;
+  font-size: 1.8rem;
+}
+
+.nav > .navItem:hover {
+  cursor: pointer;
+  transition: 1s;
+}
+
+.nav > .navItem:focus {
+  outline: none;
+}
+
+/* colors */
+.colors {
+  background: #fff;
+  width: 10rem;
+  height: 5rem;
+  display: block;
+  margin: auto;
+  margin-top: 2rem;
+  border-radius: 30px;
+}
+
+.color:hover {
+  cursor: pointer;
+}
+
+.color:first-child {
+  background: blue;
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+  margin-top: 15%;
+  margin-left: 8%;
+  border-radius: 50%;
+}
+
+.color:nth-child(2) {
+  background: rgb(255, 239, 19);
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+  margin-top: 15%;
+  margin-left: 8%;
+  border-radius: 50%;
+}
+
+.color:nth-child(3) {
+  background: pink;
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+  margin-top: 15%;
+  margin-left: 8%;
+  border-radius: 50%;
+}
+
+/*hide paper initially*/
+#input {
+  display: none;
+}
+
+/* paper styles for the input form */
+/* paper styles for the input form */
+.paper {
+  background: radial-gradient(rgb(248, 246, 246), #ebebe9);
+  padding: 60px;
+  position: relative;
+  width: 80vw;
+  display: block;
+  margin: auto;
+  margin-top: 3rem;
+  height: 20rem;
+}
+
+.paper,
+.paper::before,
+.paper::after {
+  /* Styles to distinguish sheets from one another */
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgb(199, 198, 198);
+}
+
+.paper::before,
+.paper::after {
+  content: "";
+  position: absolute;
+  background-color: #e5e2e2;
+}
+
+.paper::before {
+  right: 15px;
+  top: 0;
+  transform: rotate(-2deg);
+  z-index: -1;
+  width: 100%;
+  height: 103%;
+  margin-top: -1rem;
+}
+
+.paper::after {
+  top: 5px;
+  right: -5px;
+  transform: rotate(2deg);
+  z-index: -2;
+  width: 98%;
+  height: 97%;
+}
+
+.paper > textarea {
+  border: none;
+  overflow: auto;
+  outline: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  font-size: 2rem;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(#fff, #ebebe9);
+  color: black;
+  resize: none;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.add-note {
+  background: rgb(156, 154, 154);
+  color: #fff;
+  outline: none;
+  border: 2px solid #eee;
+  font-size: 2rem;
+  border-radius: 15px;
+}
+
+.add-note:hover {
+  cursor: pointer;
+  background: rgb(39, 37, 37);
+  transition: 1s;
+}
+
+/* notes style */
+.card {
+  display: block;
+  margin: auto;
+  width: 90vw;
+  font-size: 2rem;
+  background: #f0edd9;
+  padding: 1rem;
+}
+
+.card.card-fresh > p.text {
+  /* background: red; */
+  overflow-wrap: break-word !important;
+  word-wrap: break-word !important;
+  hyphens: auto !important;
+  font-family: inherit !important;
+}
+
+.invisible {
+  display: none;
+}
+
+.pencil-note:hover {
+  cursor: pointer;
+}
+
+.fa-save {
+  display: inline !important;
+}
+
+#saveEdit:hover {
+  cursor: pointer;
+}
+
+.fa-times-circle {
+  margin-left: 90%;
+  margin-bottom: 5srem;
+}
+
+.fa-times-circle:hover {
+  cursor: pointer;
+}
+
+.filter {
+  display: none;
+  margin: auto;
+  margin-top: 2rem;
+  width: 20rem;
+  height: 3rem;
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  outline: none;
+  border: 2px solid #000;
+  border-radius: 15px;
+}
+
+::-webkit-input-placeholder {
+  text-align: center;
+}
+
+/* delete Notes Button */
+#deleteNotes {
+  background: rgb(194, 57, 57) !important;
+  display: block;
+  margin: auto;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  color: #fff;
+  border: 2px solid #ccc;
+  width: 20%;
+  height: 3rem;
+  text-align: center;
+  padding-top: 10px;
+  border-radius: 15px;
+  font-size: 2rem;
+  outline: none;
+}
+
+#deleteNotes:hover {
+  cursor: pointer;
+}
+
+/* media queries for responsiveness */
+@media (max-width: 1500px) {
+  .nav {
+    width: 60vw;
+  }
+
+  #deleteNotes {
+    width: 25%;
+  }
+}
+
+@media (max-width: 1000px) {
+  .nav {
+    width: 80vw;
+  }
+  #deleteNotes {
+    width: 30%;
+  }
+}
+
+@media (max-width: 750px) {
+  .nav {
+    width: 70vw;
+  }
+  .nav > .navItem {
+    display: block;
+    margin: auto;
+    margin-bottom: 1rem;
+    width: 100%;
+  }
+
+  .add-note {
+    font-size: 1.5rem;
+  }
+
+  .card {
+    font-size: 1.5rem;
+    width: 70vw;
+  }
+
+  #deleteNotes {
+    width: 45%;
+  }
+}
+
+@media (max-width: 590px) {
+  .add-note {
+    display: block;
+    margin: auto;
+  }
+}
+
+@media (max-width: 500px) {
+  .navItem {
+    width: 100% !important;
+  }
+
+  .paper {
+    max-width: 50%;
+  }
+
+  #deleteNotes {
+    width: 75%;
+  }
+}
+
+
    </pre>
    <p class="text">
      Now refresh the page, and no new elements at all &#128533; except for the 'Delete' button. That is because the notes will be added dynamically 
@@ -1430,422 +1430,422 @@ body {
      add it right under the notes styles and above the <span class="snippet">.add-note</span> class:
    </p>
    <pre class="code">
-     /*hide entries initially*/
-    .diaryEntries {
-      display: none;
-    }
-   </pre>
-   <p class="text">
-     We will now move on to the import/export section. Add the HTML code for it in index.html,
-     right under <span class="snippet"> &lt;!-- import export section --&gt;</span>:
-   </p>
-   <pre class="code">
-    &lt;div class="importExport"&gt;
-      &lt;div class="nav"&gt;
-        &lt;br /&gt;
-        &lt;p class="uiText"&gt;
-          Use the buttons below to export your 
-          notes as a JSON file or to import
-          a JSON notes for your notes feed.
-        &lt;/p&gt;
-        &lt;div id="importBtn" 
-            class="navItem import" tabindex="1"&gt;
-          Import
-          &lt;input
-            class="import-file"
-            type="file"
-            id="file"
-            name="file"
-            enctype="multipart/form-data"
-          /&gt;
-          &lt;i 
-            class="fa fa-cloud-upload" 
-            aria-hidden="true"&gt;&lt;/i&gt;
-        &lt;/div&gt;
-        &lt;div id="exportBtn" 
-            class="navItem import" 
-            tabindex="1"&gt;
-          Export 
-          &lt;i 
-            class="fa fa-cloud-download" 
-            aria-hidden="true"&gt;&lt;/i&gt;
-        &lt;/div&gt;
-      &lt;/div&gt;
+  /*hide entries initially*/
+.diaryEntries {
+  display: none;
+}
+</pre>
+<p class="text">
+  We will now move on to the import/export section. Add the HTML code for it in index.html,
+  right under <span class="snippet"> &lt;!-- import export section --&gt;</span>:
+</p>
+<pre class="code">
+&lt;div class="importExport"&gt;
+  &lt;div class="nav"&gt;
+    &lt;br /&gt;
+    &lt;p class="uiText"&gt;
+      Use the buttons below to export your 
+      notes as a JSON file or to import
+      a JSON notes for your notes feed.
+    &lt;/p&gt;
+    &lt;div id="importBtn" 
+        class="navItem import" tabindex="1"&gt;
+      Import
+      &lt;input
+        class="import-file"
+        type="file"
+        id="file"
+        name="file"
+        enctype="multipart/form-data"
+      /&gt;
+      &lt;i 
+        class="fa fa-cloud-upload" 
+        aria-hidden="true"&gt;&lt;/i&gt;
     &lt;/div&gt;
+    &lt;div id="exportBtn" 
+        class="navItem import" 
+        tabindex="1"&gt;
+      Export 
+      &lt;i 
+        class="fa fa-cloud-download" 
+        aria-hidden="true"&gt;&lt;/i&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
    </pre>
    <p class="text"> 
      Now, when you refresh, you will see some small but still ugly HTML code and part of it will be already styled. 
      Let's style the rest and upgrade style.css again:
    </p>
 <pre class="code">
-  /* make text non-selectable */
-  * {
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-    -khtml-user-select: none; /* Konqueror HTML */
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* Internet Explorer/Edge */
-    user-select: none; /* Non-prefixed version, currently
-                          supported by Chrome and Opera */
-  }
-  
-  body {
-    background: rgb(108, 140, 226);
-  }
-  
-  /* navigation */
+/* make text non-selectable */
+* {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                        supported by Chrome and Opera */
+}
+
+body {
+  background: rgb(108, 140, 226);
+}
+
+/* navigation */
+.nav {
+  display: block;
+  margin: auto;
+  width: 40vw;
+}
+
+/* navigation item */
+.nav > .navItem {
+  background: rgb(38, 0, 255);
+  display: inline-block;
+  color: #fff;
+  border: 2px solid #ccc;
+  width: 32%;
+  height: 3rem;
+  text-align: center;
+  padding-top: 10px;
+  border-radius: 15px;
+  font-size: 1.8rem;
+}
+
+.nav > .navItem:hover {
+  cursor: pointer;
+  transition: 1s;
+}
+
+.nav > .navItem:focus {
+  outline: none;
+}
+
+/* colors */
+.colors {
+  background: #fff;
+  width: 10rem;
+  height: 5rem;
+  display: block;
+  margin: auto;
+  margin-top: 2rem;
+  border-radius: 30px;
+}
+
+.color:hover {
+  cursor: pointer;
+}
+
+.color:first-child {
+  background: blue;
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+  margin-top: 15%;
+  margin-left: 8%;
+  border-radius: 50%;
+}
+
+.color:nth-child(2) {
+  background: rgb(255, 239, 19);
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+  margin-top: 15%;
+  margin-left: 8%;
+  border-radius: 50%;
+}
+
+.color:nth-child(3) {
+  background: pink;
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+  margin-top: 15%;
+  margin-left: 8%;
+  border-radius: 50%;
+}
+
+/*hide paper initially*/
+#input {
+  display: none;
+}
+
+/* paper styles for the input form */
+.paper {
+  background: radial-gradient(rgb(248, 246, 246), #ebebe9);
+  padding: 60px;
+  position: relative;
+  width: 80vw;
+  display: block;
+  margin: auto;
+  margin-top: 3rem;
+  height: 20rem;
+}
+
+.paper,
+.paper::before,
+.paper::after {
+  /* Styles to distinguish sheets from one another */
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgb(199, 198, 198);
+}
+
+.paper::before,
+.paper::after {
+  content: "";
+  position: absolute;
+  background-color: #e5e2e2;
+}
+
+.paper::before {
+  right: 15px;
+  top: 0;
+  transform: rotate(-2deg);
+  z-index: -1;
+  width: 100%;
+  height: 103%;
+  margin-top: -1rem;
+}
+
+.paper::after {
+  top: 5px;
+  right: -5px;
+  transform: rotate(2deg);
+  z-index: -2;
+  width: 98%;
+  height: 97%;
+}
+
+.paper > textarea {
+  border: none;
+  overflow: auto;
+  outline: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  font-size: 2rem;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(#fff, #ebebe9);
+  color: black;
+  resize: none;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/*hide entries initially*/
+.diaryEntries {
+  display: none;
+}
+
+.add-note {
+  background: rgb(156, 154, 154);
+  color: #fff;
+  outline: none;
+  border: 2px solid #eee;
+  font-size: 2rem;
+  border-radius: 15px;
+}
+
+.add-note:hover {
+  cursor: pointer;
+  background: rgb(39, 37, 37);
+  transition: 1s;
+}
+
+/* notes style */
+.card {
+  display: block;
+  margin: auto;
+  width: 90vw;
+  font-size: 2rem;
+  background: #f0edd9;
+  padding: 1rem;
+}
+
+.card.card-fresh > p.text {
+  /* background: red; */
+  overflow-wrap: break-word !important;
+  word-wrap: break-word !important;
+  hyphens: auto !important;
+  font-family: inherit !important;
+}
+
+.invisible {
+  display: none;
+}
+
+.pencil-note:hover {
+  cursor: pointer;
+}
+
+.fa-save {
+  display: inline !important;
+}
+
+#saveEdit:hover {
+  cursor: pointer;
+}
+
+.fa-times-circle {
+  margin-left: 90%;
+  margin-bottom: 5srem;
+}
+
+.fa-times-circle:hover {
+  cursor: pointer;
+}
+
+.filter {
+  display: none;
+  margin: auto;
+  margin-top: 2rem;
+  width: 20rem;
+  height: 3rem;
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  outline: none;
+  border: 2px solid #000;
+  border-radius: 15px;
+}
+
+::-webkit-input-placeholder {
+  text-align: center;
+}
+
+/* delete Notes Button */
+#deleteNotes {
+  background: rgb(194, 57, 57) !important;
+  display: block;
+  margin: auto;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  color: #fff;
+  border: 2px solid #ccc;
+  width: 20%;
+  height: 3rem;
+  text-align: center;
+  padding-top: 10px;
+  border-radius: 15px;
+  font-size: 2rem;
+  outline: none;
+}
+
+#deleteNotes:hover {
+  cursor: pointer;
+}
+
+/* import export styles */
+.importExport {
+  /* display: none; */
+}
+
+.import {
+  width: 48% !important;
+}
+
+.import-file {
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#importBtn {
+  position: relative;
+}
+
+.uiText {
+  display: block;
+  margin: auto;
+  text-align: center;
+  font-size: 2rem;
+  background: #fff;
+  padding: 1rem;
+  border-radius: 15px;
+  margin-bottom: 2rem;
+  color: #524f4f;
+  border: 2px solid #ccc;
+}
+
+/* alert div styles (used for add and import/export */
+.alert {
+  margin-top: 5rem;
+  max-width: 40rem;
+}
+
+/* media queries for responsiveness */
+@media (max-width: 1500px) {
   .nav {
-    display: block;
-    margin: auto;
-    width: 40vw;
+    width: 60vw;
   }
-  
-  /* navigation item */
-  .nav > .navItem {
-    background: rgb(38, 0, 255);
-    display: inline-block;
-    color: #fff;
-    border: 2px solid #ccc;
-    width: 32%;
-    height: 3rem;
-    text-align: center;
-    padding-top: 10px;
-    border-radius: 15px;
-    font-size: 1.8rem;
-  }
-  
-  .nav > .navItem:hover {
-    cursor: pointer;
-    transition: 1s;
-  }
-  
-  .nav > .navItem:focus {
-    outline: none;
-  }
-  
-  /* colors */
-  .colors {
-    background: #fff;
-    width: 10rem;
-    height: 5rem;
-    display: block;
-    margin: auto;
-    margin-top: 2rem;
-    border-radius: 30px;
-  }
-  
-  .color:hover {
-    cursor: pointer;
-  }
-  
-  .color:first-child {
-    background: blue;
-    width: 2rem;
-    height: 2rem;
-    display: inline-block;
-    margin-top: 15%;
-    margin-left: 8%;
-    border-radius: 50%;
-  }
-  
-  .color:nth-child(2) {
-    background: rgb(255, 239, 19);
-    width: 2rem;
-    height: 2rem;
-    display: inline-block;
-    margin-top: 15%;
-    margin-left: 8%;
-    border-radius: 50%;
-  }
-  
-  .color:nth-child(3) {
-    background: pink;
-    width: 2rem;
-    height: 2rem;
-    display: inline-block;
-    margin-top: 15%;
-    margin-left: 8%;
-    border-radius: 50%;
-  }
-  
-  /*hide paper initially*/
-  #input {
-    display: none;
-  }
-  
-  /* paper styles for the input form */
-  .paper {
-    background: radial-gradient(rgb(248, 246, 246), #ebebe9);
-    padding: 60px;
-    position: relative;
-    width: 80vw;
-    display: block;
-    margin: auto;
-    margin-top: 3rem;
-    height: 20rem;
-  }
-  
-  .paper,
-  .paper::before,
-  .paper::after {
-    /* Styles to distinguish sheets from one another */
-    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
-    border: 1px solid rgb(199, 198, 198);
-  }
-  
-  .paper::before,
-  .paper::after {
-    content: "";
-    position: absolute;
-    background-color: #e5e2e2;
-  }
-  
-  .paper::before {
-    right: 15px;
-    top: 0;
-    transform: rotate(-2deg);
-    z-index: -1;
-    width: 100%;
-    height: 103%;
-    margin-top: -1rem;
-  }
-  
-  .paper::after {
-    top: 5px;
-    right: -5px;
-    transform: rotate(2deg);
-    z-index: -2;
-    width: 98%;
-    height: 97%;
-  }
-  
-  .paper > textarea {
-    border: none;
-    overflow: auto;
-    outline: none;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
-    font-size: 2rem;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(#fff, #ebebe9);
-    color: black;
-    resize: none;
-    font-family: Arial, Helvetica, sans-serif;
-  }
-  
-  /*hide entries initially*/
-  .diaryEntries {
-    display: none;
-  }
-  
-  .add-note {
-    background: rgb(156, 154, 154);
-    color: #fff;
-    outline: none;
-    border: 2px solid #eee;
-    font-size: 2rem;
-    border-radius: 15px;
-  }
-  
-  .add-note:hover {
-    cursor: pointer;
-    background: rgb(39, 37, 37);
-    transition: 1s;
-  }
-  
-  /* notes style */
-  .card {
-    display: block;
-    margin: auto;
-    width: 90vw;
-    font-size: 2rem;
-    background: #f0edd9;
-    padding: 1rem;
-  }
-  
-  .card.card-fresh > p.text {
-    /* background: red; */
-    overflow-wrap: break-word !important;
-    word-wrap: break-word !important;
-    hyphens: auto !important;
-    font-family: inherit !important;
-  }
-  
-  .invisible {
-    display: none;
-  }
-  
-  .pencil-note:hover {
-    cursor: pointer;
-  }
-  
-  .fa-save {
-    display: inline !important;
-  }
-  
-  #saveEdit:hover {
-    cursor: pointer;
-  }
-  
-  .fa-times-circle {
-    margin-left: 90%;
-    margin-bottom: 5srem;
-  }
-  
-  .fa-times-circle:hover {
-    cursor: pointer;
-  }
-  
-  .filter {
-    display: none;
-    margin: auto;
-    margin-top: 2rem;
-    width: 20rem;
-    height: 3rem;
-    font-size: 2rem;
-    text-align: center;
-    margin-bottom: 1rem;
-    outline: none;
-    border: 2px solid #000;
-    border-radius: 15px;
-  }
-  
-  ::-webkit-input-placeholder {
-    text-align: center;
-  }
-  
-  /* delete Notes Button */
+
   #deleteNotes {
-    background: rgb(194, 57, 57) !important;
+    width: 25%;
+  }
+}
+
+@media (max-width: 1000px) {
+  .nav {
+    width: 80vw;
+  }
+  #deleteNotes {
+    width: 30%;
+  }
+}
+
+@media (max-width: 750px) {
+  .nav {
+    width: 70vw;
+  }
+  .nav > .navItem {
     display: block;
     margin: auto;
-    margin-top: 1rem;
     margin-bottom: 1rem;
-    color: #fff;
-    border: 2px solid #ccc;
-    width: 20%;
-    height: 3rem;
-    text-align: center;
-    padding-top: 10px;
-    border-radius: 15px;
-    font-size: 2rem;
-    outline: none;
-  }
-  
-  #deleteNotes:hover {
-    cursor: pointer;
-  }
-  
-  /* import export styles */
-  .importExport {
-    /* display: none; */
-  }
-  
-  .import {
-    width: 48% !important;
-  }
-  
-  .import-file {
-    opacity: 0;
     width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
   }
-  
-  #importBtn {
-    position: relative;
+
+  .add-note {
+    font-size: 1.5rem;
   }
-  
-  .uiText {
+
+  .card {
+    font-size: 1.5rem;
+    width: 70vw;
+  }
+
+  #deleteNotes {
+    width: 45%;
+  }
+}
+
+@media (max-width: 590px) {
+  .add-note {
     display: block;
     margin: auto;
-    text-align: center;
-    font-size: 2rem;
-    background: #fff;
-    padding: 1rem;
-    border-radius: 15px;
-    margin-bottom: 2rem;
-    color: #524f4f;
-    border: 2px solid #ccc;
   }
-  
-  /* alert div styles (used for add and import/export */
-  .alert {
-    margin-top: 5rem;
-    max-width: 40rem;
+}
+
+@media (max-width: 500px) {
+  #importBtn,
+  #exportBtn,
+  .navItem {
+    width: 100% !important;
   }
-  
-  /* media queries for responsiveness */
-  @media (max-width: 1500px) {
-    .nav {
-      width: 60vw;
-    }
-  
-    #deleteNotes {
-      width: 25%;
-    }
+
+  .paper {
+    max-width: 50%;
   }
-  
-  @media (max-width: 1000px) {
-    .nav {
-      width: 80vw;
-    }
-    #deleteNotes {
-      width: 30%;
-    }
+
+  #deleteNotes {
+    width: 75%;
   }
-  
-  @media (max-width: 750px) {
-    .nav {
-      width: 70vw;
-    }
-    .nav > .navItem {
-      display: block;
-      margin: auto;
-      margin-bottom: 1rem;
-      width: 100%;
-    }
-  
-    .add-note {
-      font-size: 1.5rem;
-    }
-  
-    .card {
-      font-size: 1.5rem;
-      width: 70vw;
-    }
-  
-    #deleteNotes {
-      width: 45%;
-    }
-  }
-  
-  @media (max-width: 590px) {
-    .add-note {
-      display: block;
-      margin: auto;
-    }
-  }
-  
-  @media (max-width: 500px) {
-    #importBtn,
-    #exportBtn,
-    .navItem {
-      width: 100% !important;
-    }
-  
-    .paper {
-      max-width: 50%;
-    }
-  
-    #deleteNotes {
-      width: 75%;
-    }
-  }    
+}    
    </pre>
    <p class="text">
      Refresh the page again, and you will see the import/export section in all its splendor &#128521;.
@@ -2020,13 +2020,13 @@ importExportBtn.addEventListener("click", () => {
 
 //event listeners for changing theme
 c1.addEventListener("click", () => {
-changeTheme("#6C8CE2", "#050D31", "#2600FF", "blue");
+  changeTheme("#6C8CE2", "#050D31", "#2600FF", "blue");
 });
 c2.addEventListener("click", () => {
-changeTheme("#fcce03", "#ad871d", "#ebb852", "yellow");
+  changeTheme("#fcce03", "#ad871d", "#ebb852", "yellow");
 });
 c3.addEventListener("click", () => {
-changeTheme("pink", "#97089e", "#f003fc", "pink");
+  changeTheme("pink", "#97089e", "#f003fc", "pink");
 });
        </pre>
        <p class="text">
@@ -2727,7 +2727,8 @@ const displayNotes = () => {
  * Deletes a note
  */
 const deleteNote = (e) => {
-  let idToDelete = e.target.parentElement.childNodes[5]
+  let idToDelete = e.target
+    .parentElement.childNodes[5]
     .innerText
     .split(":")[1]
     .trim();
@@ -2895,7 +2896,405 @@ importBtn.addEventListener("click", importNotes);
         document.getElementById('download_link').href = url;
       </script>
       <p class="text">
-        Now our application is complete. It works just as the initial version you have been testing at the beginning of this article.
+        Before wrapping things up, we will do quick just a tiny little refactor onto the <span class="snippet">displayNotes()</span> method. As it is now, it looks like some 
+        humonguous monolithic method that does more things than it should as we crammed logic into it. It seems we've made a mistake with setting it up so that it includes the edit, save and delete methods 
+        too. In order to decouple it properly, we will attach the event bindings for the 3 methods onto each note right when we are creating it. So for now just cut the 3 methods (edit, save and delete) from inside the 
+        <span class="snippet">displayNotes()</span> and paste them above (only the methods, not the event bindings onto the buttons), so for now the method will look like this:
+      </p>   
+        <pre class="code">
+/*
+ * Grabs notes from localStorage 
+ * API and displays them to UI
+ */
+const displayNotes = () => {
+  let records = document.querySelector('#records');
+  let output = '';
+
+  notes.map((n) => {
+  output += `
+    &lt;div class="card"&gt;
+        &lt;p class="text"&gt;
+            ${n.text}
+        &lt;/p&gt;
+        &lt;p class="text"&gt;
+            Written at: ${n.date}
+        &lt;/p&gt;
+        &lt;p class="text invisible"&gt;
+            id: ${n.id}
+        &lt;/p&gt;
+        &lt;i
+          onclick="editNote(event)" 
+          class="fa fa-pencil pencil-note" 
+          aria-hidden="true"&gt;&lt;/i&gt;
+        &lt;span id="saveEdit"&gt;
+          &lt;/span&gt;
+            &lt;i 
+              onclick="deleteNote(event)"
+              class="fa fa-times-circle" 
+              aria-hidden="true"&gt;&lt;/i&gt;
+        &lt;hr&gt;
+    &lt;/div&gt;
+      `;
+  });
+
+records.innerHTML = output;
+
+//atach event listeners for edit/delete notes
+//const editBtns = Array
+//.from(document.querySelectorAll('.pencil-note'));
+
+// editBtns.map((i) => {
+//   i.addEventListener('click', editNote);
+// });
+
+// const saveIcon = Array
+//  .from(document.querySelectorAll('#saveEdit'));
+
+// saveIcon.map((i) => {
+//   i.addEventListener('click', saveNote);
+// });
+
+// let deleteBtns = Array
+//  .from(document.querySelectorAll('.fa-times-circle'));
+// deleteBtns.map((b) => {
+//   b.addEventListener('click', deleteNote);
+// });
+};
+      </pre>     
+        <p class="text">
+        Note how we are using the <span class="snippet">onclick</span> attribute to set up events for our delete and edit methods. Now, we need only to modify the 
+        edit method:
+      </p>  
+        <pre class="code">
+        /*
+ * Allows note editing
+ */
+const editNote = (e) => {
+  let idToEdit;
+
+  if (e.target.parentElement
+   .childNodes[5].innerText !== undefined) {
+    
+    idToEdit = e.target
+      .parentElement
+      .childNodes[5]
+      .innerText
+      .trim()
+      .split(':')[1]
+      .trim();
+  }
+
+  let cardToEdit = e.target.parentElement.childNodes[1];
+  cardToEdit.contentEditable = 'true';
+  cardToEdit.style.backgroundColor = '#fff';
+  cardToEdit.style.padding = '1.5rem';
+  const editIcon = e.target.parentElement.childNodes[9];
+  editIcon.style.display = 'inline-block';
+  editIcon.innerHTML = `
+  &lt;i 
+    onclick="saveNote(event)"
+    class="fa fa-check" 
+    aria-hidden="true">
+  &lt;/i&gt;`;
+  e.preventDefault();
+};
+</pre>     
+ <p class="text">
+  *Note how we added the <span class="snippet">onclick</span> attribute onto the <span class="snippet">fa-check</span> icon. Now the whole 
+  <span class="snippet">notes.js</span> file looks like this:
+</p>  
+  <pre class="code">
+let notes;
+
+if (localStorage.getItem('notes') === null) {
+  notes = [];
+} else {
+  notes = JSON.parse(localStorage.getItem('notes'));
+}
+
+/*
+ * Deletes a note
+ */
+const deleteNote = (e) => {
+  let idToDelete = e.target.parentElement
+    .childNodes[5].innerText
+    .split(':')[1]
+    .trim();
+  notes.map((n, index) => {
+    if (n.id === idToDelete) {
+      notes.splice(index, 1);
+    }
+  });
+  localStorage.setItem('notes', JSON.stringify(notes));
+  e.target.parentElement.style.display = 'none';
+};
+
+/*
+ * saves note after edit
+ */
+const saveNote = (e) => {
+  let newText = e.target.parentElement
+    .parentElement.childNodes[1].innerText
+    .trim()
+    .replace(/\r?\n/g, '&lt;br /&gt;');
+  let newDate = new Date()
+    .toString()
+    .replace(/\S+\s(\S+)\s(\d+)\s(\d+)\s.*/, '$2-$1-$3');
+  let idToEdit = e.target.parentElement.parentElement
+    .childNodes[5]
+    .innerText
+    .trim()
+    .split(':')[1]
+    .trim();
+
+  let newResource = {
+    text: newText,
+    date: newDate,
+    id: idToEdit,
+  };
+
+  notes.map((n, index) =&gt; {
+    if (n.id === idToEdit) {
+      notes[index] = newResource;
+    }
+  });
+
+  localStorage.setItem('notes', JSON.stringify(notes));
+
+  let cardToEdit = e.target.parentElement
+    .parentElement.childNodes[1];
+  cardToEdit.contentEditable = 'false';
+  cardToEdit.style.backgroundColor = '#f0edd9';
+  cardToEdit.style.padding = '0';
+  const editIcon = e.target.parentElement
+     .parentElement.childNodes[9];
+  editIcon.style.display = 'none';
+};
+
+/*
+ * Allows note editing
+ */
+const editNote = (e) =&gt; {
+  let idToEdit;
+
+  if (e.target.parentElement.childNodes[5]
+    .innerText !== undefined) {
+    idToEdit = e.target.parentElement
+      .childNodes[5].innerText
+      .trim()
+      .split(':')[1]
+      .trim();
+  }
+
+  let cardToEdit = e.target.parentElement.childNodes[1];
+  cardToEdit.contentEditable = 'true';
+  cardToEdit.style.backgroundColor = '#fff';
+  cardToEdit.style.padding = '1.5rem';
+  const editIcon = e.target.parentElement.childNodes[9];
+  editIcon.style.display = 'inline-block';
+  editIcon.innerHTML = `
+  &lt;i 
+    onclick="saveNote(event)"
+    class="fa fa-check" 
+    aria-hidden="true"&gt;
+  &lt;/i&gt;`;
+  e.preventDefault();
+};
+
+/*
+ * Grabs notes from localStorage 
+ * API and displays them to UI
+ */
+const displayNotes = () =&gt; {
+  let records = document.querySelector('#records');
+  let output = '';
+
+  notes.map((n) =&gt; {
+    output += `
+        &lt;div class="card"&gt;
+            &lt;p class="text"&gt;
+                ${n.text}
+            &lt;/p&gt;
+            &lt;p class="text"&gt;
+                Written at: ${n.date}
+            &lt;/p&gt;
+            &lt;p class="text invisible"&gt;
+                id: ${n.id}
+            &lt;/p&gt;
+            &lt;i
+              onclick="editNote(event)" 
+              class="fa fa-pencil pencil-note" 
+              aria-hidden="true"&gt;&lt;/i&gt;
+            &lt;span id="saveEdit"&gt;
+              &lt;/span&gt;
+                &lt;i 
+                  onclick="deleteNote(event)"
+                  class="fa fa-times-circle" 
+                  aria-hidden="true"&gt;&lt;/i&gt;
+            &lt;hr&gt;
+        &lt;/div&gt;
+      `;
+  });
+
+  records.innerHTML = output;
+
+  //atach event listeners for edit/delete notes
+  //const editBtns = Array
+  //.from(document.querySelectorAll('.pencil-note'));
+
+  // editBtns.map((i) => {
+  //   i.addEventListener('click', editNote);
+  // });
+
+  // const saveIcon = Array
+  //.from(document.querySelectorAll('#saveEdit'));
+
+  // saveIcon.map((i) => {
+  //   i.addEventListener('click', saveNote);
+  // });
+
+  // let deleteBtns = Array
+  //.from(document.querySelectorAll('.fa-times-circle'));
+  // deleteBtns.map((b) => {
+  //   b.addEventListener('click', deleteNote);
+  // });
+};
+
+//call display notes to see the notes 
+displayNotes();
+
+const filterField = document
+  .querySelector('.filter');
+filterField.addEventListener('click',
+  () => (filterField.value = '')
+);
+
+const filter = () => {
+  //filter by title,  date
+  document.querySelectorAll('.card').forEach((item) => {
+    let value = document
+     .querySelector('.filter').value.toLowerCase();
+
+    const note = item.children[0].innerText;
+    const date = item.children[1].innerText;
+
+    if (
+      note.toLowerCase().indexOf(value) != -1 ||
+      date.toLowerCase().indexOf(value) != -1
+    ) {
+      item.style.display = 'block';
+    } else {
+      item.style.display = 'none';
+    }
+  });
+};
+
+/*
+ * Delete all notes
+ */
+const deleteAllBtn = document.querySelector('#deleteNotes');
+const deleteNotes = () => {
+  deleteAllBtn.style.backgroundColor = 'red';
+  deleteAllBtn.style.border = '2px solid black';
+  notes = [];
+  localStorage.removeItem('notes');
+  // console.log(notes);
+  document.querySelector('#records').innerHTML = '';
+  showAlert('Notes deleted Successfully &#x1F609;');
+};
+deleteAllBtn.addEventListener('click', deleteNotes);
+
+/*
+ * Grabs user note and saves to localStorage API
+ */
+const grabNote = (e) => {
+  const note = {};
+  //regexp to 'know' how to put linebreaks
+  let noteText = document.querySelector('#note').value;
+  note.text = noteText.replace(/\r?\n/g, '&lt;br /&gt;');
+  const noteDate = new Date()
+    .toString()
+    .replace(/\S+\s(\S+)\s(\d+)\s(\d+)\s.*/, '$2-$1-$3');
+  note.date = noteDate;
+  let id =
+    Math.random().toString(12).substring(2, 17) +
+    Math.random().toString(12).substring(2, 17);
+  note.id = id;
+  notes.unshift(note);
+  localStorage.setItem('notes', JSON.stringify(notes));
+  document.querySelector('#note').value = '';
+
+  displayNotes();
+
+  //alert functionality
+  showAlert('Note Saved &#x1F609;');
+};
+
+let saveBtn = document.querySelector('.add-note');
+saveBtn.addEventListener('click', grabNote);
+
+/*
+ * Export  notes as JSON
+ */
+const exportBTN = document.querySelector('#exportBtn');
+const importBTN = document.querySelector('#importBtn');
+
+const exportNotes = () => {
+  exportBTN.style.backgroundColor = activeColor;
+  importBTN.style.backgroundColor = inactiveColor;
+
+  let notesObj = {
+    notes,
+  };
+  let exportDate = new Date()
+    .toString()
+    .replace(/\S+\s(\S+)\s(\d+)\s(\d+)\s.*/, '$2-$1-$3');
+  var a = document.createElement('a');
+  document.body.appendChild(a);
+  a.style = 'display: none';
+  var json = JSON.stringify(notesObj),
+    blob = new Blob([json], { type: 'octet/stream' }),
+    url = window.URL.createObjectURL(blob);
+  a.href = url;
+  a.download = `myNotes-${exportDate}.json`;
+  a.click();
+  window.URL.revokeObjectURL(url);
+};
+
+exportBtn.addEventListener('click', exportNotes);
+
+/*
+ * Import JSON with  notes
+ */
+const importNotes = (e) => {
+  importBTN.style.backgroundColor = activeColor;
+  exportBTN.style.backgroundColor = inactiveColor;
+
+  document.getElementById('file').addEventListener(
+    'change',
+    (evt) => {
+      var files = evt.target.files;
+      var file = files[0];
+      var reader = new FileReader();
+      reader.onload = function (event) {
+        let newNotes = JSON.parse(event.target.result).notes;
+        newNotes.map((i) => notes.unshift(i));
+        localStorage.setItem('notes', JSON.stringify(notes));
+
+        showAlert('Notes imported Successfully &#x1F609;');
+        displayNotes();
+      };
+      let readValue = reader.readAsText(file);
+    },
+    false
+  );
+};
+importBtn.addEventListener('click', importNotes);
+
+</pre>   
+      <p class="text">
+        Now our application is complete. It works just as the initial version you have been testing at the beginning of this article. We have even refactored it and 
+        decoupled some functionality.
         The next projects we will build will have a real back-end, and not only use files written in <span class="snippet">localStorage</span>.
         I do hope you have enjoyed working on this little project and I thank you a lot for sticking with me until the very end.
       </p> 
