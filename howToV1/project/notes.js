@@ -109,7 +109,10 @@ const displayNotes = () => {
 displayNotes();
 
 const filterField = document.querySelector(".filter");
-filterField.addEventListener("click", () => (filterField.value = ""));
+filterField.addEventListener("click", () => {
+(filterField.value = "");
+filter();
+});
 
 const filter = () => {
   //filter by title,  date
